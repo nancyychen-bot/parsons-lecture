@@ -1,0 +1,40 @@
+.about-view__photo {
+  position: absolute;
+  left: 64px;
+  top: 152px;
+  width: 300px;
+  height: 380px;
+}
+.about-view__bio {
+  position: absolute;
+  left: 432px;
+  top: 152px;
+  width: 784px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.about-view__role {
+  margin: 0;
+}
+.about-view__h1 {
+  margin: 0;
+  font-size: 60px;
+  line-height: 1.05;
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  font-variation-settings: "opsz" 72;
+}
+.about-view__body {
+  margin: 0;
+  font-size: 28px;
+  line-height: 1.4;
+  font-variation-settings: "opsz" 24;
+}
+.about-view__also {
+  padding-top: 16px;
+  border-top: 2px solid var(--ink);
+}
+.about-view__also p {
+  margin: 0;
+}

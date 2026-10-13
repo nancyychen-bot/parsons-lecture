@@ -1,17 +1,42 @@
 export type CircleId = "product" | "experience" | "world";
+export type MarkState = 0 | 1 | 2 | 3 | "axis";
+
+export type Cutout = {
+  src: string;
+  alt: string;
+  fig: string;
+  meaning: string;
+};
+
+export type Interaction =
+  | "touchpoints"
+  | "circleExplorer"
+  | "beforeAfter"
+  | "exampleCards"
+  | "contradiction"
+  | "workshop"
+  | "siteReadBack";
 
 export type View = {
   id: string;
+  mockup: string;
   headline: string;
   body?: string;
-  focus?: CircleId | "all" | "axis" | null;
-  interaction?: "touchpoints" | "circleExplorer" | "beforeAfter"
-    | "exampleCards" | "contradiction" | "workshop" | "siteReadBack";
-  keyLine?: boolean;
-  presenterNote?: string;
+  reading?: string;
+  interaction?: Interaction;
+  start?: string;
+  keyLineSection?: "02" | "04" | "05" | "06" | "07";
+  spokenPromptSection?: "04" | "05" | "06" | "07";
+  cutout?: Cutout;
+  plate?: string;
+  meta: string;
+  markState: MarkState;
+  cutAt45?: boolean;
   placeholder?: string;
   fallback?: string;
-  cutAt45?: boolean;
+  presenterNote?: string;
+  focus?: CircleId | "all" | "axis" | null;
+  keyLine?: boolean;
 };
 
 export type Section = {

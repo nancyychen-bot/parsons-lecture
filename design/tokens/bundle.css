@@ -1,0 +1,78 @@
+/* Orrery — component styles. Values come from tokens.css; Live overrides key on [data-theme="live"]. */
+:root {
+  --w-ring: var(--stroke-ring);
+  --w-mark: var(--stroke-mark);
+  --w-axis: var(--stroke-axis);
+  --w-rule: var(--stroke-rule);
+  --d-world: var(--dash-world);
+  --d-world-mark: var(--dash-world-mark);
+  --tp: var(--touchpoint);
+  --mark-size: var(--mark);
+  --t-draw: var(--t-ring-draw);
+}
+[data-theme="live"] {
+  --w-ring: var(--stroke-ring-live);
+  --w-mark: var(--stroke-mark-live);
+  --w-axis: var(--stroke-axis-live);
+  --w-rule: var(--stroke-rule-live);
+  --d-world: var(--dash-world-live);
+  --d-world-mark: var(--dash-world-mark-live);
+  --tp: var(--touchpoint-live);
+  --mark-size: var(--mark-live);
+  --t-draw: var(--t-ring-draw-live);
+}
+html, body { margin: 0; background: var(--ground); color: var(--ink); }
+body { font-family: var(--font-serif); -webkit-font-smoothing: antialiased; }
+*, *::before, *::after { box-sizing: border-box; border-radius: 0; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+a { color: inherit; text-decoration: underline; text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
+
+/* Label: mono, uppercase */
+.orr-label { font-family: var(--font-mono); font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; line-height: 1.4; }
+[data-theme="live"] .orr-label { font-size: 18px; }
+.orr-muted { color: var(--muted); }
+
+/* Rings (SVG). Use these classes, never inline stroke values. */
+.orr-svg { overflow: visible; display: block; }
+.orr-ring { fill: none; stroke: var(--ink); stroke-width: var(--w-ring); vector-effect: non-scaling-stroke; }
+.orr-ring--world { stroke-dasharray: var(--d-world); stroke-linecap: round; }
+[data-theme="live"] .orr-ring--world { stroke-linecap: butt; }
+.orr-ring--unfilled { stroke: var(--faint); stroke-dasharray: var(--dash-unfilled); }
+.orr-core { fill: var(--ink); }
+.orr-core--unfilled { fill: none; stroke: var(--faint); stroke-width: var(--w-ring); vector-effect: non-scaling-stroke; }
+.orr-axis { stroke: var(--ink); stroke-width: var(--w-axis); fill: none; vector-effect: non-scaling-stroke; transition: transform var(--t-axis) ease-out; }
+.orr-mark .orr-ring, .orr-mark .orr-axis, .orr-mark .orr-core--unfilled { stroke-width: var(--w-mark); }
+.orr-mark .orr-ring--world { stroke-dasharray: var(--d-world-mark); stroke-linecap: butt; }
+.orr-tp { fill: var(--ground); stroke: var(--ink); stroke-width: var(--w-ring); vector-effect: non-scaling-stroke; }
+.orr-tp[aria-pressed="true"], .orr-tp--on { fill: var(--ink); }
+/* SVG labels: size them with the font-size attribute in user units, scaled so they render at 12px (Explore) or 18px (Live). Write the string in capitals. */
+.orr-svg text { font-family: var(--font-mono); font-weight: 500; letter-spacing: 0.1em; fill: var(--ink); paint-order: stroke; stroke: var(--ground); stroke-width: 5px; stroke-linejoin: round; }
+.orr-svg text.orr-belief { font-family: var(--font-serif); font-style: italic; letter-spacing: 0; }
+
+/* Buttons: square, mono, uppercase. Outline by default; one filled per view at most. */
+.orr-btn { font: inherit; font-family: var(--font-mono); font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+  background: transparent; color: var(--ink); border: var(--w-rule) solid var(--ink); padding: 12px 16px; min-height: 44px; cursor: pointer; }
+.orr-btn--primary { background: var(--ink); color: var(--ground); }
+.orr-btn--text { border-color: transparent; padding-left: 0; padding-right: 0; text-decoration: underline; text-underline-offset: 0.25em; }
+.orr-btn[aria-pressed="true"] { background: var(--ink); color: var(--ground); }
+.orr-btn:disabled { color: var(--faint); border-color: var(--faint); cursor: not-allowed; }
+[data-theme="live"] .orr-btn { font-size: 18px; padding: 14px 22px; min-height: 56px; }
+
+/* Field */
+.orr-field { display: grid; gap: var(--space-2); max-width: var(--measure); }
+.orr-field input, .orr-field textarea { font-family: var(--font-mono); font-size: 16px; line-height: 1.5; color: var(--ink); background: transparent;
+  border: 0; border-bottom: var(--w-rule) solid var(--ink); padding: 8px 0; width: 100%; resize: vertical; }
+.orr-field input::placeholder, .orr-field textarea::placeholder { color: var(--muted); }
+.orr-field small { font-family: var(--font-serif); font-size: 15px; line-height: 1.45; color: var(--muted); }
+
+/* Placeholder: honest, visible, same language */
+.orr-placeholder { border: var(--w-rule) dashed var(--faint); padding: var(--space-3); display: grid; gap: var(--space-2); }
+.orr-placeholder p { margin: 0; color: var(--muted); font-size: 16px; line-height: 1.5; }
+
+/* Rule */
+.orr-rule { border: 0; border-top: var(--w-rule) solid var(--ink); margin: 0; }
+
+/* Cutout: die-cut engraving, never behind text */
+.orr-cutout { display: block; height: auto; max-width: 100%; }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }

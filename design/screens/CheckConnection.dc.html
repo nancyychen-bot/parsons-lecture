@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>08.3 — Check the connection</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../tokens/bundle.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+a{color:inherit}a:hover{color:inherit}
+</style>
+</helmet>
+<main data-theme="live" style="width: 1280px; height: 720px; position: relative; overflow: hidden; background: var(--ground); color: var(--ink); font-family: var(--font-serif)">
+<p class="orr-label orr-muted" style="position: absolute; left: 64px; top: 48px; margin: 0">08 / 09 · Build your world · Check</p>
+<svg class="orr-svg orr-mark" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Progress mark: all rings reached, axis intact" style="position: absolute; right: 64px; top: 48px">
+<circle class="orr-core" cx="32" cy="32" r="2.4"></circle>
+<circle class="orr-ring" cx="32" cy="32" r="9.5"></circle>
+<circle class="orr-ring" cx="32" cy="32" r="19"></circle>
+<circle class="orr-ring orr-ring--world" cx="32" cy="32" r="28.5"></circle>
+<g transform="rotate(-58 32 32)">
+<line class="orr-axis" x1="0.1" y1="32" x2="63.9" y2="32"></line>
+<line class="orr-axis" x1="0.1" y1="29" x2="0.1" y2="35"></line>
+<line class="orr-axis" x1="63.9" y1="29" x2="63.9" y2="35"></line>
+</g>
+</svg>
+
+<p class="orr-label" style="position: absolute; left: 64px; top: 104px; margin: 0; padding: 8px 14px; border: 2px solid var(--ink)">Step iii · 3 minutes</p>
+
+<div style="position: absolute; left: 64px; top: 196px; width: 640px; display: flex; flex-direction: column; gap: 26px">
+<h1 style="margin: 0; font-size: 68px; line-height: 1.03; font-weight: 400; letter-spacing: -0.015em; font-variation-settings: 'opsz' 72">Do all three circles say the same thing?</h1>
+<p style="margin: 0; font-size: 28px; line-height: 1.4; font-variation-settings: 'opsz' 24">Find one contradiction or gap. Change one choice to fix it.</p>
+</div>
+
+<svg class="orr-svg" viewBox="0 0 480 480" width="480" height="480" role="img" aria-label="Three rings with the point-of-view axis broken at the Experience ring" style="position: absolute; left: 736px; top: 128px">
+<circle class="orr-core" cx="240" cy="240" r="16"></circle>
+<circle class="orr-ring" cx="240" cy="240" r="64"></circle>
+<circle class="orr-ring" cx="240" cy="240" r="128"></circle>
+<circle class="orr-ring orr-ring--world" cx="240" cy="240" r="192"></circle>
+<g transform="rotate(-58 240 240)"><line class="orr-axis" x1="130" y1="240" x2="350" y2="240"></line></g>
+<g transform="rotate(-52 240 240)">
+<line class="orr-axis" x1="386" y1="240" x2="455" y2="240"></line>
+<line class="orr-axis" x1="455" y1="231" x2="455" y2="249"></line>
+<line class="orr-axis" x1="25" y1="240" x2="94" y2="240"></line>
+<line class="orr-axis" x1="25" y1="231" x2="25" y2="249"></line>
+</g>
+<text x="176" y="246" style="text-anchor: middle; font-size: 18px">PRODUCT</text>
+<text x="112" y="200" style="text-anchor: middle; font-size: 18px">EXPERIENCE</text>
+<text x="80" y="104" style="text-anchor: middle; font-size: 18px">WORLD</text>
+</svg>
+
+<p class="orr-label orr-muted" style="position: absolute; left: 64px; bottom: 48px; margin: 0">Plate 08 · the axis, tested</p>
+
+<nav aria-label="Sections" style="position: absolute; right: 64px; bottom: 48px; display: flex; align-items: center; gap: 28px">
+<svg class="orr-svg" viewBox="0 0 172 12" width="172" height="12" aria-hidden="true">
+<circle class="orr-tp" cx="6" cy="6" r="4.5"></circle>
+<circle class="orr-tp" cx="26" cy="6" r="4.5"></circle>
+<circle class="orr-tp" cx="46" cy="6" r="4.5"></circle>
+<circle class="orr-tp" cx="66" cy="6" r="4.5"></circle>
+<circle class="orr-tp" cx="86" cy="6" r="4.5"></circle>
+<circle class="orr-tp" cx="106" cy="6" r="4.5"></circle>
+<circle class="orr-tp" cx="126" cy="6" r="4.5"></circle>
+<circle class="orr-core" cx="146" cy="6" r="5"></circle>
+<circle class="orr-core--unfilled" cx="166" cy="6" r="4.5"></circle>
+</svg>
+<a class="orr-btn orr-btn--text" href="WorkshopLive.dc.html" style="display: inline-flex; align-items: center; color: var(--muted)">Previous</a>
+<a class="orr-btn orr-btn--text" href="Share.dc.html" style="display: inline-flex; align-items: center; color: var(--muted)">Next</a>
+</nav>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":720}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

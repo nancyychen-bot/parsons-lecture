@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>09.4 — Take it with you</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../tokens/bundle.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+a{color:inherit}a:hover{color:inherit}
+</style>
+</helmet>
+<main data-theme="live" style="width: 1280px; height: 720px; position: relative; overflow: hidden; background: var(--ground); color: var(--ink); font-family: var(--font-serif)">
+<p class="orr-label orr-muted" style="position: absolute; left: 64px; top: 48px; margin: 0">09 / 09 · Take it with you</p>
+<svg class="orr-svg orr-mark" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Progress mark: all rings reached, axis intact" style="position: absolute; right: 64px; top: 48px">
+<circle class="orr-core" cx="32" cy="32" r="2.4"></circle>
+<circle class="orr-ring" cx="32" cy="32" r="9.5"></circle>
+<circle class="orr-ring" cx="32" cy="32" r="19"></circle>
+<circle class="orr-ring orr-ring--world" cx="32" cy="32" r="28.5"></circle>
+<g transform="rotate(-58 32 32)">
+<line class="orr-axis" x1="0.1" y1="32" x2="63.9" y2="32"></line>
+<line class="orr-axis" x1="0.1" y1="29" x2="0.1" y2="35"></line>
+<line class="orr-axis" x1="63.9" y1="29" x2="63.9" y2="35"></line>
+</g>
+</svg>
+
+<div style="position: absolute; left: 64px; top: 128px; width: 760px; display: flex; flex-direction: column; gap: 28px">
+<p class="orr-label" style="margin: 0">Take it with you</p>
+<h1 style="margin: 0; font-size: 64px; line-height: 1.04; font-weight: 400; letter-spacing: -0.015em; font-variation-settings: 'opsz' 72">Keep the canvas. Use it this week.</h1>
+<div style="display: flex; flex-wrap: wrap; gap: 14px">
+<a class="orr-btn orr-btn--primary" href="Workshop.dc.html" style="display: inline-flex; align-items: center; text-decoration: none">Print blank canvas</a>
+<a class="orr-btn" href="Workshop.dc.html" style="display: inline-flex; align-items: center; text-decoration: none">Coffee-shop example</a>
+<a class="orr-btn" href="Explore.dc.html" style="display: inline-flex; align-items: center; text-decoration: none">Explore on your own</a>
+</div>
+<p class="orr-label orr-muted" style="margin: 6px 0 0; padding: 12px 14px; border: 2px dashed var(--faint); align-self: flex-start">Placeholder — resources for a first prototype (none invented)</p>
+</div>
+
+<div style="position: absolute; right: 64px; top: 144px; width: 280px; display: flex; flex-direction: column; gap: 16px; align-items: flex-end">
+<div style="width: 280px; height: 280px; box-sizing: border-box; border: 2px dashed var(--faint); display: flex; align-items: center; justify-content: center; padding: 24px; text-align: center">
+<p class="orr-label orr-muted" style="margin: 0">Placeholder — QR code</p>
+</div>
+<p class="orr-muted" style="margin: 0; font-family: var(--font-mono); font-size: 22px">[public URL]</p>
+</div>
+
+<p class="orr-label orr-muted" style="position: absolute; left: 64px; bottom: 48px; margin: 0">Plate 09 · the world is what you do next</p>
+
+<nav aria-label="Sections" style="position: absolute; right: 64px; bottom: 48px; display: flex; align-items: center; gap: 28px">
+<svg class="orr-svg" viewBox="0 0 172 12" width="172" height="12" aria-hidden="true">
+<circle class="orr-tp" cx="6" cy="6" r="4.5"></circle>
+<circle class="orr-tp" cx="26" cy="6" r="4.5"></circle>
+<circle class="orr-tp" cx="46" cy="6" r="4.5"></circle>
+<circle class="orr-tp" cx="66" cy="6" r="4.5"></circle>
+<circle class="orr-tp" cx="86" cy="6" r="4.5"></circle>
+<circle class="orr-tp" cx="106" cy="6" r="4.5"></circle>
+<circle class="orr-tp" cx="126" cy="6" r="4.5"></circle>
+<circle class="orr-tp" cx="146" cy="6" r="4.5"></circle>
+<circle class="orr-core" cx="166" cy="6" r="5"></circle>
+</svg>
+<a class="orr-btn orr-btn--text" href="Closing.dc.html" style="display: inline-flex; align-items: center; color: var(--muted)">Previous</a>
+<a class="orr-btn orr-btn--text" href="QandA.dc.html" style="display: inline-flex; align-items: center; color: var(--muted)">Next</a>
+</nav>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":720}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

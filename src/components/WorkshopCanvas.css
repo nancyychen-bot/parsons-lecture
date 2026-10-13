@@ -1,355 +1,213 @@
-/* ── Workshop Canvas — Explore theme, Orrery styling ── */
-.workshop-canvas {
-  max-width: var(--max-width);
-  margin: 0 auto;
-  padding: var(--space-4) var(--space-3);
-}
+/* WorkshopCanvas — Explore theme */
 
-/* ── Starter toggle ── */
-.workshop-starter-toggle {
-  display: flex;
-  gap: 0;
-  border: var(--w-rule) solid var(--ink);
-  overflow: hidden;
-  width: fit-content;
-  margin-bottom: var(--space-4);
-}
-
-.workshop-starter-btn {
-  padding: 12px 24px;
-  border: none;
-  background: none;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--muted);
-  min-height: 44px;
-  cursor: pointer;
-  transition: background var(--duration-fast) var(--ease-out),
-    color var(--duration-fast) var(--ease-out);
-}
-
-.workshop-starter-btn:hover {
+.workshop-canvas-root {
+  background: var(--ground);
   color: var(--ink);
-}
-
-.workshop-starter-btn--active {
-  background: var(--ink);
-  color: var(--ground);
-}
-
-/* ── Desktop: diagram + fields side by side ── */
-.workshop-desktop-layout {
-  display: none;
-}
-
-@media (min-width: 52rem) {
-  .workshop-desktop-layout {
-    display: grid;
-    grid-template-columns: 280px 1fr;
-    gap: var(--space-2xl);
-    align-items: start;
-  }
-
-  .workshop-mobile-layout {
-    display: none;
-  }
-}
-
-/* ── Diagram column ── */
-.workshop-diagram-col {
-  position: sticky;
-  top: var(--space-4);
-}
-
-.workshop-diagram {
-  margin-bottom: var(--space-4);
-}
-
-.workshop-diagram-previews {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-}
-
-.workshop-preview-chip {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--muted);
-  line-height: 1.4;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.workshop-preview-chip-label {
-  font-weight: 500;
-  color: var(--ink);
-  margin-right: var(--space-1);
-}
-
-/* ── Fields column ── */
-.workshop-fields {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-}
-
-/* ── Section groups ── */
-.workshop-ring-section {
-  border-top: var(--w-rule) solid var(--ink);
-  padding-top: var(--space-4);
-}
-
-.workshop-ring-label {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-bottom: var(--space-3);
-  color: var(--ink);
-}
-
-/* ── Individual field — .orr-field style ── */
-.workshop-field {
-  margin-bottom: var(--space-4);
-  display: grid;
-  gap: var(--space-2);
-  max-width: var(--measure);
-}
-
-.workshop-field-label {
-  display: block;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ink);
-}
-
-.workshop-field-helper {
-  display: block;
   font-family: var(--font-serif);
-  font-size: 15px;
-  line-height: 1.45;
-  color: var(--muted);
+  min-height: 100vh;
+}
+
+.workshop-canvas-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 20px clamp(16px, 4vw, 48px);
+  border-bottom: 1px solid var(--ink);
+}
+
+.workshop-canvas-sitename {
+  font-size: 18px;
+  text-decoration: none;
+  color: inherit;
+  font-family: var(--font-serif);
+}
+
+.workshop-canvas-header-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.workshop-canvas-mode {
+  display: flex;
+}
+
+.workshop-canvas-mode .orr-btn {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.workshop-canvas-main {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 64px clamp(16px, 4vw, 48px) 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+}
+
+.workshop-canvas-intro {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 40px;
+}
+
+.workshop-canvas-intro-text {
+  flex: 1 1 480px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 760px;
+}
+
+.workshop-canvas-h1 {
+  margin: 0;
+  font-size: clamp(2.5rem, 7vw, 6.5rem);
+  line-height: 0.98;
+}
+
+.workshop-canvas-figure {
+  margin: 0;
+  display: flex;
+  align-items: flex-end;
+  gap: 20px;
+  flex: none;
+}
+
+.workshop-canvas-figcaption {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: right;
+  width: 180px;
+}
+
+/* On narrow screens hide the Explore-only cutout */
+@media (max-width: 760px) {
+  .workshop-canvas-figure { display: none; }
+}
+
+.workshop-canvas-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 64px;
+  align-items: flex-start;
+}
+
+.workshop-canvas-left {
+  flex: 1 1 420px;
+  min-width: 0;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.workshop-canvas-left-head {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 14px;
+  border-top: 1px solid var(--ink);
+}
+
+.workshop-canvas-title {
+  margin: 0;
+  font-size: 32px;
+  line-height: 1.15;
+  font-weight: 400;
+  font-variation-settings: 'opsz' 36;
+}
+
+.workshop-canvas-audience {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.workshop-canvas-belief {
+  margin: 0;
+  font-size: 22px;
+  line-height: 1.35;
   font-style: italic;
 }
 
-.workshop-field-char-guide {
-  display: block;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--muted);
-  text-align: right;
-  transition: color var(--duration-fast) var(--ease-out);
-}
-
-.workshop-field-char-guide--over {
-  color: var(--ink);
-  font-weight: 500;
-}
-
-.workshop-field input[type="text"],
-.workshop-field textarea {
-  width: 100%;
-  padding: 8px 0;
-  border: 0;
-  border-bottom: var(--w-rule) solid var(--ink);
-  font-family: var(--font-mono);
-  font-size: 16px;
-  line-height: 1.5;
-  color: var(--ink);
-  background: transparent;
-  resize: vertical;
-  border-radius: 0;
-}
-
-.workshop-field input[type="text"]::placeholder,
-.workshop-field textarea::placeholder {
-  color: var(--muted);
-}
-
-.workshop-field input[type="text"]:focus,
-.workshop-field textarea:focus {
-  outline: none;
-  border-bottom-color: var(--ink);
-}
-
-.workshop-field textarea {
-  min-height: 4.5rem;
-}
-
-/* ── Mobile: stacked ── */
-.workshop-mobile-layout {
+.workshop-canvas-form {
+  flex: 999 1 560px;
+  min-width: 0;
+  max-width: 640px;
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: 32px;
 }
 
-@media (min-width: 52rem) {
-  .workshop-mobile-layout {
-    display: none;
-  }
+.workshop-canvas-fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
 }
 
-.workshop-card {
-  border-top: var(--w-rule) solid var(--ink);
-  padding: var(--space-4) 0;
+.workshop-canvas-starter-buttons {
+  display: flex;
+  flex-wrap: wrap;
 }
 
-.workshop-card-ring-label {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: var(--space-3);
-}
-
-/* ── Privacy note ── */
-.workshop-privacy {
+.workshop-canvas-helper {
   font-family: var(--font-serif);
-  font-size: 15px;
-  color: var(--muted);
-  text-align: center;
-  margin-top: var(--space-3);
-  margin-bottom: var(--space-3);
 }
 
-/* ── Save status ── */
-.workshop-save-status {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  text-align: center;
-  margin-bottom: var(--space-4);
-  padding: var(--space-1) var(--space-2);
+/* Make form fields full width inside the form column */
+.workshop-canvas-form .orr-field {
+  max-width: none;
 }
 
-.workshop-save-status--saved {
-  color: var(--muted);
+/* iOS 16px to prevent zoom on focus */
+.workshop-canvas-form .orr-field input,
+.workshop-canvas-form .orr-field textarea {
+  font-size: 16px;
 }
 
-.workshop-save-status--warning {
-  color: var(--ink);
-  border: var(--w-rule) dashed var(--faint);
-  padding: var(--space-2);
+.workshop-canvas-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 24px;
+  border-top: 1px solid var(--ink);
 }
 
-/* ── Actions bar ── */
 .workshop-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-2);
-  justify-content: center;
-  margin-top: var(--space-4);
-  padding-top: var(--space-4);
-  border-top: var(--w-rule) solid var(--ink);
+  gap: 12px 20px;
+  align-items: center;
 }
 
-.workshop-action-btn {
-  padding: 12px 16px;
-  border: var(--w-rule) solid var(--ink);
-  background: transparent;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ink);
-  min-height: 44px;
-  cursor: pointer;
-  transition: background var(--duration-fast) var(--ease-out),
-    color var(--duration-fast) var(--ease-out);
+.workshop-canvas-confirm {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+  align-items: center;
+  padding: 16px;
+  border: 1px solid var(--ink);
 }
 
-.workshop-action-btn:hover {
-  background: var(--ink);
-  color: var(--ground);
-}
-
-.workshop-action-btn--primary {
-  background: var(--ink);
-  color: var(--ground);
-}
-
-.workshop-action-btn--primary:hover {
-  opacity: 0.85;
-}
-
-.workshop-action-btn--danger {
-  color: var(--muted);
-  border-color: var(--faint);
-}
-
-.workshop-action-btn--danger:hover {
-  border-color: var(--ink);
-  color: var(--ink);
-  background: transparent;
-}
-
-/* ── Clipboard fallback ── */
 .workshop-fallback-box {
-  margin-top: var(--space-4);
-  padding: var(--space-3);
-  border: var(--w-rule) dashed var(--faint);
+  display: flex;
+  flex-direction: column;
 }
 
-.workshop-fallback-box p {
-  font-family: var(--font-serif);
-  font-size: 15px;
-  color: var(--muted);
-  margin-bottom: var(--space-2);
+.workshop-save-status {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
-.workshop-fallback-box textarea {
-  width: 100%;
-  min-height: 12rem;
-  padding: var(--space-2);
-  border: var(--w-rule) solid var(--faint);
-  font-family: var(--font-mono);
-  font-size: 12px;
-  line-height: 1.5;
-  color: var(--ink);
-  background: transparent;
-  resize: vertical;
-  border-radius: 0;
-}
-
-.workshop-fallback-close {
-  margin-top: var(--space-2);
-  padding: var(--space-1) var(--space-3);
-  border: var(--w-rule) solid var(--faint);
-  background: none;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  cursor: pointer;
-}
-
-/* ── Copy confirmation ── */
-.workshop-copy-confirm {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-left: var(--space-2);
-  animation: wc-fade-in var(--duration-normal) var(--ease-out);
-}
-
-@keyframes wc-fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
+/* Print-only region hidden on screen by default via print.css */

@@ -1,28 +1,21 @@
-/* ── ContradictionRepair — matches 07-contradiction-repair.dc.html ── */
-
-/* Main container: SVG left, text right */
-.cr {
-  display: flex;
-  align-items: flex-start;
-  gap: 0;
-  width: 100%;
+/* ContradictionRepair — faithful to design/screens/Contradiction.dc.html */
+.cr-diagram {
+  position: absolute;
+  left: 64px;
+  top: 96px;
 }
 
-.cr-svg {
-  flex: none;
-}
-
-/* Right column */
-.cr-right {
+.cr-side {
+  position: absolute;
+  left: 744px;
+  top: 136px;
+  width: 472px;
   display: flex;
   flex-direction: column;
   gap: 22px;
-  min-width: 0;
-  max-width: 472px;
 }
 
-/* Point of view block */
-.cr-pov {
+.cr-side-head {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -37,7 +30,6 @@
   font-variation-settings: 'opsz' 36;
 }
 
-/* Coherent state: ruled definition list */
 .cr-list {
   margin: 0;
   display: grid;
@@ -52,77 +44,89 @@
   line-height: 1.3;
 }
 
-/* Contradiction text */
 .cr-contradiction {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.cr-contradiction-text {
+.cr-contradiction p.cr-con-body {
   margin: 0;
   font-size: 26px;
   line-height: 1.35;
 }
 
-.cr-where-break {
+.cr-prompt-ask {
   margin: 0;
   font-size: 28px;
   line-height: 1.2;
   font-style: italic;
 }
 
-/* Repair response */
-.cr-response {
+.cr-picker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.cr-picker > div[role="group"] {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.cr-repair {
   display: flex;
   flex-direction: column;
   gap: 18px;
-  outline: none;
 }
 
-.cr-response-block {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+.cr-repair p.cr-repair-body {
+  margin: 0;
+  font-size: 26px;
+  line-height: 1.3;
 }
 
-.cr-response-prompt {
+.cr-repair .cr-repair-prompt {
   margin: 0;
   font-size: 26px;
   line-height: 1.3;
   font-style: italic;
 }
 
-.cr-response-fix {
-  margin: 0;
-  font-size: 26px;
-  line-height: 1.3;
+.cr-repair-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-/* Mobile */
-@media (max-width: 768px) {
-  .cr {
-    flex-direction: column;
-    gap: 24px;
-  }
+/* Axis rotation animates via the orr-axis transition (400ms) already defined
+   in orrery.css. The segments are grouped by <g transform="rotate(...)"> and
+   their transform transitions. */
+.cr-axis-group {
+  transition: transform var(--t-axis, 400ms) ease-out;
+  transform-origin: 320px 288px;
+  transform-box: fill-box;
+}
 
-  .cr-svg {
-    width: 100%;
-    height: auto;
-  }
+/* For the mark, origin is 32,32 inside its 64 viewBox */
+.cr-mark-group {
+  transition: transform var(--t-axis, 400ms) ease-out;
+  transform-origin: 32px 32px;
+  transform-box: fill-box;
+}
 
-  .cr-right {
-    max-width: 100%;
-  }
+.cr-fade {
+  animation: cr-fade var(--t-line, 200ms) ease-out;
+}
 
-  .cr-belief {
-    font-size: 26px;
-  }
+@keyframes cr-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
 
-  .cr-list dd,
-  .cr-contradiction-text,
-  .cr-response-prompt,
-  .cr-response-fix {
-    font-size: 20px;
-  }
+@media (prefers-reduced-motion: reduce) {
+  .cr-axis-group, .cr-mark-group { transition: none; }
+  .cr-fade { animation: none; }
 }

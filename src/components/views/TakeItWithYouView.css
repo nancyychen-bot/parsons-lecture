@@ -1,0 +1,50 @@
+.takeit-view__text {
+  position: absolute;
+  left: 64px;
+  top: 128px;
+  width: 760px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+.takeit-view__text > .orr-label {
+  margin: 0;
+}
+.takeit-view__h1 {
+  margin: 0;
+  font-size: 64px;
+  line-height: 1.04;
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  font-variation-settings: "opsz" 72;
+}
+.takeit-view__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+.takeit-view__example-note {
+  margin: 0;
+}
+.takeit-view__placeholder {
+  margin: 6px 0 0;
+  padding: 12px 14px;
+  border: 2px dashed var(--faint);
+  align-self: flex-start;
+}
+.takeit-view__qr {
+  position: absolute;
+  right: 64px;
+  top: 144px;
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-end;
+}
+.takeit-view__url {
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 22px;
+}

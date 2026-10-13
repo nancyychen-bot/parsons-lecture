@@ -1,0 +1,31 @@
+.qa-view__orrery {
+  position: absolute;
+  left: 470px;
+  top: 64px;
+}
+.qa-view__block {
+  position: absolute;
+  left: 64px;
+  right: 64px;
+  top: 432px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  text-align: center;
+}
+.qa-view__h1 {
+  margin: 0;
+  font-size: 96px;
+  line-height: 1;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  font-variation-settings: "opsz" 72;
+}
+.qa-view__sub {
+  margin: 0;
+  color: var(--muted);
+  font-size: 26px;
+  line-height: 1.35;
+  font-style: italic;
+}

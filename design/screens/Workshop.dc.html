@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>08 — Workshop canvas</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../tokens/bundle.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+a{color:inherit}a:hover{color:inherit}
+</style>
+</helmet>
+<div data-theme="explore" style="background: var(--ground); color: var(--ink); font-family: var(--font-serif); min-height: 100vh">
+
+<header style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; padding: 20px clamp(16px, 4vw, 48px); border-bottom: 1px solid var(--ink)">
+<a href="Main.dc.html" style="font-size: 18px; text-decoration: none">Build a world, not just a product</a>
+<div style="display: flex; align-items: center; gap: 20px">
+<div role="group" aria-label="Mode" style="display: flex">
+<a class="orr-btn" href="Main.dc.html" style="display: inline-flex; align-items: center; text-decoration: none">Live</a>
+<a class="orr-btn" aria-current="page" href="Explore.dc.html" style="display: inline-flex; align-items: center; text-decoration: none; margin-left: -1px; background: var(--ink); color: var(--ground)">Explore</a>
+</div>
+<svg class="orr-svg orr-mark" viewBox="0 0 40 40" width="40" height="40" role="img" aria-label="Progress mark: your canvas">
+<circle class="{{core}}" cx="20" cy="20" r="1.5"></circle>
+<circle class="{{c1}}" cx="20" cy="20" r="6"></circle>
+<circle class="{{c2}}" cx="20" cy="20" r="12"></circle>
+<circle class="{{c3}}" cx="20" cy="20" r="18"></circle>
+<sc-if value="{{hasAxis}}" hint-placeholder-val="{{ true }}">
+<g transform="rotate(-58 20 20)"><line class="orr-axis" x1="0" y1="20" x2="40" y2="20"></line></g>
+</sc-if>
+</svg>
+</div>
+</header>
+
+<main style="max-width: 1280px; margin: 0 auto; padding: 64px clamp(16px, 4vw, 48px) 120px; display: flex; flex-direction: column; gap: 56px">
+
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 40px">
+<div style="flex: 1 1 480px; min-width: 0; display: flex; flex-direction: column; gap: 20px; max-width: 760px">
+<p class="orr-label orr-muted" style="margin: 0">08 / 09 · Build your world · Canvas</p>
+<p class="reading" style="margin: 0; font-size: clamp(1.5rem, 3vw, 2.25rem)">Your turn. Be specific.</p>
+<h1 class="display" style="margin: 0; font-size: clamp(2.5rem, 7vw, 6.5rem); line-height: 0.98">Build your world</h1>
+<p class="body" style="margin: 0; max-width: 640px">Start with Empower or your own project. A sentence or two per field is enough. The rings fill as you write.</p>
+</div>
+<figure style="margin: 0; display: flex; align-items: flex-end; gap: 20px; flex: none">
+<figcaption style="display: flex; flex-direction: column; gap: 4px; text-align: right; width: 180px">
+<span class="orr-label">Fig. 08 · Platonic solids</span>
+<span class="orr-label orr-muted">Build from first principles</span>
+</figcaption>
+<img class="orr-cutout" src="../assets/cutouts/platonic-solids.png" alt="Engraved geometric solids stacked on a cube" style="height: 280px; width: auto">
+</figure>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 64px; align-items: flex-start">
+
+<section aria-label="Your canvas" style="flex: 1 1 420px; min-width: 0; max-width: 600px; display: flex; flex-direction: column; gap: 20px">
+<div style="display: flex; flex-direction: column; gap: 6px; padding-top: 14px; border-top: 1px solid var(--ink)">
+<p class="orr-label orr-muted" style="margin: 0">{{starterLabel}}</p>
+<p style="margin: 0; font-size: 32px; line-height: 1.15; font-weight: 400; font-variation-settings: 'opsz' 36">{{title}}</p>
+<p class="orr-muted" style="margin: 0; font-size: 18px; line-height: 1.5">For {{audiencePreview}}</p>
+<p style="margin: 0; font-size: 22px; line-height: 1.35; font-style: italic">{{beliefPreview}}</p>
+</div>
+<svg class="orr-svg" viewBox="0 0 560 560" role="img" aria-label="Your three rings, filling as you answer" style="width: 100%; height: auto">
+<circle class="{{core}}" cx="280" cy="280" r="15"></circle>
+<circle class="{{c1}}" cx="280" cy="280" r="60"></circle>
+<circle class="{{c2}}" cx="280" cy="280" r="120"></circle>
+<circle class="{{c3}}" cx="280" cy="280" r="180"></circle>
+<sc-if value="{{hasAxis}}" hint-placeholder-val="{{ true }}">
+<g transform="rotate(-58 280 280)">
+<line class="orr-axis" x1="78" y1="280" x2="482" y2="280"></line>
+<line class="orr-axis" x1="78" y1="273" x2="78" y2="287"></line>
+<line class="orr-axis" x1="482" y1="273" x2="482" y2="287"></line>
+</g>
+</sc-if>
+<text x="250" y="232" style="text-anchor: middle; font-size: 12px">PRODUCT</text>
+<text class="orr-belief" x="250" y="250" style="text-anchor: middle; font-size: 15px; fill: {{pv.productFill}}">{{pv.product}}</text>
+<text x="220" y="180" style="text-anchor: middle; font-size: 12px">EXPERIENCE</text>
+<text class="orr-belief" x="220" y="198" style="text-anchor: middle; font-size: 15px; fill: {{pv.experienceFill}}">{{pv.experience}}</text>
+<text x="190" y="128" style="text-anchor: middle; font-size: 12px">WORLD</text>
+<text class="orr-belief" x="190" y="146" style="text-anchor: middle; font-size: 15px; fill: {{pv.worldFill}}">{{pv.world}}</text>
+</svg>
+<p class="orr-muted" style="margin: 0; font-size: 15px; line-height: 1.5">The axis appears when you name the gap you’ll fix.</p>
+</section>
+
+<form aria-label="Your brief" style="flex: 999 1 560px; min-width: 0; max-width: 640px; display: flex; flex-direction: column; gap: 32px">
+
+<fieldset style="border: 0; margin: 0; padding: 0; display: grid; gap: 10px">
+<legend class="orr-label" style="padding: 0; margin-bottom: 10px">Starting point</legend>
+<div style="display: flex; flex-wrap: wrap">
+<button type="button" class="orr-btn" aria-pressed="{{isEmpower}}" onClick="{{pickEmpower}}">Empower</button>
+<button type="button" class="orr-btn" aria-pressed="{{isOwn}}" onClick="{{pickOwn}}" style="margin-left: -1px">Your own project</button>
+</div>
+<small class="orr-muted" style="font-size: 15px; line-height: 1.45">These are proposals, not claims about the real product.</small>
+</fieldset>
+
+<div class="orr-field">
+<label class="orr-label" for="f-name">01 · Project name</label>
+<input id="f-name" type="text" value="{{d.projectName}}" onChange="{{on.projectName}}">
+</div>
+
+<div class="orr-field">
+<label class="orr-label" for="f-audience">02 · We are building for…</label>
+<textarea id="f-audience" rows="2" value="{{d.audience}}" onChange="{{on.audience}}"></textarea>
+</div>
+
+<div class="orr-field">
+<label class="orr-label" for="f-belief">03 · …and we believe…</label>
+<textarea id="f-belief" rows="2" value="{{d.belief}}" onChange="{{on.belief}}" aria-describedby="h-belief"></textarea>
+<small id="h-belief">Make a choice. ‘For everyone’ is not a belief.</small>
+</div>
+
+<div class="orr-field" style="padding-top: 24px; border-top: 1px solid var(--ink)">
+<label class="orr-label" for="f-product">04 · Product — one useful thing they can do</label>
+<textarea id="f-product" rows="2" value="{{d.product}}" onChange="{{on.product}}" aria-describedby="h-product"></textarea>
+<small id="h-product">For them, this product makes it possible to…</small>
+</div>
+
+<div class="orr-field">
+<label class="orr-label" for="f-moment">05 · Experience — the moment that matters</label>
+<textarea id="f-moment" rows="2" value="{{d.experienceMoment}}" onChange="{{on.experienceMoment}}" aria-describedby="h-moment"></textarea>
+<small id="h-moment">Finding your way in, doing the main thing, or when something goes wrong.</small>
+</div>
+
+<div class="orr-field">
+<label class="orr-label" for="f-choice">06 · Experience — the choice you’ll make</label>
+<textarea id="f-choice" rows="2" value="{{d.experienceChoice}}" onChange="{{on.experienceChoice}}" aria-describedby="h-choice"></textarea>
+<small id="h-choice">We want this moment to feel ___, so we will ___.</small>
+</div>
+
+<div class="orr-field">
+<label class="orr-label" for="f-world">07 · World — one concrete invitation</label>
+<textarea id="f-world" rows="2" value="{{d.world}}" onChange="{{on.world}}" aria-describedby="h-world"></textarea>
+<small id="h-world">Something a real person would do without being paid or asked twice.</small>
+</div>
+
+<div class="orr-field" style="padding-top: 24px; border-top: 1px solid var(--ink)">
+<label class="orr-label" for="f-connection">08 · Connection — the contradiction or gap we’ll fix</label>
+<textarea id="f-connection" rows="2" value="{{d.connection}}" onChange="{{on.connection}}"></textarea>
+</div>
+
+<div class="orr-field">
+<label class="orr-label" for="f-test">09 · Next test — an assumption to test with a real person</label>
+<textarea id="f-test" rows="2" value="{{d.nextTest}}" onChange="{{on.nextTest}}" aria-describedby="h-test"></textarea>
+<small id="h-test">Something you could observe within a week.</small>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 16px; padding-top: 24px; border-top: 1px solid var(--ink)">
+<div style="display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center">
+<button type="button" class="orr-btn orr-btn--primary" onClick="{{copy}}">Copy brief</button>
+<button type="button" class="orr-btn" onClick="{{print}}">Print</button>
+<button type="button" class="orr-btn orr-btn--text" onClick="{{print}}">Print blank canvas</button>
+<button type="button" class="orr-btn orr-btn--text" onClick="{{askReset}}">Reset</button>
+</div>
+<sc-if value="{{confirming}}" hint-placeholder-val="{{ false }}">
+<div role="alertdialog" aria-label="Clear every answer?" style="display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; padding: 16px; border: 1px solid var(--ink)">
+<p class="body" style="margin: 0">Clear every answer? This can’t be undone.</p>
+<button type="button" class="orr-btn" onClick="{{doReset}}">Clear answers</button>
+<button type="button" class="orr-btn orr-btn--text" onClick="{{cancelReset}}">Keep them</button>
+</div>
+</sc-if>
+<div role="status" style="display: flex; flex-direction: column; gap: 6px">
+<p class="orr-label orr-muted" style="margin: 0">{{status}}</p>
+<p class="orr-muted" style="margin: 0; font-size: 15px; line-height: 1.45">Your answers stay on this device. Nothing is sent anywhere.</p>
+</div>
+</div>
+</form>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"showExample":{"editor":"boolean","default":true},"$preview":{"width":1440,"height":1700}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { d: this.seed(props.showExample !== false), starter: 'own', confirming: false, status: 'Saved in this browser' };
+  }
+  seed(example) {
+    var empty = { projectName: '', audience: '', belief: '', product: '', experienceMoment: '', experienceChoice: '', world: '', connection: '', nextTest: '' };
+    if (!example) return empty;
+    return {
+      projectName: 'Corner coffee shop (worked example)',
+      audience: 'people who want good coffee but feel out of place in specialty shops',
+      belief: 'Good coffee should feel approachable, not exclusive.',
+      product: 'A small, clear menu',
+      experienceMoment: 'Ordering for the first time',
+      experienceChoice: 'We want it to feel welcoming, so basic questions are invited before anyone has to ask.',
+      world: 'Open tastings for beginners',
+      connection: '',
+      nextTest: ''
+    };
+  }
+  componentDidUpdate(prev) {
+    if (prev.showExample !== this.props.showExample) {
+      this.setState({ d: this.seed(this.props.showExample !== false) });
+    }
+  }
+  renderVals() {
+    var self = this;
+    var d = this.state.d;
+    function has(v) { return !!(v && String(v).trim()); }
+    function cut(v, n) { v = String(v || '').trim(); return v.length > n ? v.slice(0, n - 1) + '…' : v; }
+    var p = has(d.product), e = has(d.experienceMoment) || has(d.experienceChoice), w = has(d.world);
+    function ring(on, world) { return on ? (world ? 'orr-ring orr-ring--world' : 'orr-ring') : 'orr-ring orr-ring--unfilled'; }
+    var on = {};
+    Object.keys(d).forEach(function (k) {
+      on[k] = function (ev) {
+        var next = Object.assign({}, self.state.d);
+        next[k] = ev && ev.target ? ev.target.value : '';
+        self.setState({ d: next, status: 'Saved in this browser' });
+      };
+    });
+    var anyContent = Object.keys(d).some(function (k) { return has(d[k]); });
+    function brief() {
+      var keys = [['Project', 'projectName'], ['We are building for', 'audience'], ['We believe', 'belief'], ['Product', 'product'], ['Experience moment', 'experienceMoment'], ['Experience choice', 'experienceChoice'], ['World', 'world'], ['Connection', 'connection'], ['Next test', 'nextTest']];
+      return keys.map(function (k) { return k[0] + ': ' + (has(d[k[1]]) ? d[k[1]] : 'Not yet filled in'); }).join('\n');
+    }
+    return {
+      d: d,
+      on: on,
+      core: p ? 'orr-core' : 'orr-core--unfilled',
+      c1: ring(p, false), c2: ring(e, false), c3: ring(w, true),
+      hasAxis: has(d.connection),
+      title: has(d.projectName) ? d.projectName : 'Untitled project',
+      audiencePreview: has(d.audience) ? cut(d.audience, 90) : '…',
+      beliefPreview: has(d.belief) ? cut(d.belief, 90) : 'Your belief goes here.',
+      starterLabel: this.state.starter === 'empower' ? 'Starting from Empower' : 'Your own project',
+      isEmpower: this.state.starter === 'empower',
+      isOwn: this.state.starter !== 'empower',
+      pickEmpower: function () { self.setState({ starter: 'empower' }); },
+      pickOwn: function () { self.setState({ starter: 'own' }); },
+      pv: {
+        product: p ? cut(d.product, 26) : 'Not yet filled in',
+        productFill: p ? 'var(--ink)' : 'var(--muted)',
+        experience: e ? cut(has(d.experienceMoment) ? d.experienceMoment : d.experienceChoice, 26) : 'Not yet filled in',
+        experienceFill: e ? 'var(--ink)' : 'var(--muted)',
+        world: w ? cut(d.world, 26) : 'Not yet filled in',
+        worldFill: w ? 'var(--ink)' : 'var(--muted)'
+      },
+      status: this.state.status,
+      confirming: this.state.confirming,
+      copy: function () {
+        try {
+          navigator.clipboard.writeText(brief()).then(
+            function () { self.setState({ status: 'Brief copied' }); },
+            function () { self.setState({ status: 'Copy blocked here. Select the text and copy it yourself.' }); }
+          );
+        } catch (err) { self.setState({ status: 'Copy blocked here. Select the text and copy it yourself.' }); }
+      },
+      print: function () { try { window.print(); } catch (err) {} },
+      askReset: function () {
+        if (anyContent) self.setState({ confirming: true });
+      },
+      doReset: function () { self.setState({ d: self.seed(false), confirming: false, status: 'Saved in this browser' }); },
+      cancelReset: function () { self.setState({ confirming: false }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

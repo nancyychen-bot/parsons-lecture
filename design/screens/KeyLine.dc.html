@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Key line</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../tokens/bundle.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+a{color:inherit}a:hover{color:inherit}
+</style>
+</helmet>
+<main data-theme="live" style="width: 1280px; height: 720px; position: relative; overflow: hidden; background: var(--ground); color: var(--ink); font-family: var(--font-serif)">
+<p class="orr-label orr-muted" style="position: absolute; left: 64px; top: 48px; margin: 0">{{k.meta}}</p>
+<svg class="orr-svg orr-mark" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="{{k.markLabel}}" style="position: absolute; right: 64px; top: 48px">
+<circle class="{{m.core}}" cx="32" cy="32" r="2.4"></circle>
+<circle class="{{m.r1}}" cx="32" cy="32" r="9.5"></circle>
+<circle class="{{m.r2}}" cx="32" cy="32" r="19"></circle>
+<circle class="{{m.r3}}" cx="32" cy="32" r="28.5"></circle>
+<sc-if value="{{m.axis}}" hint-placeholder-val="{{ false }}">
+<g transform="rotate(-58 32 32)">
+<line class="orr-axis" x1="0.1" y1="32" x2="63.9" y2="32"></line>
+<line class="orr-axis" x1="0.1" y1="29" x2="0.1" y2="35"></line>
+<line class="orr-axis" x1="63.9" y1="29" x2="63.9" y2="35"></line>
+</g>
+</sc-if>
+</svg>
+
+<figure style="position: absolute; left: 0; right: 0; top: 52px; margin: 0; display: flex; justify-content: center; align-items: center; gap: 32px">
+<span style="width: 236px; flex: none"></span>
+<img class="orr-cutout" src="{{k.img}}" alt="{{k.alt}}" style="height: 240px; width: auto; max-width: 300px; object-fit: contain; flex: none">
+<figcaption style="width: 236px; flex: none; display: flex; flex-direction: column; gap: 6px">
+<span class="orr-label">{{k.fig}}</span>
+<span class="orr-label orr-muted">{{k.meaning}}</span>
+</figcaption>
+</figure>
+
+<div style="position: absolute; left: 64px; right: 64px; top: 320px; display: flex; flex-direction: column; align-items: center; gap: 22px; text-align: center">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 12px">
+<p class="orr-label" style="margin: 0">Key line</p>
+<hr class="orr-rule" style="width: 96px">
+</div>
+<h1 style="margin: 0; max-width: 1060px; font-size: 64px; line-height: 1.08; font-weight: 400; letter-spacing: -0.015em; font-variation-settings: 'opsz' 72; text-wrap: balance">{{k.line}}</h1>
+</div>
+
+<p class="orr-label orr-muted" style="position: absolute; left: 64px; bottom: 48px; margin: 0">{{k.plate}}</p>
+
+<nav aria-label="Sections" style="position: absolute; right: 64px; bottom: 48px; display: flex; align-items: center; gap: 28px">
+<svg class="orr-svg" viewBox="0 0 172 12" width="172" height="12" aria-hidden="true">
+<sc-for list="{{dots}}" as="d" hint-placeholder-count="9">
+<circle class="{{d.cls}}" cx="{{d.cx}}" cy="6" r="{{d.r}}"></circle>
+</sc-for>
+</svg>
+<a class="orr-btn orr-btn--text" href="{{k.prev}}" style="display: inline-flex; align-items: center; color: var(--muted)">Previous</a>
+<a class="orr-btn orr-btn--text" href="{{k.next}}" style="display: inline-flex; align-items: center; color: var(--muted)">Next</a>
+</nav>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"section":{"editor":"enum","options":["02 What is a product?","04 Product","05 Experience","06 World","07 Connect the circles"],"default":"06 World"},"$preview":{"width":1280,"height":720}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var LINES = {
+      '02 What is a product?': { n: 2, meta: '02 / 09 · What is a product?', plate: 'Plate 02 · No rings yet', fill: 0, axis: false,
+        img: '../assets/cutouts/telescope.png', alt: 'Engraved brass telescope on a tripod', fig: 'Fig. 02 · Telescope', meaning: 'Your product, seen from outside',
+        line: 'The interface is where the product appears. The experience is what the product actually is.' },
+      '04 Product': { n: 4, meta: '04 / 09 · Product · Core', plate: 'Plate 04 · r = 1', fill: 1, axis: false,
+        img: '../assets/cutouts/stag-beetle.png', alt: 'Engraved stag beetle seen from above', fig: 'Fig. 04 · Stag beetle', meaning: 'The product, examined',
+        line: 'A world needs a reason to enter. Start with something useful.' },
+      '05 Experience': { n: 5, meta: '05 / 09 · Experience · Near orbit', plate: 'Plate 05 · r = 2', fill: 2, axis: false,
+        img: '../assets/cutouts/hawk-moth.png', alt: 'Engraved hawk moth with open wings', fig: 'Fig. 05 · Hawk moth', meaning: 'Drawn to the light, not told to come',
+        line: '‘Welcoming’ is not a visual style. It is something the experience must prove.' },
+      '06 World': { n: 6, meta: '06 / 09 · World · Far orbit', plate: 'Plate 06 · r = 3', fill: 3, axis: false,
+        img: '../assets/cutouts/winged-key.png', alt: 'Engraved key with wings on its bow', fig: 'Fig. 06 · Winged key', meaning: 'The invitation',
+        line: 'You can design the invitation. You cannot script belonging.' },
+      '07 Connect the circles': { n: 7, meta: '07 / 09 · Connect the circles', plate: 'Plate 07 · The axis', fill: 3, axis: true,
+        img: '../assets/cutouts/anchor.png', alt: 'Engraved ship’s anchor wrapped in rope', fig: 'Fig. 07 · Anchor', meaning: 'The core that holds',
+        line: 'World-building is not adding more things. It is making the things agree.' }
+    };
+    var k = LINES[this.props.section] || LINES['06 World'];
+    var NAV = { 2: ['Reveal.dc.html', 'Circles1.dc.html'], 4: ['Prompt.dc.html', 'BeforeAfter.dc.html'], 5: ['Prompt05.dc.html', 'OurPlace.dc.html'], 6: ['Distinction.dc.html', 'PointOfView.dc.html'], 7: ['NancysBuild.dc.html', 'WorkshopBrief.dc.html'] };
+    k.prev = NAV[k.n][0];
+    k.next = NAV[k.n][1];
+    var f = k.fill;
+    k.markLabel = 'Progress mark: ' + f + ' of 3 rings reached' + (k.axis ? ', axis drawn' : '');
+    var m = {
+      core: f >= 1 ? 'orr-core' : 'orr-core--unfilled',
+      r1: f >= 1 ? 'orr-ring' : 'orr-ring orr-ring--unfilled',
+      r2: f >= 2 ? 'orr-ring' : 'orr-ring orr-ring--unfilled',
+      r3: f >= 3 ? 'orr-ring orr-ring--world' : 'orr-ring orr-ring--unfilled',
+      axis: k.axis
+    };
+    var dots = [];
+    for (var i = 1; i <= 9; i++) {
+      dots.push({ cx: 6 + (i - 1) * 20, r: i === k.n ? 5 : 4.5, cls: i < k.n ? 'orr-tp' : (i === k.n ? 'orr-core' : 'orr-core--unfilled') });
+    }
+    return { k: k, m: m, dots: dots };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,5 +1,31 @@
-/* ── Section dots — inline SVG, styled by .orr-* classes from bundle.css ── */
 .section-nav {
-  display: inline-flex;
+  position: relative;
+  width: 172px;
+  height: 12px;
+  display: flex;
   align-items: center;
+}
+.section-nav__svg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.section-nav__buttons {
+  position: absolute;
+  inset: -14px 0;
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+}
+.section-nav__btn {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  min-width: 20px;
+  min-height: 40px;
+}
+.section-nav__btn:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
 }

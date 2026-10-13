@@ -1,18 +1,45 @@
-/* ── TouchpointSelect — matches 02-touchpoints.dc.html ── */
-.tp-select {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  width: 100%;
+/* TouchpointSelect — faithful to design/screens/Touchpoints.dc.html */
+.tp-root {
+  position: absolute;
+  left: 64px;
+  top: 96px;
+  width: 740px;
+  height: 576px;
 }
 
-.tp-diagram {
-  position: relative;
-  overflow: visible;
+.tp-stage {
+  position: absolute;
+  inset: 0;
 }
 
-/* Each touchpoint button */
-.tp-btn {
+.tp-rings {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 740px;
+  height: 576px;
+}
+
+/* Ring draw-in: 500ms stroke-dashoffset. Uses pathLength="1" so we can treat
+   dasharray as a fraction. We only run this when the mapped rings first appear. */
+.tp-ring-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: tp-draw var(--t-touchpoint, 500ms) ease-out forwards;
+}
+
+/* Stagger per mapped ring index so inner draws first */
+.tp-ring-draw--1 { animation-delay: 0ms; }
+.tp-ring-draw--2 { animation-delay: 100ms; }
+.tp-ring-draw--3 { animation-delay: 200ms; }
+
+@keyframes tp-draw {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+
+/* Touchpoint buttons animate position when switching states. */
+.tp-point {
   position: absolute;
   height: 44px;
   display: flex;
@@ -30,7 +57,18 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   white-space: nowrap;
+  transition: left var(--t-touchpoint, 500ms) ease-out,
+              right var(--t-touchpoint, 500ms) ease-out,
+              top var(--t-touchpoint, 500ms) ease-out;
 }
+
+.tp-point--delay {
+  /* Give rings time to draw before points move */
+  transition-delay: var(--t-touchpoint, 500ms);
+}
+
+.tp-point--row { flex-direction: row; }
+.tp-point--row-reverse { flex-direction: row-reverse; }
 
 .tp-dot {
   width: 14px;
@@ -39,34 +77,76 @@
   border-radius: 50%;
   box-sizing: border-box;
   border: 2.5px solid var(--ink);
+  background: var(--ground);
+  transition: background 120ms linear;
 }
 
-/* Bottom area: button + status line */
-.tp-bottom {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  margin-top: 0;
+.tp-dot--on {
+  background: var(--ink);
+}
+
+.tp-label {
+  background: var(--ground);
+  padding: 2px 4px;
 }
 
 .tp-status {
-  font-family: var(--font-serif);
-  font-variation-settings: 'opsz' 24;
+  margin: 0;
+  max-width: 380px;
+  font-size: 20px;
+  line-height: 1.3;
+  font-style: italic;
 }
 
-/* Mobile: collapse to a vertical list */
-@media (max-width: 768px) {
-  .tp-diagram {
-    display: none;
-  }
+.tp-controls {
+  position: absolute;
+  left: 64px;
+  bottom: 48px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
 
-  .tp-select {
-    gap: 16px;
-  }
+.tp-side {
+  position: absolute;
+  left: 864px;
+  top: 128px;
+  width: 352px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.tp-figure {
+  margin: 0;
+  display: flex;
+  align-items: flex-end;
+  gap: 20px;
+}
+
+.tp-figure img {
+  height: 240px;
+  width: auto;
+  flex: none;
+}
+
+.tp-caption {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-bottom: 4px;
+}
+
+.tp-headline {
+  margin: 0;
+  font-size: 46px;
+  line-height: 1.05;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  font-variation-settings: 'opsz' 72;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tp-btn {
-    transition: none !important;
-  }
+  .tp-ring-draw { animation: none; stroke-dashoffset: 0; }
+  .tp-point, .tp-point--delay { transition: none; }
 }

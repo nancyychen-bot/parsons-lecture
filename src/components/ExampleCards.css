@@ -1,10 +1,64 @@
-/* ── ExampleCards — matches 06-example-cards.dc.html ── */
+/* ExampleCards — faithful to design/screens/ExampleCards.dc.html */
+.ec-head {
+  position: absolute;
+  left: 64px;
+  top: 128px;
+  width: 620px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
 
-/* Three ruled columns */
+.ec-eyebrow {
+  margin: 0;
+}
+
+.ec-headline {
+  margin: 0;
+  font-size: 64px;
+  line-height: 1.02;
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  font-variation-settings: 'opsz' 72;
+}
+
+.ec-figure {
+  position: absolute;
+  right: 64px;
+  top: 124px;
+  margin: 0;
+  display: flex;
+  align-items: flex-end;
+  gap: 20px;
+}
+
+.ec-figure img {
+  height: 240px;
+  width: auto;
+  flex: none;
+}
+
+.ec-caption {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: right;
+  width: 200px;
+}
+
 .ec-grid {
+  position: absolute;
+  left: 64px;
+  right: 64px;
+  top: 380px;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 32px;
+}
+
+.ec-grid--one {
+  grid-template-columns: minmax(0, 1fr);
+  max-width: 620px;
 }
 
 .ec-card {
@@ -15,7 +69,10 @@
   padding-top: 12px;
 }
 
-/* Dashed placeholder block */
+.ec-card h2 {
+  margin: 0;
+}
+
 .ec-placeholder {
   border: 2px dashed var(--faint);
   padding: 14px 16px;
@@ -24,8 +81,18 @@
   gap: 10px;
 }
 
-@media (max-width: 768px) {
-  .ec-grid {
-    grid-template-columns: 1fr;
-  }
+.ec-ph-head {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ec-ph-head p,
+.ec-placeholder p {
+  margin: 0;
+}
+
+.ec-desc {
+  font-size: 24px;
+  line-height: 1.25;
 }

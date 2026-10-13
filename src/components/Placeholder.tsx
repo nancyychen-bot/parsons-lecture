@@ -1,22 +1,32 @@
-import type { LectureConfig } from "../types";
 import "./Placeholder.css";
 
-type Props = {
+type PlaceholderProps = {
   label: string;
-  fallback?: string;
-  config: LectureConfig;
+  width?: number | string;
+  height?: number | string;
+  align?: "left" | "center" | "right";
 };
 
-export function Placeholder({ label, fallback, config }: Props) {
-  const showFallback = fallback && !config.notionApproved;
-  const text = showFallback ? fallback : label;
-
+/**
+ * Honest, visible, labeled placeholder for missing content.
+ * Uses the `.orr-placeholder` dashed-box treatment per orrery.css.
+ */
+export function Placeholder({
+  label,
+  width,
+  height,
+  align = "center",
+}: PlaceholderProps) {
   return (
-    <div className="placeholder" role="note" aria-label={`Placeholder: ${text}`}>
-      <span className="placeholder-tag">
-        {showFallback ? "Fallback" : "Placeholder"}
-      </span>
-      <p className="placeholder-text">{text}</p>
+    <div
+      className="baw-placeholder orr-placeholder"
+      style={{
+        width,
+        height,
+        textAlign: align,
+      }}
+    >
+      <p className="orr-label orr-muted">{label}</p>
     </div>
   );
 }

@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>05 — Same coffee, two shops</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../tokens/bundle.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+a{color:inherit}a:hover{color:inherit}
+</style>
+</helmet>
+<main data-theme="live" style="width: 1280px; height: 720px; position: relative; overflow: hidden; background: var(--ground); color: var(--ink); font-family: var(--font-serif)">
+<p class="orr-label orr-muted" style="position: absolute; left: 64px; top: 48px; margin: 0">05 / 09 · Experience · Near orbit</p>
+<svg class="orr-svg orr-mark" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Progress mark: Product and Experience reached" style="position: absolute; right: 64px; top: 48px">
+<circle class="orr-core" cx="32" cy="32" r="2.4"></circle>
+<circle class="orr-ring" cx="32" cy="32" r="9.5"></circle>
+<circle class="orr-ring" cx="32" cy="32" r="19"></circle>
+<circle class="orr-ring orr-ring--unfilled" cx="32" cy="32" r="28.5"></circle>
+</svg>
+
+<div style="position: absolute; left: 64px; right: 64px; top: 112px; display: flex; justify-content: space-between; align-items: flex-end; gap: 32px">
+<h1 style="margin: 0; font-size: 64px; line-height: 1.05; font-weight: 400; letter-spacing: -0.01em; font-variation-settings: 'opsz' 72">Same coffee, two shops</h1>
+<div role="group" aria-label="Show shop" style="display: flex; gap: 0">
+<button type="button" class="orr-btn" aria-pressed="{{isA}}" onClick="{{showA}}">Shop A</button>
+<button type="button" class="orr-btn" aria-pressed="{{isB}}" onClick="{{showB}}" style="margin-left: -2px">Shop B</button>
+</div>
+</div>
+
+<div style="position: absolute; left: 64px; right: 64px; top: 224px; height: 368px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px">
+
+<section aria-label="Shop A" style="display: flex; flex-direction: column; gap: 12px; padding-top: 14px; border-top: 2px solid var(--ink); opacity: {{opA}}">
+<p class="orr-label" style="margin: 0 0 6px">Shop A</p>
+<div style="display: grid; grid-template-columns: minmax(0, 1fr) 176px; column-gap: 20px; row-gap: 6px; align-items: start; font-family: var(--font-mono); font-size: 16px; line-height: 1.2; letter-spacing: 0.02em; text-transform: uppercase">
+<p style="margin: 0"><strong>Menu</strong> Espresso · ristretto · lungo · cortado · gibraltar · flat white · macchiato (trad.) · SO / blend · V60 · kalita · chemex · nitro CB · cold drip · affogato · alt milk +</p>
+<sc-if value="{{isA}}" hint-placeholder-val="{{ true }}"><div style="display: flex; align-items: center; gap: 10px"><span aria-hidden="true" style="width: 32px; height: 32px; flex: none; box-sizing: border-box; border-radius: 50%; border: 2.5px solid var(--ink); display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 18px; font-weight: 500">1</span><span class="orr-label">Language</span></div></sc-if>
+<sc-if value="{{isB}}" hint-placeholder-val="{{ false }}"><span></span></sc-if>
+<p style="margin: 0; min-height: 32px"></p>
+<sc-if value="{{isA}}" hint-placeholder-val="{{ true }}"><div style="display: flex; align-items: center; gap: 10px"><span aria-hidden="true" style="width: 32px; height: 32px; flex: none; box-sizing: border-box; border-radius: 50%; border: 2.5px solid var(--ink); display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 18px; font-weight: 500">2</span><span class="orr-label">Guidance</span></div></sc-if>
+<sc-if value="{{isB}}" hint-placeholder-val="{{ false }}"><span></span></sc-if>
+<p style="margin: 0; font-size: 20px; font-weight: 500">“Next!”</p>
+<sc-if value="{{isA}}" hint-placeholder-val="{{ true }}"><div style="display: flex; align-items: center; gap: 10px"><span aria-hidden="true" style="width: 32px; height: 32px; flex: none; box-sizing: border-box; border-radius: 50%; border: 2.5px solid var(--ink); display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 18px; font-weight: 500">3</span><span class="orr-label">Pace</span></div></sc-if>
+<sc-if value="{{isB}}" hint-placeholder-val="{{ false }}"><span></span></sc-if>
+<p style="margin: 0">Order at register. No substitutions. No modifications to SO.</p>
+<sc-if value="{{isA}}" hint-placeholder-val="{{ true }}"><div style="display: flex; align-items: center; gap: 10px"><span aria-hidden="true" style="width: 32px; height: 32px; flex: none; box-sizing: border-box; border-radius: 50%; border: 2.5px solid var(--ink); display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 18px; font-weight: 500">4</span><span class="orr-label">Support</span></div></sc-if>
+<sc-if value="{{isB}}" hint-placeholder-val="{{ false }}"><span></span></sc-if>
+</div>
+</section>
+
+<section aria-label="Shop B" style="display: flex; flex-direction: column; gap: 12px; padding-top: 14px; border-top: 2px solid var(--ink); opacity: {{opB}}">
+<p class="orr-label" style="margin: 0 0 6px">Shop B</p>
+<div style="display: grid; grid-template-columns: minmax(0, 1fr) 176px; column-gap: 20px; row-gap: 22px; align-items: start; font-size: 24px; line-height: 1.35; font-variation-settings: 'opsz' 24">
+<div style="display: flex; flex-direction: column; gap: 4px"><p style="margin: 0">Coffee — smooth, not bitter</p><p style="margin: 0">Coffee with milk — mild, creamy</p></div>
+<sc-if value="{{isB}}" hint-placeholder-val="{{ false }}"><div style="display: flex; align-items: center; gap: 10px"><span aria-hidden="true" style="width: 32px; height: 32px; flex: none; box-sizing: border-box; border-radius: 50%; border: 2.5px solid var(--ink); display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 18px; font-weight: 500">1</span><span class="orr-label">Language</span></div></sc-if>
+<sc-if value="{{isA}}" hint-placeholder-val="{{ true }}"><span></span></sc-if>
+<p style="margin: 0; font-style: italic">First time? Here’s what we’d recommend.</p>
+<sc-if value="{{isB}}" hint-placeholder-val="{{ false }}"><div style="display: flex; align-items: center; gap: 10px"><span aria-hidden="true" style="width: 32px; height: 32px; flex: none; box-sizing: border-box; border-radius: 50%; border: 2.5px solid var(--ink); display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 18px; font-weight: 500">2</span><span class="orr-label">Guidance</span></div></sc-if>
+<sc-if value="{{isA}}" hint-placeholder-val="{{ true }}"><span></span></sc-if>
+<p style="margin: 0">Take your time. We’ll be ready when you are.</p>
+<sc-if value="{{isB}}" hint-placeholder-val="{{ false }}"><div style="display: flex; align-items: center; gap: 10px"><span aria-hidden="true" style="width: 32px; height: 32px; flex: none; box-sizing: border-box; border-radius: 50%; border: 2.5px solid var(--ink); display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 18px; font-weight: 500">3</span><span class="orr-label">Pace</span></div></sc-if>
+<sc-if value="{{isA}}" hint-placeholder-val="{{ true }}"><span></span></sc-if>
+<p style="margin: 0">Ask us anything.</p>
+<sc-if value="{{isB}}" hint-placeholder-val="{{ false }}"><div style="display: flex; align-items: center; gap: 10px"><span aria-hidden="true" style="width: 32px; height: 32px; flex: none; box-sizing: border-box; border-radius: 50%; border: 2.5px solid var(--ink); display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 18px; font-weight: 500">4</span><span class="orr-label">Support</span></div></sc-if>
+<sc-if value="{{isA}}" hint-placeholder-val="{{ true }}"><span></span></sc-if>
+</div>
+</section>
+</div>
+
+<p class="orr-label orr-muted" style="position: absolute; left: 64px; bottom: 48px; margin: 0">Plate 05 · r = 2 · four levers</p>
+
+<nav aria-label="Sections" style="position: absolute; right: 64px; bottom: 48px; display: flex; align-items: center; gap: 28px">
+<svg class="orr-svg" viewBox="0 0 172 12" width="172" height="12" aria-hidden="true">
+<circle class="orr-tp" cx="6" cy="6" r="4.5"></circle>
+<circle class="orr-tp" cx="26" cy="6" r="4.5"></circle>
+<circle class="orr-tp" cx="46" cy="6" r="4.5"></circle>
+<circle class="orr-tp" cx="66" cy="6" r="4.5"></circle>
+<circle class="orr-core" cx="86" cy="6" r="5"></circle>
+<circle class="orr-core--unfilled" cx="106" cy="6" r="4.5"></circle>
+<circle class="orr-core--unfilled" cx="126" cy="6" r="4.5"></circle>
+<circle class="orr-core--unfilled" cx="146" cy="6" r="4.5"></circle>
+<circle class="orr-core--unfilled" cx="166" cy="6" r="4.5"></circle>
+</svg>
+<a class="orr-btn orr-btn--text" href="KeyLine04.dc.html" style="display: inline-flex; align-items: center; color: var(--muted)">Previous</a>
+<a class="orr-btn orr-btn--text" href="ThreeMoments.dc.html" style="display: inline-flex; align-items: center; color: var(--muted)">Next</a>
+</nav>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"start":{"editor":"enum","options":["A","B"],"default":"B"},"$preview":{"width":1280,"height":720}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var self = this;
+    var shop = this.state && this.state.shop ? this.state.shop : (this.props.start || 'B');
+    var a = shop === 'A';
+    return {
+      isA: a,
+      isB: !a,
+      opA: a ? '1' : '0.45',
+      opB: a ? '0.45' : '1',
+      showA: function () { self.setState({ shop: 'A' }); },
+      showB: function () { self.setState({ shop: 'B' }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

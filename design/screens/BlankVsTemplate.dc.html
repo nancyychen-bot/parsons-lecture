@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>05.3 — Blank page vs. template</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../tokens/bundle.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+a{color:inherit}a:hover{color:inherit}
+</style>
+</helmet>
+<main data-theme="live" style="width: 1280px; height: 720px; position: relative; overflow: hidden; background: var(--ground); color: var(--ink); font-family: var(--font-serif)">
+<p class="orr-label orr-muted" style="position: absolute; left: 64px; top: 48px; margin: 0">05 / 09 · Experience · Near orbit</p>
+<svg class="orr-svg orr-mark" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Progress mark: Product and Experience reached" style="position: absolute; right: 64px; top: 48px">
+<circle class="orr-core" cx="32" cy="32" r="2.4"></circle>
+<circle class="orr-ring" cx="32" cy="32" r="9.5"></circle>
+<circle class="orr-ring" cx="32" cy="32" r="19"></circle>
+<circle class="orr-ring orr-ring--unfilled" cx="32" cy="32" r="28.5"></circle>
+</svg>
+
+<div style="position: absolute; left: 64px; top: 112px; width: 720px; display: flex; flex-direction: column; gap: 14px">
+<h1 style="margin: 0; font-size: 60px; line-height: 1.04; font-weight: 400; letter-spacing: -0.015em; font-variation-settings: 'opsz' 72">Same tool. Different feeling.</h1>
+<p class="orr-muted" style="margin: 0; font-size: 26px; line-height: 1.35; font-style: italic">Guidance, labels and defaults change the feeling. The tool underneath stays the same.</p>
+</div>
+<p class="orr-label orr-muted" style="position: absolute; right: 64px; top: 136px; width: 340px; margin: 0; padding: 12px 14px; border: 2px dashed var(--faint)">Placeholder — approved Notion screenshots replace both panels</p>
+
+<div style="position: absolute; left: 64px; right: 64px; top: 280px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px">
+<figure style="margin: 0; display: flex; flex-direction: column; gap: 12px">
+<figcaption style="display: flex; justify-content: space-between"><span class="orr-label">A blank page</span><span class="orr-label orr-muted">Illustrative</span></figcaption>
+<div style="height: 224px; box-sizing: border-box; border: 2px solid var(--muted); padding: 28px">
+<span aria-hidden="true" style="display: block; width: 3px; height: 38px; background: var(--ink)"></span>
+</div>
+<p class="orr-muted" style="margin: 0; font-size: 24px; font-style: italic">Where do I even start?</p>
+</figure>
+<figure style="margin: 0; display: flex; flex-direction: column; gap: 12px">
+<figcaption style="display: flex; justify-content: space-between"><span class="orr-label">A guided class-project template</span><span class="orr-label orr-muted">Illustrative</span></figcaption>
+<div style="height: 224px; box-sizing: border-box; border: 2px solid var(--muted); padding: 20px 28px; display: flex; flex-direction: column; gap: 12px">
+<p style="margin: 0; font-size: 26px; line-height: 1">Class project</p>
+<div style="display: grid; grid-template-columns: 150px minmax(0, 1fr); row-gap: 14px; column-gap: 16px; align-items: center">
+<span class="orr-label orr-muted">Goal</span><span style="height: 2px; width: 78%; background: var(--ink)"></span>
+<span class="orr-label orr-muted">Who does what</span>
+<span style="display: flex; gap: 10px; align-items: center"><span aria-hidden="true" style="width: 16px; height: 16px; flex: none; box-sizing: border-box; border-radius: 50%; border: 2.5px solid var(--ink)"></span><span style="height: 2px; width: 60%; background: var(--ink)"></span></span>
+<span class="orr-label orr-muted">Due</span><span style="height: 2px; width: 40%; background: var(--ink)"></span>
+<span class="orr-label orr-muted">Start here</span><span style="height: 2px; width: 66%; background: var(--ink)"></span>
+</div>
+</div>
+<p class="orr-muted" style="margin: 0; font-size: 24px; font-style: italic">The next step is already written down.</p>
+</figure>
+</div>
+
+<nav aria-label="Sections" style="position: absolute; right: 64px; bottom: 48px; display: flex; align-items: center; gap: 28px">
+<svg class="orr-svg" viewBox="0 0 172 12" width="172" height="12" aria-hidden="true">
+<circle class="orr-tp" cx="6" cy="6" r="4.5"></circle>
+<circle class="orr-tp" cx="26" cy="6" r="4.5"></circle>
+<circle class="orr-tp" cx="46" cy="6" r="4.5"></circle>
+<circle class="orr-tp" cx="66" cy="6" r="4.5"></circle>
+<circle class="orr-core" cx="86" cy="6" r="5"></circle>
+<circle class="orr-core--unfilled" cx="106" cy="6" r="4.5"></circle>
+<circle class="orr-core--unfilled" cx="126" cy="6" r="4.5"></circle>
+<circle class="orr-core--unfilled" cx="146" cy="6" r="4.5"></circle>
+<circle class="orr-core--unfilled" cx="166" cy="6" r="4.5"></circle>
+</svg>
+<a class="orr-btn orr-btn--text" href="ThreeMoments.dc.html" style="display: inline-flex; align-items: center; color: var(--muted)">Previous</a>
+<a class="orr-btn orr-btn--text" href="Prompt05.dc.html" style="display: inline-flex; align-items: center; color: var(--muted)">Next</a>
+</nav>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":720}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

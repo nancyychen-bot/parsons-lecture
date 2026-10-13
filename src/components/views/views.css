@@ -1,0 +1,60 @@
+/* Shared view primitives.
+   Each view sits inside the 1280×720 .live-stage; coordinates below assume that
+   origin. Views only render their own content; corners (meta, mark, plate, nav)
+   are owned by LiveStage. */
+
+.view {
+  position: absolute;
+  inset: 0;
+}
+
+/* Common inline figure for "right-side cutout + text panel" views (04.1, 06.1,
+   06.3, 07.3, 08.4, …) */
+.view__text-block {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+/* The italic hook that opens a section ("reading"). 28–30px in Live. */
+.view__reading {
+  margin: 0;
+  font-size: 30px;
+  line-height: 1.3;
+  font-style: italic;
+  font-variation-settings: "opsz" 24;
+}
+
+.view__headline {
+  margin: 0;
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  font-variation-settings: "opsz" 72;
+}
+
+.view__body {
+  margin: 0;
+  font-size: 28px;
+  line-height: 1.4;
+  font-variation-settings: "opsz" 24;
+}
+
+.view__label {
+  margin: 0;
+}
+
+.view__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 24px;
+}
+
+.view__list-item {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 14px;
+  border-top: 2px solid var(--ink);
+}

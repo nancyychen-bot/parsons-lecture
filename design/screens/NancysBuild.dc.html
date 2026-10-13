@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>07.3 — Nancy’s build</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../tokens/bundle.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+a{color:inherit}a:hover{color:inherit}
+</style>
+</helmet>
+<main data-theme="live" style="width: 1280px; height: 720px; position: relative; overflow: hidden; background: var(--ground); color: var(--ink); font-family: var(--font-serif)">
+<p class="orr-label orr-muted" style="position: absolute; left: 64px; top: 48px; margin: 0">07 / 09 · Connect the circles</p>
+<svg class="orr-svg orr-mark" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Progress mark: all rings reached, axis intact" style="position: absolute; right: 64px; top: 48px">
+<circle class="orr-core" cx="32" cy="32" r="2.4"></circle>
+<circle class="orr-ring" cx="32" cy="32" r="9.5"></circle>
+<circle class="orr-ring" cx="32" cy="32" r="19"></circle>
+<circle class="orr-ring orr-ring--world" cx="32" cy="32" r="28.5"></circle>
+<g transform="rotate(-58 32 32)">
+<line class="orr-axis" x1="0.1" y1="32" x2="63.9" y2="32"></line>
+<line class="orr-axis" x1="0.1" y1="29" x2="0.1" y2="35"></line>
+<line class="orr-axis" x1="63.9" y1="29" x2="63.9" y2="35"></line>
+</g>
+</svg>
+
+<div style="position: absolute; left: 64px; top: 112px; width: 780px; display: flex; flex-direction: column; gap: 20px">
+<p class="orr-label" style="margin: 0">Nancy’s build</p>
+<h1 style="margin: 0; font-size: 48px; line-height: 1.08; font-weight: 400; letter-spacing: -0.01em; font-variation-settings: 'opsz' 72">One of my builds, read through the three circles.</h1>
+<dl style="margin: 8px 0 0; display: flex; flex-direction: column">
+<div style="display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 20px; align-items: center; padding: 12px 0; border-top: 2px solid var(--ink)">
+<dt style="font-size: 22px; line-height: 1.25">i · What it lets someone do</dt>
+<dd class="orr-label orr-muted" style="margin: 0; padding: 8px 12px; border: 2px dashed var(--faint)">Placeholder</dd>
+</div>
+<div style="display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 20px; align-items: center; padding: 12px 0; border-top: 2px solid var(--faint)">
+<dt style="font-size: 22px; line-height: 1.25">ii · The first, imperfect version</dt>
+<dd class="orr-label orr-muted" style="margin: 0; padding: 8px 12px; border: 2px dashed var(--faint)">Placeholder</dd>
+</div>
+<div style="display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 20px; align-items: center; padding: 12px 0; border-top: 2px solid var(--faint)">
+<dt style="font-size: 22px; line-height: 1.25">iii · One judgment call</dt>
+<dd class="orr-label orr-muted" style="margin: 0; padding: 8px 12px; border: 2px dashed var(--faint)">Placeholder</dd>
+</div>
+<div style="display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 20px; align-items: center; padding: 12px 0; border-top: 2px solid var(--faint); border-bottom: 2px solid var(--faint)">
+<dt style="font-size: 22px; line-height: 1.25">iv · One change prompted by real behavior</dt>
+<dd class="orr-label orr-muted" style="margin: 0; padding: 8px 12px; border: 2px dashed var(--faint)">Placeholder</dd>
+</div>
+</dl>
+<p class="orr-label orr-muted" style="margin: 0">Fallback: this site, and the change from the dry run</p>
+</div>
+
+<figure style="position: absolute; right: 64px; top: 128px; width: 300px; margin: 0; display: flex; flex-direction: column; align-items: flex-end; gap: 14px">
+<img class="orr-cutout" src="../assets/cutouts/alembic.png" alt="Engraved alembic, a still with a coiled copper tube" style="height: 260px; width: auto">
+<figcaption style="display: flex; flex-direction: column; gap: 6px; text-align: right">
+<span class="orr-label">Fig. 07 · Alembic</span>
+<span class="orr-label orr-muted">A rough version, refined</span>
+</figcaption>
+<p style="margin: 18px 0 0; font-size: 24px; line-height: 1.3; font-style: italic; text-align: right">AI can draw any of these circles. It can’t choose the belief that runs through them.</p>
+</figure>
+
+<p class="orr-label orr-muted" style="position: absolute; left: 64px; bottom: 48px; margin: 0">Plate 07 · first version, then a real change</p>
+
+<nav aria-label="Sections" style="position: absolute; right: 64px; bottom: 48px; display: flex; align-items: center; gap: 28px">
+<svg class="orr-svg" viewBox="0 0 172 12" width="172" height="12" aria-hidden="true">
+<circle class="orr-tp" cx="6" cy="6" r="4.5"></circle>
+<circle class="orr-tp" cx="26" cy="6" r="4.5"></circle>
+<circle class="orr-tp" cx="46" cy="6" r="4.5"></circle>
+<circle class="orr-tp" cx="66" cy="6" r="4.5"></circle>
+<circle class="orr-tp" cx="86" cy="6" r="4.5"></circle>
+<circle class="orr-tp" cx="106" cy="6" r="4.5"></circle>
+<circle class="orr-core" cx="126" cy="6" r="5"></circle>
+<circle class="orr-core--unfilled" cx="146" cy="6" r="4.5"></circle>
+<circle class="orr-core--unfilled" cx="166" cy="6" r="4.5"></circle>
+</svg>
+<a class="orr-btn orr-btn--text" href="Contradiction.dc.html" style="display: inline-flex; align-items: center; color: var(--muted)">Previous</a>
+<a class="orr-btn orr-btn--text" href="KeyLine07.dc.html" style="display: inline-flex; align-items: center; color: var(--muted)">Next</a>
+</nav>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":720}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

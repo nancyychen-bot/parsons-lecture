@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>01.3 — Follow along</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../tokens/bundle.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+a{color:inherit}a:hover{color:inherit}
+</style>
+</helmet>
+<main data-theme="live" style="width: 1280px; height: 720px; position: relative; overflow: hidden; background: var(--ground); color: var(--ink); font-family: var(--font-serif)">
+<p class="orr-label orr-muted" style="position: absolute; left: 64px; top: 48px; margin: 0">01 / 09 · Start · Follow along</p>
+<svg class="orr-svg orr-mark" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Progress mark: no rings reached yet" style="position: absolute; right: 64px; top: 48px">
+<circle class="orr-core--unfilled" cx="32" cy="32" r="2.4"></circle>
+<circle class="orr-ring orr-ring--unfilled" cx="32" cy="32" r="9.5"></circle>
+<circle class="orr-ring orr-ring--unfilled" cx="32" cy="32" r="19"></circle>
+<circle class="orr-ring orr-ring--unfilled" cx="32" cy="32" r="28.5"></circle>
+</svg>
+
+<div style="position: absolute; left: 64px; top: 168px; width: 320px; height: 320px; box-sizing: border-box; border: 2px dashed var(--faint); display: flex; align-items: center; justify-content: center; padding: 28px; text-align: center">
+<p class="orr-label orr-muted" style="margin: 0">Placeholder — QR code, generated at build from the public URL</p>
+</div>
+
+<div style="position: absolute; left: 448px; top: 168px; width: 768px; display: flex; flex-direction: column; gap: 26px">
+<p class="orr-label" style="margin: 0">Follow along</p>
+<h1 style="margin: 0; font-size: 64px; line-height: 1.04; font-weight: 400; letter-spacing: -0.015em; font-variation-settings: 'opsz' 72">Open this on your laptop or phone.</h1>
+<p class="orr-muted" style="margin: 0; padding-bottom: 6px; border-bottom: 2px dashed var(--faint); align-self: flex-start; font-family: var(--font-mono); font-size: 34px; letter-spacing: 0.02em">[public URL]</p>
+<p style="margin: 0; font-size: 28px; line-height: 1.4; font-style: italic">Nothing to sign up for. Your answers stay on your device.</p>
+</div>
+
+<p class="orr-label orr-muted" style="position: absolute; left: 64px; bottom: 48px; margin: 0">Show only if students are on their own devices</p>
+
+<nav aria-label="Sections" style="position: absolute; right: 64px; bottom: 48px; display: flex; align-items: center; gap: 28px">
+<svg class="orr-svg" viewBox="0 0 172 12" width="172" height="12" aria-hidden="true">
+<circle class="orr-core" cx="6" cy="6" r="5"></circle>
+<circle class="orr-core--unfilled" cx="26" cy="6" r="4.5"></circle>
+<circle class="orr-core--unfilled" cx="46" cy="6" r="4.5"></circle>
+<circle class="orr-core--unfilled" cx="66" cy="6" r="4.5"></circle>
+<circle class="orr-core--unfilled" cx="86" cy="6" r="4.5"></circle>
+<circle class="orr-core--unfilled" cx="106" cy="6" r="4.5"></circle>
+<circle class="orr-core--unfilled" cx="126" cy="6" r="4.5"></circle>
+<circle class="orr-core--unfilled" cx="146" cy="6" r="4.5"></circle>
+<circle class="orr-core--unfilled" cx="166" cy="6" r="4.5"></circle>
+</svg>
+<a class="orr-btn orr-btn--text" href="About.dc.html" style="display: inline-flex; align-items: center; color: var(--muted)">Previous</a>
+<a class="orr-btn orr-btn--text" href="WhatIsProduct.dc.html" style="display: inline-flex; align-items: center; color: var(--muted)">Next</a>
+</nav>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":720}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

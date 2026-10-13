@@ -1,108 +1,17 @@
 .app-shell {
-  min-height: 100dvh;
+  min-height: 100vh;
+  width: 100%;
   background: var(--ground);
   color: var(--ink);
-  transition: background var(--duration-normal) var(--ease-out), color var(--duration-normal) var(--ease-out);
-}
-
-/* Mode switcher — joined toggle, square corners */
-.mode-switcher {
-  position: fixed;
-  top: var(--space-3);
-  right: var(--space-3);
-  z-index: 200;
-  display: flex;
-  gap: 0;
-  border: var(--w-rule) solid var(--ink);
-  overflow: hidden;
-  background: var(--ground);
-}
-
-.mode-btn {
-  padding: var(--space-2) var(--space-3);
-  border: none;
-  background: none;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--muted);
-  transition: background var(--duration-fast) var(--ease-out),
-    color var(--duration-fast) var(--ease-out);
-}
-
-.mode-btn:hover {
-  color: var(--ink);
-}
-
-.mode-btn--active {
-  background: var(--ink);
-  color: var(--ground);
-}
-
-/* In live mode, mode switcher is recessive */
-[data-theme="live"] .mode-switcher {
-  border-color: var(--faint);
-  opacity: 0.5;
-  transition: opacity var(--duration-normal) var(--ease-out);
-}
-
-[data-theme="live"] .mode-switcher:hover {
-  opacity: 1;
-}
-
-[data-theme="live"] .mode-btn {
-  font-size: 14px;
-}
-
-/* ── Inline presenter notes (N-key fallback) ── */
-.inline-notes {
-  position: fixed;
-  bottom: 5rem;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(90vw, 36rem);
-  z-index: 300;
-  background: var(--black);
-  color: var(--paper);
-  padding: var(--space-3) var(--space-4);
-  border: var(--w-rule) solid var(--faint);
-}
-
-.inline-notes-warning {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: #ff6b6b;
-  margin-bottom: var(--space-2);
-}
-
-.inline-notes-sync-status {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: #ffaa44;
-  margin-bottom: var(--space-2);
-}
-
-.inline-notes-text {
   font-family: var(--font-serif);
-  font-size: 18px;
-  line-height: 1.6;
 }
 
-.inline-notes-empty {
-  font-family: var(--font-serif);
-  font-size: 15px;
-  opacity: 0.5;
-  font-style: italic;
+.app-shell--light {
+  min-height: 100vh;
 }
 
-.inline-notes-hint {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  opacity: 0.4;
-  margin-top: var(--space-2);
-  text-align: right;
+.app-shell__stub {
+  max-width: 640px;
+  margin: 64px auto;
+  padding: 48px 24px;
 }

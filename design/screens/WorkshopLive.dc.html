@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>08.2 — Canvas (Live)</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../tokens/bundle.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+a{color:inherit}a:hover{color:inherit}
+</style>
+</helmet>
+<main data-theme="live" style="width: 1280px; height: 720px; position: relative; overflow: hidden; background: var(--ground); color: var(--ink); font-family: var(--font-serif)">
+<p class="orr-label orr-muted" style="position: absolute; left: 64px; top: 48px; margin: 0">08 / 09 · Build your world · Canvas</p>
+<svg class="orr-svg orr-mark" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Progress mark: all rings reached, axis intact" style="position: absolute; right: 64px; top: 48px">
+<circle class="orr-core" cx="32" cy="32" r="2.4"></circle>
+<circle class="orr-ring" cx="32" cy="32" r="9.5"></circle>
+<circle class="orr-ring" cx="32" cy="32" r="19"></circle>
+<circle class="orr-ring orr-ring--world" cx="32" cy="32" r="28.5"></circle>
+<g transform="rotate(-58 32 32)">
+<line class="orr-axis" x1="0.1" y1="32" x2="63.9" y2="32"></line>
+<line class="orr-axis" x1="0.1" y1="29" x2="0.1" y2="35"></line>
+<line class="orr-axis" x1="63.9" y1="29" x2="63.9" y2="35"></line>
+</g>
+</svg>
+
+<p class="orr-label" style="position: absolute; left: 64px; top: 104px; margin: 0; padding: 8px 14px; border: 2px solid var(--ink)">Steps i–ii · 9 minutes</p>
+
+<div style="position: absolute; left: 64px; top: 172px; width: 680px; display: flex; flex-direction: column; gap: 12px">
+<h1 style="margin: 0; font-size: 44px; line-height: 1.25; font-weight: 400; font-style: italic; font-variation-settings: 'opsz' 48">We are building for <span aria-label="blank" style="display: inline-block; width: 150px; height: 0.9em; border-bottom: 3px solid var(--ink); vertical-align: baseline"></span>, and we believe <span aria-label="blank" style="display: inline-block; width: 150px; height: 0.9em; border-bottom: 3px solid var(--ink); vertical-align: baseline"></span>.</h1>
+<p class="orr-muted" style="margin: 0; font-size: 22px; line-height: 1.35">Make a choice. ‘For everyone’ is not a belief.</p>
+</div>
+
+<dl style="position: absolute; left: 64px; top: 352px; width: 680px; margin: 0; display: flex; flex-direction: column">
+<div style="display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 16px; align-items: baseline; padding: 12px 0; border-top: 2px solid var(--ink)">
+<dt class="orr-label">Product</dt><dd style="margin: 0; font-size: 24px; line-height: 1.3">One useful thing they can do.</dd>
+</div>
+<div style="display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 16px; align-items: baseline; padding: 12px 0; border-top: 2px solid var(--ink)">
+<dt class="orr-label">Experience</dt><dd style="margin: 0; font-size: 24px; line-height: 1.3">One moment, and one choice that creates the feeling.</dd>
+</div>
+<div style="display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 16px; align-items: baseline; padding: 12px 0; border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink)">
+<dt class="orr-label">World</dt><dd style="margin: 0; font-size: 24px; line-height: 1.3">One invitation a real person would accept without being paid or asked twice.</dd>
+</div>
+</dl>
+
+<svg class="orr-svg" viewBox="0 0 420 420" width="420" height="420" role="img" aria-label="An empty canvas: three rings waiting for answers" style="position: absolute; left: 796px; top: 144px">
+<circle class="orr-core--unfilled" cx="210" cy="210" r="15"></circle>
+<circle class="orr-ring orr-ring--unfilled" cx="210" cy="210" r="60"></circle>
+<circle class="orr-ring orr-ring--unfilled" cx="210" cy="210" r="120"></circle>
+<circle class="orr-ring orr-ring--unfilled" cx="210" cy="210" r="180"></circle>
+<text x="180" y="164" style="text-anchor: middle; font-size: 18px">PRODUCT</text>
+<text x="150" y="112" style="text-anchor: middle; font-size: 18px">EXPERIENCE</text>
+<text x="120" y="60" style="text-anchor: middle; font-size: 18px">WORLD</text>
+</svg>
+
+<p class="orr-label orr-muted" style="position: absolute; left: 64px; bottom: 48px; margin: 0">Open the canvas at [public URL] · or take a paper one</p>
+
+<nav aria-label="Sections" style="position: absolute; right: 64px; bottom: 48px; display: flex; align-items: center; gap: 28px">
+<svg class="orr-svg" viewBox="0 0 172 12" width="172" height="12" aria-hidden="true">
+<circle class="orr-tp" cx="6" cy="6" r="4.5"></circle>
+<circle class="orr-tp" cx="26" cy="6" r="4.5"></circle>
+<circle class="orr-tp" cx="46" cy="6" r="4.5"></circle>
+<circle class="orr-tp" cx="66" cy="6" r="4.5"></circle>
+<circle class="orr-tp" cx="86" cy="6" r="4.5"></circle>
+<circle class="orr-tp" cx="106" cy="6" r="4.5"></circle>
+<circle class="orr-tp" cx="126" cy="6" r="4.5"></circle>
+<circle class="orr-core" cx="146" cy="6" r="5"></circle>
+<circle class="orr-core--unfilled" cx="166" cy="6" r="4.5"></circle>
+</svg>
+<a class="orr-btn orr-btn--text" href="WorkshopBrief.dc.html" style="display: inline-flex; align-items: center; color: var(--muted)">Previous</a>
+<a class="orr-btn orr-btn--text" href="CheckConnection.dc.html" style="display: inline-flex; align-items: center; color: var(--muted)">Next</a>
+</nav>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":720}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

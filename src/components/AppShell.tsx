@@ -1,169 +1,214 @@
-import { useState, useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type { LectureConfig } from "../types";
-import { sections, getVisibleViews } from "../content/lecture";
+import { sections, getSection, getVisibleViews } from "../content/lecture";
 import { useHashRouter } from "../hooks/useHashRouter";
-import { usePresenterSync } from "../hooks/usePresenterSync";
+import { useKeyboardNav } from "../hooks/useKeyboardNav";
 import { LiveStage } from "./LiveStage";
-import { ExplorePage } from "./ExplorePage";
-import { PresenterWindow } from "./PresenterWindow";
+import { Placeholder } from "./Placeholder";
+import WorkshopPage from "./WorkshopPage";
+import ExplorePage from "./ExplorePage";
+import PresenterWindow from "./PresenterWindow";
 import "./AppShell.css";
 
 type Props = {
   config: LectureConfig;
 };
 
-function isPresenterRoute(): boolean {
-  return window.location.hash.replace(/^#\/?/, "").startsWith("presenter");
-}
-
+/**
+ * AppShell — the top-level router.
+ *
+ * Hashes:
+ *   #/                     → equivalent to #/live/start/0 (title)
+ *   #/live/:section/:idx   → Live stage
+ *   #/explore/:section     → Explore page (Agent 6 slot)
+ *   #/workshop             → Workshop page (Agent 3 slot)
+ *   #/presenter            → Presenter window (Agent 6 slot)
+ */
 export function AppShell({ config }: Props) {
-  const [isPresenter, setIsPresenter] = useState(isPresenterRoute);
-  const { route, setRoute, setMode } = useHashRouter(config);
-  const [showInlineNotes, setShowInlineNotes] = useState(false);
+  const { route, setRoute, navigateToSection } = useHashRouter(config);
+  const [hash, setHash] = useState(() => window.location.hash);
 
-  // Listen for hash changes to detect presenter route
   useEffect(() => {
-    function onHashChange() {
-      setIsPresenter(isPresenterRoute());
-    }
-    window.addEventListener("hashchange", onHashChange);
-    return () => window.removeEventListener("hashchange", onHashChange);
+    const onChange = () => setHash(window.location.hash);
+    window.addEventListener("hashchange", onChange);
+    return () => window.removeEventListener("hashchange", onChange);
   }, []);
 
-  // Presenter sync: audience side receives navigate messages from presenter
-  const handleSyncNavigate = useCallback(
-    (sectionId: string, viewIndex: number) => {
-      if (!isPresenter) {
-        setRoute({ mode: "live", sectionId, viewIndex });
-      }
-    },
-    [isPresenter, setRoute]
+  // Which top-level route are we on?
+  const isPresenter = hash.startsWith("#/presenter");
+  const isWorkshop = hash.startsWith("#/workshop");
+  const isExplore = hash.startsWith("#/explore");
+
+  // Resolve the current Live view (used by LiveStage AND keyboard nav).
+  const section = getSection(route.sectionId) ?? sections[0];
+  const visibleViews = getVisibleViews(section, config);
+  const viewIndex = Math.min(
+    Math.max(route.viewIndex, 0),
+    Math.max(0, visibleViews.length - 1),
   );
+  const view = visibleViews[viewIndex];
 
-  const { supported: syncSupported, connected: syncConnected, broadcast } =
-    usePresenterSync({ onNavigate: handleSyncNavigate });
+  // Navigation helpers for Live mode.
+  const goNext = useCallback(() => {
+    if (!view) return;
+    if (viewIndex < visibleViews.length - 1) {
+      setRoute({ mode: "live", sectionId: section.id, viewIndex: viewIndex + 1 });
+      return;
+    }
+    // End of section → go to next section's first view.
+    const i = sections.findIndex((s) => s.id === section.id);
+    if (i >= 0 && i < sections.length - 1) {
+      setRoute({
+        mode: "live",
+        sectionId: sections[i + 1].id,
+        viewIndex: 0,
+      });
+    }
+  }, [view, viewIndex, visibleViews.length, section.id, setRoute]);
 
-  const handleLiveNavigate = useCallback(
-    (sectionId: string, viewIndex: number) => {
-      setRoute({ mode: "live", sectionId, viewIndex });
-      broadcast(sectionId, viewIndex);
-    },
-    [setRoute, broadcast]
-  );
+  const goPrev = useCallback(() => {
+    if (viewIndex > 0) {
+      setRoute({ mode: "live", sectionId: section.id, viewIndex: viewIndex - 1 });
+      return;
+    }
+    const i = sections.findIndex((s) => s.id === section.id);
+    if (i > 0) {
+      const prev = sections[i - 1];
+      const prevVisible = getVisibleViews(prev, config);
+      setRoute({
+        mode: "live",
+        sectionId: prev.id,
+        viewIndex: Math.max(0, prevVisible.length - 1),
+      });
+    }
+  }, [viewIndex, section.id, config, setRoute]);
 
-  const handleSectionNav = useCallback(
-    (sectionId: string) => {
-      setRoute({ mode: route.mode, sectionId, viewIndex: 0 });
-      broadcast(sectionId, 0);
-    },
-    [route.mode, setRoute, broadcast]
-  );
-
-  const handleOpenPresenter = useCallback(() => {
-    window.open(
-      `${window.location.pathname}#/presenter`,
-      "baw-presenter",
-      "width=800,height=600"
-    );
+  const openPresenter = useCallback(() => {
+    // Open as a new tab/window. BroadcastChannel sync is handled by the
+    // PresenterWindow (future agent).
+    window.open(`${window.location.pathname}#/presenter`, "baw-presenter");
   }, []);
 
-  // N-key fallback: toggle inline notes when presenter window is unavailable
-  useEffect(() => {
-    function handleKeyDown(e: KeyboardEvent) {
-      if (isPresenter) return;
-      const el = document.activeElement;
-      if (
-        el &&
-        (el.tagName === "INPUT" ||
-          el.tagName === "TEXTAREA" ||
-          el.tagName === "SELECT" ||
-          (el as HTMLElement).isContentEditable)
-      )
-        return;
+  // Keyboard navigation (Live mode only).
+  useKeyboardNav({
+    enabled: !isPresenter && !isWorkshop && !isExplore,
+    onNext: goNext,
+    onPrev: goPrev,
+    onPresenter: openPresenter,
+  });
 
-      if (e.key === "n" || e.key === "N") {
-        e.preventDefault();
-        setShowInlineNotes((prev) => !prev);
+  // Extra keys the shared hook doesn't cover: Home / End / PageUp / PageDown / F / E
+  useEffect(() => {
+    if (isPresenter || isWorkshop || isExplore) return;
+    function onKey(e: KeyboardEvent) {
+      // Reuse the hook's keyboard-safety heuristic by checking the active element.
+      const ae = document.activeElement as HTMLElement | null;
+      if (ae) {
+        const tag = ae.tagName;
+        if (
+          tag === "INPUT" ||
+          tag === "TEXTAREA" ||
+          tag === "SELECT" ||
+          tag === "BUTTON" ||
+          ae.isContentEditable ||
+          ae.getAttribute("role") === "textbox"
+        ) {
+          // Buttons: still allow arrow keys for nav? No — the handoff says ignore
+          // every nav key while focus is on an interactive element. Return.
+          return;
+        }
+      }
+      switch (e.key) {
+        case "PageDown":
+          e.preventDefault();
+          goNext();
+          break;
+        case "PageUp":
+          e.preventDefault();
+          goPrev();
+          break;
+        case "Home":
+          e.preventDefault();
+          setRoute({ mode: "live", sectionId: "start", viewIndex: 0 });
+          break;
+        case "End":
+          e.preventDefault();
+          setRoute({ mode: "live", sectionId: "qa", viewIndex: 0 });
+          break;
+        case "f":
+        case "F":
+          e.preventDefault();
+          if (document.fullscreenElement) {
+            document.exitFullscreen().catch(() => {});
+          } else {
+            document.documentElement.requestFullscreen().catch(() => {});
+          }
+          break;
+        case "e":
+        case "E":
+          e.preventDefault();
+          window.location.hash = `#/explore/${section.id}`;
+          break;
       }
     }
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isPresenter]);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [goNext, goPrev, setRoute, section.id, isPresenter, isWorkshop, isExplore]);
 
-  // Get the current presenter note for inline display
-  const currentPresenterNote = useMemo(() => {
-    const section = sections.find((s) => s.id === route.sectionId);
-    if (!section) return undefined;
-    const views = getVisibleViews(section, config);
-    const view = views[route.viewIndex];
-    return view?.presenterNote;
-  }, [route.sectionId, route.viewIndex, config]);
+  // --- Render -----------------------------------------------------------------
 
-  // If this is the presenter route, render PresenterWindow
   if (isPresenter) {
-    return <PresenterWindow config={config} />;
+    return (
+      <PresenterWindow
+        sections={sections}
+        config={config}
+        initialSectionId={route.sectionId}
+        initialViewIndex={route.viewIndex}
+      />
+    );
+  }
+
+  if (isWorkshop) {
+    return <WorkshopPage />;
+  }
+
+  if (isExplore) {
+    return (
+      <ExplorePage
+        sections={sections}
+        currentSectionId={route.sectionId}
+        config={config}
+        onNavigateSection={(id) => {
+          window.location.hash = `#/explore/${id}`;
+          navigateToSection(id);
+        }}
+        onSwitchToLive={() => {
+          setRoute({ mode: "live", sectionId: route.sectionId, viewIndex: 0 });
+        }}
+      />
+    );
+  }
+
+  if (!view) {
+    // Should never happen (route parser clamps indices), but render a graceful
+    // fallback just in case.
+    return (
+      <div className="app-shell" data-theme="live">
+        <Placeholder label="No view at this route — check lecture.ts" />
+      </div>
+    );
   }
 
   return (
-    <div className="app-shell" data-mode={route.mode} data-theme={route.mode}>
-      <div className="mode-switcher">
-        <button
-          className={`mode-btn ${route.mode === "live" ? "mode-btn--active" : ""}`}
-          onClick={() => setMode("live")}
-          aria-pressed={route.mode === "live"}
-        >
-          Live
-        </button>
-        <button
-          className={`mode-btn ${route.mode === "explore" ? "mode-btn--active" : ""}`}
-          onClick={() => setMode("explore")}
-          aria-pressed={route.mode === "explore"}
-        >
-          Explore
-        </button>
-      </div>
-
-      {route.mode === "live" ? (
-        <LiveStage
-          sectionId={route.sectionId}
-          viewIndex={route.viewIndex}
-          config={config}
-          onNavigate={handleLiveNavigate}
-          onSectionNav={handleSectionNav}
-          onOpenPresenter={handleOpenPresenter}
-        />
-      ) : (
-        <ExplorePage
-          sectionId={route.sectionId}
-          config={config}
-          onSectionNav={handleSectionNav}
-        />
-      )}
-
-      {/* Inline presenter notes (N-key fallback) */}
-      {showInlineNotes && route.mode === "live" && (
-        <div className="inline-notes" role="status">
-          <div className="inline-notes-warning">
-            Notes are visible on screen
-          </div>
-          {!syncSupported && (
-            <div className="inline-notes-sync-status">
-              BroadcastChannel unavailable -- use P to open presenter window
-            </div>
-          )}
-          {syncSupported && !syncConnected && (
-            <div className="inline-notes-sync-status">
-              No presenter window connected -- use P to open one
-            </div>
-          )}
-          {currentPresenterNote ? (
-            <p className="inline-notes-text">{currentPresenterNote}</p>
-          ) : (
-            <p className="inline-notes-empty">No notes for this view.</p>
-          )}
-          <div className="inline-notes-hint">Press N to hide</div>
-        </div>
-      )}
-    </div>
+    <LiveStage
+      section={section}
+      view={view}
+      viewIndex={viewIndex}
+      totalVisibleViews={visibleViews.length}
+      onNext={goNext}
+      onPrev={goPrev}
+      onJumpToSection={navigateToSection}
+      config={config}
+    />
   );
 }

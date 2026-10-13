@@ -1,13 +1,9 @@
-/* ── BeforeAfter — matches 05-two-shops.dc.html ── */
-.ba {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  width: 100%;
-}
-
-/* Headline row: headline left, toggle right */
-.ba-header {
+/* BeforeAfter — faithful to design/screens/BeforeAfter.dc.html. Instant switching. */
+.ba-head {
+  position: absolute;
+  left: 64px;
+  right: 64px;
+  top: 112px;
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
@@ -23,12 +19,24 @@
   font-variation-settings: 'opsz' 72;
 }
 
-/* Two-panel grid */
-.ba-panels {
+.ba-toggle {
+  display: flex;
+  gap: 0;
+}
+
+.ba-toggle > button + button {
+  margin-left: -2px;
+}
+
+.ba-grid {
+  position: absolute;
+  left: 64px;
+  right: 64px;
+  top: 224px;
+  height: 368px;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 32px;
-  margin-top: 32px;
 }
 
 .ba-panel {
@@ -37,16 +45,21 @@
   gap: 12px;
   padding-top: 14px;
   border-top: 2px solid var(--ink);
-  transition: opacity 200ms ease-out;
 }
 
-/* Shop A: dense mono uppercase, two-column grid (content + 176px callout column) */
-.ba-shop-a {
+.ba-panel-label {
+  margin: 0 0 6px;
+}
+
+.ba-rows {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 176px;
   column-gap: 20px;
+  align-items: start;
+}
+
+.ba-rows--a {
   row-gap: 6px;
-  align-items: start;
   font-family: var(--font-mono);
   font-size: 16px;
   line-height: 1.2;
@@ -54,44 +67,43 @@
   text-transform: uppercase;
 }
 
-.ba-a-text {
-  font-family: var(--font-mono);
-  font-size: 16px;
-  line-height: 1.2;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-}
-
-/* Shop B: spacious Newsreader, two-column grid */
-.ba-shop-b {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 176px;
-  column-gap: 20px;
+.ba-rows--b {
   row-gap: 22px;
-  align-items: start;
   font-size: 24px;
   line-height: 1.35;
   font-variation-settings: 'opsz' 24;
 }
 
-/* Mobile: stack panels */
-@media (max-width: 768px) {
-  .ba-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-  }
+.ba-rows p {
+  margin: 0;
+}
 
-  .ba-headline {
-    font-size: 36px;
-  }
+.ba-callout {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
-  .ba-panels {
-    grid-template-columns: 1fr;
-  }
+.ba-callout span.ba-num {
+  width: 32px;
+  height: 32px;
+  flex: none;
+  box-sizing: border-box;
+  border-radius: 50%;
+  border: 2.5px solid var(--ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 18px;
+  font-weight: 500;
+}
 
-  .ba-shop-a,
-  .ba-shop-b {
-    grid-template-columns: 1fr;
-  }
+.ba-pullquote {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.ba-italic {
+  font-style: italic;
 }

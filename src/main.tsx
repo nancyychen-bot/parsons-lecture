@@ -2,6 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./styles/tokens.css";
 import "./styles/bundle.css";
+import "./styles/orrery.css";
 import "./styles/print.css";
 import App from "./App";
 

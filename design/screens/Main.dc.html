@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Build a world — title</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../tokens/bundle.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+a{color:inherit}a:hover{color:inherit}
+</style>
+</helmet>
+<main data-theme="live" style="width: 1280px; height: 720px; position: relative; overflow: hidden; background: var(--ground); color: var(--ink); font-family: var(--font-serif)">
+<p class="orr-label orr-muted" style="position: absolute; left: 64px; top: 48px; margin: 0">01 / 09 · Start</p>
+<svg class="orr-svg orr-mark" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Progress mark: no rings reached yet" style="position: absolute; right: 64px; top: 48px">
+<circle class="orr-core--unfilled" cx="32" cy="32" r="2.4"></circle>
+<circle class="orr-ring orr-ring--unfilled" cx="32" cy="32" r="9.5"></circle>
+<circle class="orr-ring orr-ring--unfilled" cx="32" cy="32" r="19"></circle>
+<circle class="orr-ring orr-ring--unfilled" cx="32" cy="32" r="28.5"></circle>
+</svg>
+
+<figure style="position: absolute; left: 0; right: 0; top: 56px; margin: 0; display: flex; justify-content: center; align-items: center; gap: 32px">
+<span style="width: 236px; flex: none"></span>
+<img class="orr-cutout" src="../assets/cutouts/jupiter.png" alt="Engraved Jupiter with three of its moons" style="height: 248px; width: auto; flex: none">
+<figcaption style="width: 236px; flex: none; display: flex; flex-direction: column; gap: 6px">
+<span class="orr-label">Fig. 01 · Jupiter</span>
+<span class="orr-label orr-muted">A world with its own moons</span>
+</figcaption>
+</figure>
+
+<div style="position: absolute; left: 64px; right: 64px; top: 332px; display: flex; flex-direction: column; align-items: center; gap: 20px; text-align: center">
+<h1 style="margin: 0; font-size: 76px; line-height: 1.0; font-weight: 400; letter-spacing: -0.015em; font-variation-settings: 'opsz' 72">Build a world,<br>not just a product</h1>
+<p class="orr-muted" style="margin: 0; font-size: 28px; line-height: 1.3; font-style: italic; font-variation-settings: 'opsz' 24">How products become experiences, and experiences become worlds</p>
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; margin-top: 16px; align-items: center">
+<a class="orr-btn orr-btn--primary" href="About.dc.html" style="display: inline-flex; align-items: center; text-decoration: none">Enter the world</a>
+<a class="orr-btn" href="Explore.dc.html" style="display: inline-flex; align-items: center; text-decoration: none">Explore on your own</a>
+<a class="orr-btn orr-btn--text" href="Workshop.dc.html" style="display: inline-flex; align-items: center">Go to the workshop</a>
+</div>
+</div>
+
+<p class="orr-label orr-muted" style="position: absolute; left: 64px; bottom: 48px; margin: 0">Parsons · Digital product design</p>
+<p class="orr-label orr-muted" style="position: absolute; right: 64px; bottom: 48px; margin: 0">A lecture by Nancy Chen</p>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":720}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

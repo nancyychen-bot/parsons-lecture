@@ -1,32 +1,4 @@
-/* ── CircleMark — Orrery progress mark ── */
+/* CircleMark relies on .orr-* classes defined in orrery.css. */
 .circle-mark {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
+  display: block;
 }
-
-/* sm: 64×64 progress mark in Live top-right corner */
-.circle-mark--sm {
-  width: 64px;
-  height: 64px;
-}
-
-/* md: 72×72 mini glyph used in site-readback table */
-.circle-mark--md {
-  width: 72px;
-  height: 72px;
-}
-
-/* lg: large diagram — scales to fill container */
-.circle-mark--lg {
-  width: 100%;
-  height: auto;
-}
-
-.circle-mark svg {
-  width: 100%;
-  height: 100%;
-}
-
-/* All ring/core/axis styling comes from bundle.css .orr-* classes */

@@ -1,204 +1,266 @@
-import { useState, useEffect, useMemo, useCallback, useRef } from "react";
-import type { LectureConfig, Section, View } from "../types";
-import { sections, getVisibleViews } from "../content/lecture";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import { usePresenterSync } from "../hooks/usePresenterSync";
-import { useKeyboardNav } from "../hooks/useKeyboardNav";
-import { SectionNav } from "./SectionNav";
+import type { Section, LectureConfig, View } from "../types";
 import "./PresenterWindow.css";
 
-type Props = {
+type PresenterWindowProps = {
+  sections: Section[];
   config: LectureConfig;
+  initialSectionId?: string;
+  initialViewIndex?: number;
 };
 
-export function PresenterWindow({ config }: Props) {
-  const [sectionId, setSectionId] = useState("start");
-  const [viewIndex, setViewIndex] = useState(0);
-  const [elapsed, setElapsed] = useState(0);
-  const startTimeRef = useRef(Date.now());
+function pad2(n: number): string {
+  return String(n).padStart(2, "0");
+}
+
+function formatElapsed(ms: number): string {
+  const total = Math.max(0, Math.floor(ms / 1000));
+  const m = Math.floor(total / 60);
+  const s = total % 60;
+  return `${pad2(m)}:${pad2(s)}`;
+}
+
+/** Return all visible views in order, respecting cutAt45. */
+function flattenVisibleViews(
+  sections: Section[],
+  config: LectureConfig,
+): Array<{ section: Section; view: View; sectionIndex: number; viewIndex: number }> {
+  const list: Array<{
+    section: Section;
+    view: View;
+    sectionIndex: number;
+    viewIndex: number;
+  }> = [];
+  sections.forEach((section, sectionIndex) => {
+    const views = section.views.filter(
+      (v) => !(config.variant === "m45" && v.cutAt45),
+    );
+    views.forEach((view, viewIndex) => {
+      list.push({ section, view, sectionIndex, viewIndex });
+    });
+  });
+  return list;
+}
+
+export default function PresenterWindow({
+  sections,
+  config,
+  initialSectionId,
+  initialViewIndex = 0,
+}: PresenterWindowProps) {
+  const flat = useMemo(
+    () => flattenVisibleViews(sections, config),
+    [sections, config],
+  );
+
+  const initialFlatIndex = useMemo(() => {
+    if (!initialSectionId) return 0;
+    const idx = flat.findIndex(
+      (entry) =>
+        entry.section.id === initialSectionId &&
+        entry.viewIndex === initialViewIndex,
+    );
+    return idx >= 0 ? idx : 0;
+  }, [flat, initialSectionId, initialViewIndex]);
+
+  const [cursor, setCursor] = useState<number>(initialFlatIndex);
+
+  const current = flat[cursor];
+  const next = cursor + 1 < flat.length ? flat[cursor + 1] : null;
 
   // Elapsed timer
+  const [startedAt] = useState<number>(() => Date.now());
+  const [now, setNow] = useState<number>(() => Date.now());
+
   useEffect(() => {
-    const interval = setInterval(() => {
-      setElapsed(Math.floor((Date.now() - startTimeRef.current) / 1000));
-    }, 1000);
-    return () => clearInterval(interval);
+    const t = window.setInterval(() => setNow(Date.now()), 1000);
+    return () => window.clearInterval(t);
   }, []);
 
-  const handleRemoteNavigate = useCallback(
-    (remoteSectionId: string, remoteViewIndex: number) => {
-      setSectionId(remoteSectionId);
-      setViewIndex(remoteViewIndex);
-    },
-    []
-  );
-
   const { supported, connected, broadcast } = usePresenterSync({
-    onNavigate: handleRemoteNavigate,
+    onNavigate: (sectionId, viewIndex) => {
+      const idx = flat.findIndex(
+        (entry) =>
+          entry.section.id === sectionId && entry.viewIndex === viewIndex,
+      );
+      if (idx >= 0) setCursor(idx);
+    },
   });
 
-  // Build flat list of all visible views
-  const flatViews = useMemo(() => {
-    const flat: { section: Section; view: View; viewIdx: number }[] = [];
-    for (const s of sections) {
-      const views = getVisibleViews(s, config);
-      views.forEach((v, i) => flat.push({ section: s, view: v, viewIdx: i }));
-    }
-    return flat;
-  }, [config]);
-
-  const section = useMemo(
-    () => sections.find((s) => s.id === sectionId) ?? sections[0],
-    [sectionId]
+  const navigateTo = useCallback(
+    (nextCursor: number) => {
+      if (nextCursor < 0 || nextCursor >= flat.length) return;
+      setCursor(nextCursor);
+      const entry = flat[nextCursor];
+      broadcast(entry.section.id, entry.viewIndex);
+    },
+    [flat, broadcast],
   );
 
-  const visibleViews = useMemo(
-    () => getVisibleViews(section, config),
-    [section, config]
-  );
+  const onPrev = useCallback(() => navigateTo(cursor - 1), [cursor, navigateTo]);
+  const onNext = useCallback(() => navigateTo(cursor + 1), [cursor, navigateTo]);
 
-  const currentView = visibleViews[viewIndex] ?? visibleViews[0];
-
-  const currentFlatIndex = flatViews.findIndex(
-    (f) => f.section.id === section.id && f.viewIdx === viewIndex
-  );
-
-  const nextFlat =
-    currentFlatIndex < flatViews.length - 1
-      ? flatViews[currentFlatIndex + 1]
-      : null;
-
-  function navigateTo(targetSectionId: string, targetViewIndex: number) {
-    setSectionId(targetSectionId);
-    setViewIndex(targetViewIndex);
-    broadcast(targetSectionId, targetViewIndex);
-  }
-
-  function goNext() {
-    if (nextFlat) {
-      navigateTo(nextFlat.section.id, nextFlat.viewIdx);
+  // Keyboard: arrows and space
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      const target = e.target as HTMLElement | null;
+      if (
+        target &&
+        ["INPUT", "TEXTAREA", "SELECT", "BUTTON"].includes(target.tagName)
+      ) {
+        return;
+      }
+      switch (e.key) {
+        case "ArrowRight":
+        case " ":
+        case "PageDown":
+          e.preventDefault();
+          onNext();
+          break;
+        case "ArrowLeft":
+        case "PageUp":
+          e.preventDefault();
+          onPrev();
+          break;
+      }
     }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onNext, onPrev]);
+
+  if (!current) {
+    return (
+      <div className="presenter-root presenter-empty">
+        <p>No views configured.</p>
+      </div>
+    );
   }
 
-  function goPrev() {
-    if (currentFlatIndex > 0) {
-      const prev = flatViews[currentFlatIndex - 1];
-      navigateTo(prev.section.id, prev.viewIdx);
-    }
-  }
-
-  function handleSectionNav(targetSectionId: string) {
-    navigateTo(targetSectionId, 0);
-  }
-
-  useKeyboardNav({
-    onNext: goNext,
-    onPrev: goPrev,
-    enabled: true,
-  });
-
-  const isFirst = currentFlatIndex === 0;
-  const isLast = currentFlatIndex === flatViews.length - 1;
-
-  const minutes = Math.floor(elapsed / 60);
-  const seconds = elapsed % 60;
-  const timeStr = `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+  const minuteBudget =
+    current.section.minutes[config.variant] ?? current.section.minutes.m60;
 
   return (
-    <div className="presenter">
-      {/* Top bar */}
+    <div data-theme="live" className="presenter-root">
+      {!supported && (
+        <div role="alert" className="presenter-warning">
+          Cross-tab sync is unavailable in this browser. The audience tab won’t
+          follow the presenter.
+        </div>
+      )}
+
       <header className="presenter-topbar">
-        <div className="presenter-time">
-          <span className="presenter-time-label">Elapsed</span>
-          <span className="presenter-time-value">{timeStr}</span>
+        <div className="presenter-topbar-left">
+          <span className="orr-label">Elapsed</span>
+          <span className="presenter-timer">{formatElapsed(now - startedAt)}</span>
+          <span className="orr-label orr-muted presenter-budget">
+            Section budget · {minuteBudget} min
+          </span>
         </div>
-        <div className="presenter-progress">
-          {currentFlatIndex + 1} / {flatViews.length}
-        </div>
-        <div
-          className={`presenter-connection ${connected ? "presenter-connection--on" : ""}`}
-        >
-          <span className="presenter-connection-dot" />
-          {!supported
-            ? "BroadcastChannel not available"
-            : connected
-              ? "Connected to audience tab"
-              : "Not connected"}
+        <div className="presenter-topbar-right">
+          <span
+            className={
+              "presenter-dot" +
+              (connected ? " presenter-dot--on" : " presenter-dot--off")
+            }
+            aria-hidden="true"
+          />
+          <span className="orr-label">
+            {supported
+              ? connected
+                ? "Audience connected"
+                : "Waiting for audience"
+              : "Sync unavailable"}
+          </span>
         </div>
       </header>
 
-      {/* Main content */}
-      <div className="presenter-main">
-        {/* Current view */}
-        <div className="presenter-current">
-          <div className="presenter-section-label">
-            {section.number} {section.navLabel}
-          </div>
-          <h1 className="presenter-headline">{currentView.headline}</h1>
-          {currentView.body && (
-            <p className="presenter-body">{currentView.body}</p>
+      <main className="presenter-main">
+        <section className="presenter-current" aria-label="Current view">
+          <p className="orr-label orr-muted">
+            {current.section.number} · {current.section.navLabel}
+            {" · "}View {current.viewIndex + 1} of{" "}
+            {flat.filter((e) => e.section.id === current.section.id).length}
+          </p>
+          <h1 className="presenter-headline">{current.view.headline}</h1>
+          {current.view.body && (
+            <p className="presenter-body">{current.view.body}</p>
           )}
-          {currentView.interaction && (
-            <p className="presenter-interaction-tag">
-              Interactive: {currentView.interaction}
-            </p>
-          )}
-
-          {/* Presenter notes */}
-          {currentView.presenterNote && (
-            <div className="presenter-notes">
-              <div className="presenter-notes-label">Notes</div>
-              <p className="presenter-notes-text">
-                {currentView.presenterNote}
+          {current.view.presenterNote && (
+            <aside
+              className="presenter-notes"
+              aria-label="Presenter notes"
+            >
+              <p className="orr-label orr-muted" style={{ margin: 0 }}>
+                Notes
               </p>
-            </div>
+              <p className="presenter-notes-text">{current.view.presenterNote}</p>
+            </aside>
           )}
-        </div>
+        </section>
 
-        {/* Next preview */}
-        <aside className="presenter-next">
-          <div className="presenter-next-label">Next</div>
-          {nextFlat ? (
+        <aside className="presenter-next" aria-label="Next view">
+          <p className="orr-label orr-muted" style={{ margin: 0 }}>
+            Up next
+          </p>
+          {next ? (
             <>
-              <div className="presenter-next-section">
-                {nextFlat.section.number} {nextFlat.section.navLabel}
-              </div>
-              <div className="presenter-next-headline">
-                {nextFlat.view.headline}
-              </div>
-              {nextFlat.view.body && (
-                <div className="presenter-next-body">{nextFlat.view.body}</div>
+              <p className="orr-label">
+                {next.section.number} · {next.section.navLabel}
+              </p>
+              <p className="presenter-next-headline">{next.view.headline}</p>
+              {next.view.body && (
+                <p className="presenter-next-body">{next.view.body}</p>
               )}
             </>
           ) : (
-            <div className="presenter-next-headline">End of lecture</div>
+            <p className="presenter-next-headline">End of lecture</p>
           )}
         </aside>
-      </div>
+      </main>
 
-      {/* Navigation */}
       <footer className="presenter-footer">
-        <button
-          className="presenter-nav-btn"
-          onClick={goPrev}
-          disabled={isFirst}
-          aria-label="Previous view"
-        >
-          Previous
-        </button>
+        <div className="presenter-controls">
+          <button
+            type="button"
+            className="orr-btn"
+            onClick={onPrev}
+            disabled={cursor <= 0}
+          >
+            ← Previous
+          </button>
+          <button
+            type="button"
+            className="orr-btn orr-btn--primary"
+            onClick={onNext}
+            disabled={cursor >= flat.length - 1}
+          >
+            Next →
+          </button>
+        </div>
 
-        <SectionNav
-          currentSectionId={section.id}
-          onNavigate={handleSectionNav}
-        />
-
-        <button
-          className="presenter-nav-btn"
-          onClick={goNext}
-          disabled={isLast}
-          aria-label="Next view"
-        >
-          Next
-        </button>
+        <nav aria-label="Sections" className="presenter-section-nav">
+          {sections.map((s) => {
+            const isCurrent = s.id === current.section.id;
+            return (
+              <button
+                key={s.id}
+                type="button"
+                className={
+                  "presenter-section-dot" +
+                  (isCurrent ? " presenter-section-dot--current" : "")
+                }
+                aria-label={`${s.number} ${s.navLabel}`}
+                onClick={() => {
+                  const idx = flat.findIndex((e) => e.section.id === s.id);
+                  if (idx >= 0) navigateTo(idx);
+                }}
+              >
+                <span className="orr-label">{s.number}</span>
+              </button>
+            );
+          })}
+        </nav>
       </footer>
     </div>
   );

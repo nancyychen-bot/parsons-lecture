@@ -1,0 +1,54 @@
+.sketch-view__prompt {
+  position: absolute;
+  left: 64px;
+  top: 128px;
+  width: 640px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.sketch-view__reading {
+  margin: 0;
+  font-size: 30px;
+  line-height: 1.3;
+  font-style: italic;
+  font-variation-settings: "opsz" 24;
+}
+.sketch-view__label-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.sketch-view__rule-96 {
+  width: 96px;
+}
+.sketch-view__h1 {
+  margin: 0;
+  font-size: 54px;
+  line-height: 1.08;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  font-variation-settings: "opsz" 72;
+}
+.sketch-view__keyline {
+  position: absolute;
+  left: 64px;
+  top: 488px;
+  width: 620px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.sketch-view__keyline p {
+  margin: 0;
+}
+.sketch-view__key-text {
+  margin-top: 4px !important;
+  font-size: 30px;
+  line-height: 1.25;
+}
+.sketch-view__rings {
+  position: absolute;
+  left: 736px;
+  top: 128px;
+}

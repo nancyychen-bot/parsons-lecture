@@ -1,0 +1,74 @@
+.workshop-live-view__step {
+  position: absolute;
+  left: 64px;
+  top: 104px;
+  margin: 0;
+  padding: 8px 14px;
+  border: 2px solid var(--ink);
+}
+.workshop-live-view__sentence-block {
+  position: absolute;
+  left: 64px;
+  top: 172px;
+  width: 680px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.workshop-live-view__h1 {
+  margin: 0;
+  font-size: 44px;
+  line-height: 1.25;
+  font-weight: 400;
+  font-style: italic;
+  font-variation-settings: "opsz" 48;
+}
+.workshop-live-view__blank {
+  display: inline-block;
+  width: 150px;
+  height: 0.9em;
+  border-bottom: 3px solid var(--ink);
+  vertical-align: baseline;
+}
+.workshop-live-view__sub {
+  margin: 0;
+  color: var(--muted);
+  font-size: 22px;
+  line-height: 1.35;
+}
+.workshop-live-view__dl {
+  position: absolute;
+  left: 64px;
+  top: 352px;
+  width: 680px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+.workshop-live-view__row {
+  display: grid;
+  grid-template-columns: 170px minmax(0, 1fr);
+  gap: 16px;
+  align-items: baseline;
+  padding: 12px 0;
+  border-top: 2px solid var(--ink);
+}
+.workshop-live-view__row--last {
+  border-bottom: 2px solid var(--ink);
+}
+.workshop-live-view__dd {
+  margin: 0;
+  font-size: 24px;
+  line-height: 1.3;
+}
+.workshop-live-view__rings {
+  position: absolute;
+  left: 796px;
+  top: 144px;
+}
+.workshop-live-view__footnote {
+  position: absolute;
+  left: 64px;
+  bottom: 96px;
+  margin: 0;
+}

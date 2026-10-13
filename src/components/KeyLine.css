@@ -1,0 +1,45 @@
+.baw-keyline {
+  position: absolute;
+  inset: 0;
+}
+.baw-keyline__cutout {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 52px;
+  justify-content: center;
+  align-items: center;
+}
+.baw-keyline__block {
+  position: absolute;
+  left: 64px;
+  right: 64px;
+  top: 332px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  text-align: center;
+}
+.baw-keyline__label-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.baw-keyline__label {
+  margin: 0;
+}
+.baw-keyline__rule {
+  width: 96px;
+}
+.baw-keyline__line {
+  margin: 0;
+  max-width: 1060px;
+  font-size: 64px;
+  line-height: 1.08;
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  font-variation-settings: "opsz" 72;
+  text-wrap: balance;
+}

@@ -1,0 +1,43 @@
+.baw-spoken {
+  position: absolute;
+  left: 64px;
+  right: 64px;
+  bottom: 156px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+.baw-spoken__label-group {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.baw-spoken__label {
+  margin: 0;
+}
+.baw-spoken__rule {
+  width: 96px;
+}
+.baw-spoken__sentence {
+  margin: 0;
+  max-width: 1100px;
+  font-size: 68px;
+  line-height: 1.2;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -0.01em;
+  font-variation-settings: "opsz" 72;
+}
+.baw-spoken__blank {
+  display: inline-block;
+  width: 220px;
+  height: 0.9em;
+  border-bottom: 3px solid var(--ink);
+  margin: 0 12px;
+  vertical-align: baseline;
+}
+.baw-spoken__sub {
+  margin: 0;
+  font-size: 28px;
+  line-height: 1.35;
+}

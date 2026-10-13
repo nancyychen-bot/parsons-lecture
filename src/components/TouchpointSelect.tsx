@@ -1,165 +1,201 @@
-import { useState, useCallback } from "react";
+import { useEffect, useMemo, useState } from "react";
 import "./TouchpointSelect.css";
 
-/**
- * TouchpointSelect — matches 02-touchpoints.dc.html exactly.
- *
- * Coffee cup at center drawn in ring grammar (rim r=26, coffee core r=17, handle r=9).
- * Nine touchpoints on a single faint orbit (r=210) or mapped to three rings.
- * Each is a 14px dot + mono label knocked out against ground.
- *
- * The component renders ONLY the left diagram area (740×576) and the bottom-left
- * reveal button + status. The right column (cutout + headline) and four corners
- * are handled by LiveStage.
- */
+type Mode = "orbit" | "mapped";
+type Dir = "r" | "l";
 
-type TouchpointDef = {
+type Def = {
   id: string;
   label: string;
-  orbit: [number, number, "r" | "l"]; // [radius, angle°, labelSide]
-  map: [number, number, "r" | "l"];
+  orbit: [number, number, Dir]; // radius, angle (deg), label side
+  map: [number, number, Dir];
 };
 
-const TOUCHPOINTS: TouchpointDef[] = [
-  { id: "coffee",      label: "Coffee",          orbit: [210, -90,  "r"], map: [70,  0,    "r"] },
-  { id: "app",         label: "Mobile order app", orbit: [210, -50,  "r"], map: [70,  180,  "l"] },
-  { id: "menu",        label: "Menu",             orbit: [210, -10,  "r"], map: [105, 130,  "l"] },
-  { id: "ordering",    label: "Ordering",         orbit: [210, 30,   "r"], map: [140, -40,  "r"] },
-  { id: "help",        label: "Getting help",     orbit: [210, 70,   "r"], map: [140, -125, "l"] },
-  { id: "staff",       label: "Staff",            orbit: [210, 110,  "l"], map: [140, 40,   "r"] },
-  { id: "seating",     label: "Seating",          orbit: [210, 150,  "l"], map: [140, 90,   "r"] },
-  { id: "regulars",    label: "Regulars",         orbit: [210, 190,  "l"], map: [210, 200,  "l"] },
-  { id: "reputation",  label: "Reputation",       orbit: [210, 230,  "l"], map: [175, 10,   "r"] },
-];
-
-const W = 740;
 const CX = 360;
 const CY = 288;
+const W = 740;
 
-const DEFAULT_ON: Record<string, boolean> = {
-  coffee: true,
-  app: true,
-  menu: true,
-};
+const DEFS: Def[] = [
+  { id: "coffee", label: "Coffee", orbit: [210, -90, "r"], map: [70, 0, "r"] },
+  { id: "app", label: "Mobile order app", orbit: [210, -50, "r"], map: [70, 180, "l"] },
+  { id: "menu", label: "Menu", orbit: [210, -10, "r"], map: [105, 130, "l"] },
+  { id: "ordering", label: "Ordering", orbit: [210, 30, "r"], map: [140, -40, "r"] },
+  { id: "help", label: "Getting help", orbit: [210, 70, "r"], map: [140, -125, "l"] },
+  { id: "staff", label: "Staff", orbit: [210, 110, "l"], map: [140, 40, "r"] },
+  { id: "seating", label: "Seating", orbit: [210, 150, "l"], map: [140, 90, "r"] },
+  { id: "regulars", label: "Regulars", orbit: [210, 190, "l"], map: [210, 200, "l"] },
+  { id: "reputation", label: "Reputation", orbit: [210, 230, "l"], map: [175, 10, "r"] },
+];
 
-export function TouchpointSelect() {
-  const [on, setOn] = useState<Record<string, boolean>>(DEFAULT_ON);
-  const [mapped, setMapped] = useState(false);
+export function TouchpointSelect({ start = "orbit" }: { start?: Mode }) {
+  const [mapped, setMapped] = useState<boolean>(start === "mapped");
+  const [on, setOn] = useState<Record<string, boolean>>({
+    coffee: true,
+    app: true,
+    menu: true,
+  });
+  // Track whether rings should animate (only when transitioning orbit -> mapped
+  // during this component's lifetime; not on first render if starting mapped).
+  const [animateRings, setAnimateRings] = useState(false);
 
-  const toggle = useCallback(
-    (id: string) => {
-      setOn((prev) => ({ ...prev, [id]: !prev[id] }));
-    },
-    []
-  );
-
-  const handleReveal = useCallback(() => {
-    setMapped((prev) => !prev);
+  // When mapped flips to true from an interaction, animate rings in. On initial
+  // render with start="mapped" we skip the animation to avoid a flash.
+  useEffect(() => {
+    // intentionally runs on mount: no animation on initial render
+    setAnimateRings(false);
   }, []);
 
-  return (
-    <div className="tp-select" role="group" aria-label="Touchpoints of a coffee shop">
-      {/* Left diagram area */}
-      <div className="tp-diagram" style={{ width: W, height: 576, position: "relative" }}>
-        {/* SVG rings and coffee cup */}
-        <svg
-          className="orr-svg"
-          viewBox={`0 0 ${W} 576`}
-          width={W}
-          height={576}
-          aria-hidden="true"
-          style={{ position: "absolute", left: 0, top: 0 }}
-        >
-          {/* Orbit ring (single faint circle) — shown when NOT mapped */}
-          {!mapped && (
-            <circle className="orr-ring orr-ring--unfilled" cx={CX} cy={CY} r={210} />
-          )}
+  const toggle = (id: string) => {
+    setOn((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
 
-          {/* Three rings + labels — shown when mapped */}
+  const reveal = () => {
+    if (!mapped) setAnimateRings(true);
+    setMapped((m) => !m);
+  };
+
+  const points = useMemo(() => {
+    return DEFS.map((d) => {
+      const p = mapped ? d.map : d.orbit;
+      const [radius, angle, side] = p;
+      const a = (angle * Math.PI) / 180;
+      const x = Math.round(CX + radius * Math.cos(a));
+      const y = Math.round(CY + radius * Math.sin(a));
+      const style: React.CSSProperties =
+        side === "r"
+          ? { left: `${x - 7}px`, top: `${y - 22}px` }
+          : { right: `${W - x - 7}px`, top: `${y - 22}px` };
+      return {
+        def: d,
+        side,
+        style,
+        isOn: !!on[d.id],
+      };
+    });
+  }, [mapped, on]);
+
+  const statusLine = mapped
+    ? "The app is one dot on the inner ring. Points between rings belong to both."
+    : "Which of these count as the product? Call them out.";
+  const revealLabel = mapped ? "Back to the orbit" : "See the bigger picture";
+  const revealClass = mapped ? "orr-btn" : "orr-btn orr-btn--primary";
+
+  // Points move only after rings have drawn, so we delay their position
+  // transition by t-touchpoint when a fresh reveal animation is running.
+  const pointDelayClass = animateRings && mapped ? "tp-point--delay" : "";
+
+  return (
+    <>
+      <div
+        className="tp-root"
+        role="group"
+        aria-label="Touchpoints of a coffee shop"
+      >
+        <svg
+          className="orr-svg tp-rings"
+          viewBox="0 0 740 576"
+          width="740"
+          height="576"
+          aria-hidden="true"
+        >
+          {!mapped && (
+            <circle
+              className="orr-ring orr-ring--unfilled"
+              cx="360"
+              cy="288"
+              r="210"
+              pathLength={1}
+            />
+          )}
           {mapped && (
             <>
-              <circle className="orr-ring" cx={CX} cy={CY} r={70} />
-              <circle className="orr-ring" cx={CX} cy={CY} r={140} />
-              <circle className="orr-ring orr-ring--world" cx={CX} cy={CY} r={210} />
-              <text x={CX} y={CY - 70 + 6} style={{ textAnchor: "middle", fontSize: "18px" }}>
+              <circle
+                className={`orr-ring ${animateRings ? "tp-ring-draw tp-ring-draw--1" : ""}`}
+                cx="360"
+                cy="288"
+                r="70"
+                pathLength={1}
+              />
+              <circle
+                className={`orr-ring ${animateRings ? "tp-ring-draw tp-ring-draw--2" : ""}`}
+                cx="360"
+                cy="288"
+                r="140"
+                pathLength={1}
+              />
+              <circle
+                className={`orr-ring orr-ring--world ${animateRings ? "tp-ring-draw tp-ring-draw--3" : ""}`}
+                cx="360"
+                cy="288"
+                r="210"
+                pathLength={1}
+              />
+              <text x="360" y="224" style={{ textAnchor: "middle", fontSize: 18 }}>
                 PRODUCT
               </text>
-              <text x={CX} y={CY - 140 + 6} style={{ textAnchor: "middle", fontSize: "18px" }}>
+              <text x="360" y="154" style={{ textAnchor: "middle", fontSize: 18 }}>
                 EXPERIENCE
               </text>
-              <text x={CX} y={CY - 210 + 6} style={{ textAnchor: "middle", fontSize: "18px" }}>
+              <text x="360" y="84" style={{ textAnchor: "middle", fontSize: 18 }}>
                 WORLD
               </text>
             </>
           )}
-
-          {/* Coffee cup: rim r=26, coffee core r=17, handle r=9 */}
-          <circle className="orr-ring" cx={CX} cy={CY} r={26} />
-          <circle className="orr-core" cx={CX} cy={CY} r={17} />
-          <circle className="orr-ring" cx={CX + 34} cy={CY} r={9} />
+          {/* Coffee cup glyph at center: rim, coffee core, handle */}
+          <circle className="orr-ring" cx="360" cy="288" r="26" />
+          <circle className="orr-core" cx="360" cy="288" r="17" />
+          <circle className="orr-ring" cx="394" cy="288" r="9" />
         </svg>
 
-        {/* Touchpoint buttons — positioned absolutely */}
-        {TOUCHPOINTS.map((tp) => {
-          const p = mapped ? tp.map : tp.orbit;
-          const rad = (p[1] * Math.PI) / 180;
-          const x = Math.round(CX + p[0] * Math.cos(rad));
-          const y = Math.round(CY + p[0] * Math.sin(rad));
-          const side = p[2];
-
-          const isOn = !!on[tp.id];
-
-          // Position: dot is 14px, centered at (x, y)
-          // Button is 44px tall for hit target
-          const posStyle: React.CSSProperties =
-            side === "r"
-              ? { left: x - 7, top: y - 22 }
-              : { right: W - x - 7, top: y - 22 };
-
-          return (
-            <button
-              key={tp.id}
-              type="button"
-              aria-pressed={isOn}
-              onClick={() => toggle(tp.id)}
-              className="tp-btn"
-              style={{
-                ...posStyle,
-                flexDirection: side === "r" ? "row" : "row-reverse",
-                transition: "left 500ms ease-out, right 500ms ease-out, top 500ms ease-out",
-              }}
-            >
-              <span
-                className="tp-dot"
-                aria-hidden="true"
-                style={{
-                  background: isOn ? "var(--ink)" : "var(--ground)",
-                }}
-              />
-              <span className="tp-label" style={{ background: "var(--ground)", padding: "2px 4px" }}>
-                {tp.label}
-              </span>
-            </button>
-          );
-        })}
+        {points.map((p) => (
+          <button
+            key={p.def.id}
+            type="button"
+            aria-pressed={p.isOn}
+            onClick={() => toggle(p.def.id)}
+            className={`tp-point tp-point--${p.side === "r" ? "row" : "row-reverse"} ${pointDelayClass}`}
+            style={p.style}
+          >
+            <span
+              aria-hidden="true"
+              className={`tp-dot ${p.isOn ? "tp-dot--on" : ""}`}
+            />
+            <span className="tp-label">{p.def.label}</span>
+          </button>
+        ))}
       </div>
 
-      {/* Bottom-left: reveal button + status */}
-      <div className="tp-bottom">
+      <div className="tp-side">
+        <figure className="tp-figure">
+          <img
+            className="orr-cutout"
+            src="/cutouts/telescope.png"
+            alt="Engraved brass telescope on a tripod"
+          />
+          <figcaption className="tp-caption">
+            <span className="orr-label">Fig. 02 · Telescope</span>
+            <span className="orr-label orr-muted">
+              Your product, seen from outside
+            </span>
+          </figcaption>
+        </figure>
+        <h1 className="tp-headline">Every touchpoint is part of the product</h1>
+      </div>
+
+      <div className="tp-controls">
         <button
           type="button"
-          className={mapped ? "orr-btn" : "orr-btn orr-btn--primary"}
+          className={revealClass}
           aria-pressed={mapped}
-          onClick={handleReveal}
+          onClick={reveal}
+          style={{ flex: "none" }}
         >
-          {mapped ? "Back to the orbit" : "See the bigger picture"}
+          {revealLabel}
         </button>
-        <p className="orr-muted tp-status" role="status" style={{ margin: 0, maxWidth: 380, fontSize: 20, lineHeight: 1.3, fontStyle: "italic" }}>
-          {mapped
-            ? "The app is one dot on the inner ring. Points between rings belong to both."
-            : "Which of these count as the product? Call them out."}
+        <p className="orr-muted tp-status" role="status">
+          {statusLine}
         </p>
       </div>
-    </div>
+    </>
   );
 }

@@ -1,0 +1,5 @@
+.workshop-page-root {
+  background: var(--ground);
+  color: var(--ink);
+  min-height: 100vh;
+}

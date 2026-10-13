@@ -1,41 +1,30 @@
-/* ── CircleExplorer — matches 03-circle-explorer.dc.html ── */
-
-/* Main container: SVG left, text right */
-.ce {
-  display: flex;
-  align-items: flex-start;
-  gap: 0;
-  width: 100%;
+/* CircleExplorer — faithful to design/screens/CircleExplorer.dc.html */
+.ce-diagram {
+  position: absolute;
+  left: 64px;
+  top: 136px;
 }
 
-/* SVG diagram — 480px wide in its container, positioned by LiveStage */
-.ce-svg {
-  flex: none;
-}
-
-/* Right column */
-.ce-right {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  min-width: 0;
-}
-
-/* Ring buttons */
 .ce-buttons {
+  position: absolute;
+  left: 600px;
+  top: 104px;
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
 }
 
-/* Question + meaning text */
 .ce-text {
+  position: absolute;
+  left: 600px;
+  top: 192px;
+  width: 616px;
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.ce-question {
+.ce-headline {
   margin: 0;
   font-size: 64px;
   line-height: 1.02;
@@ -52,44 +41,76 @@
   font-variation-settings: 'opsz' 24;
 }
 
-/* Coffee-shop example block */
-.ce-example {
+.ce-example-block {
+  position: absolute;
+  left: 600px;
+  top: 384px;
+  width: 320px;
   display: flex;
   flex-direction: column;
   gap: 10px;
   padding-top: 16px;
   border-top: 2px solid var(--ink);
-  max-width: 320px;
 }
 
-.ce-example-text {
+.ce-example-label {
+  margin: 0;
+}
+
+.ce-example {
   margin: 0;
   font-size: 28px;
   line-height: 1.3;
   font-variation-settings: 'opsz' 24;
 }
 
-/* Mobile: stack vertically */
-@media (max-width: 768px) {
-  .ce {
-    flex-direction: column;
-    gap: 24px;
-  }
+.ce-figure {
+  position: absolute;
+  right: 64px;
+  top: 360px;
+  margin: 0;
+  display: flex;
+  align-items: flex-end;
+  gap: 20px;
+}
 
-  .ce-svg {
-    width: 100%;
-    height: auto;
-  }
+.ce-figure img {
+  height: 240px;
+  width: auto;
+  flex: none;
+}
 
-  .ce-question {
-    font-size: 36px;
-  }
+.ce-figure-caption {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: right;
+  width: 150px;
+}
 
-  .ce-meaning {
-    font-size: 22px;
-  }
+/* Fade for text panel when selection changes */
+.ce-fade {
+  animation: ce-fade var(--t-line, 200ms) ease-out;
+}
 
-  .ce-example-text {
-    font-size: 22px;
-  }
+@keyframes ce-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Draw-in for the newly selected ring */
+.ce-ring-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: ce-draw var(--t-ring-draw-live, 500ms) ease-out forwards;
+}
+
+@keyframes ce-draw {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ce-fade { animation: none; }
+  .ce-ring-draw { animation: none; stroke-dashoffset: 0; }
 }

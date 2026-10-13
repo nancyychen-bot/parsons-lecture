@@ -1,71 +1,82 @@
 import { useEffect, useState } from "react";
-import QRCodeLib from "qrcode";
+import QRCode from "qrcode";
+import { Placeholder } from "./Placeholder";
 import "./QrCode.css";
 
-type Props = {
-  url: string;
-  /** SVG pixel size; default 256 */
-  size?: number;
+type QrCodeProps = {
+  publicUrl: string;
+  size?: number; // px, default 320
+  label?: string; // alt / aria text
 };
 
 /**
- * QR Code component — generates a real, scannable QR code as an inline SVG.
- * Uses the `qrcode` npm package for local generation (no network request).
- * Falls back to showing the URL as text if encoding fails.
+ * Inline SVG QR code generated from publicUrl.
+ *
+ * We ask the `qrcode` package to emit an SVG string, then inject it directly.
+ * No network calls, no runtime image assets.
+ *
+ * With an empty / falsy `publicUrl`, renders a dashed Placeholder — honest
+ * missing content per PRD §7.
  */
-export function QrCode({ url, size = 256 }: Props) {
-  const [svgMarkup, setSvgMarkup] = useState<string | null>(null);
-  const [error, setError] = useState(false);
+export function QrCode({
+  publicUrl,
+  size = 320,
+  label = "QR code to this lecture site",
+}: QrCodeProps) {
+  const [svg, setSvg] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!publicUrl) {
+      setSvg(null);
+      return;
+    }
     let cancelled = false;
-
-    QRCodeLib.toString(url, {
+    QRCode.toString(publicUrl, {
       type: "svg",
-      width: size,
-      margin: 2,
+      margin: 0,
       errorCorrectionLevel: "M",
-      color: { dark: "#111111", light: "#ffffff" },
+      color: { dark: "#ffffff", light: "#00000000" },
     })
-      .then((svg) => {
-        if (!cancelled) {
-          setSvgMarkup(svg);
-          setError(false);
-        }
+      .then((out) => {
+        if (!cancelled) setSvg(out);
       })
       .catch(() => {
-        if (!cancelled) {
-          setError(true);
-        }
+        if (!cancelled) setSvg(null);
       });
-
     return () => {
       cancelled = true;
     };
-  }, [url, size]);
+  }, [publicUrl]);
 
-  if (error || (!svgMarkup && !url)) {
+  if (!publicUrl) {
     return (
-      <div className="qr-code">
-        <p className="qr-code-url">{url}</p>
-      </div>
+      <Placeholder
+        label="QR code — set publicUrl in LectureConfig"
+        width={size}
+        height={size}
+      />
     );
   }
 
-  if (!svgMarkup) {
+  if (!svg) {
+    // Transient: generating. Keep the same box so layout doesn't jump.
     return (
-      <div className="qr-code" style={{ width: size, height: size }} />
+      <div
+        className="baw-qr baw-qr--loading"
+        style={{ width: size, height: size }}
+        aria-label={label}
+        role="img"
+      />
     );
   }
 
   return (
-    <div className="qr-code">
-      <div
-        role="img"
-        aria-label={`QR code for ${url}`}
-        dangerouslySetInnerHTML={{ __html: svgMarkup }}
-      />
-      <p className="qr-code-url">{url}</p>
-    </div>
+    <div
+      className="baw-qr"
+      style={{ width: size, height: size }}
+      role="img"
+      aria-label={label}
+      dangerouslySetInnerHTML={{ __html: svg }}
+    />
   );
 }

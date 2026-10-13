@@ -1,0 +1,41 @@
+.baw-cutout {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+.baw-cutout--right {
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.baw-cutout--left {
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+.baw-cutout--centered {
+  justify-content: center;
+  align-items: center;
+}
+.baw-cutout__img {
+  width: auto;
+  object-fit: contain;
+  flex: none;
+}
+.baw-cutout__caption {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.baw-cutout__caption--right,
+.baw-cutout__caption--centered {
+  width: 236px;
+  flex: none;
+}
+.baw-cutout__caption--left {
+  width: 236px;
+  flex: none;
+  text-align: right;
+  align-items: flex-end;
+}
