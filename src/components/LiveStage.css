@@ -55,10 +55,7 @@
 
 .live-stage__content {
   position: absolute;
-  left: 64px;
-  right: 64px;
-  top: 112px;
-  bottom: 112px;
+  inset: 0;
   animation: live-fade var(--t-line) ease-out both;
 }
 
@@ -76,11 +73,15 @@
 /* Default static view ------------------------------------------------------- */
 
 .live-static {
+  position: absolute;
+  left: 64px;
+  right: 64px;
+  top: 112px;
+  bottom: 112px;
   display: flex;
   gap: 48px;
   align-items: flex-start;
   justify-content: space-between;
-  height: 100%;
 }
 
 .live-static__text {
