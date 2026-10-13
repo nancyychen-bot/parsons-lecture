@@ -14,11 +14,11 @@
   position: absolute;
   left: 64px;
   right: 64px;
-  top: 332px;
+  top: 320px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 22px;
+  gap: 20px;
   text-align: center;
 }
 .baw-keyline__label-group {

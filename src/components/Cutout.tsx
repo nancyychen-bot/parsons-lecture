@@ -49,6 +49,20 @@ export function Cutout({
             style={{ height: safeHeight }}
           />
         </>
+      ) : variant === "centered" ? (
+        <>
+          <span className="baw-cutout__spacer" aria-hidden="true" />
+          <img
+            className="orr-cutout baw-cutout__img"
+            src={src}
+            alt={alt}
+            style={{ height: safeHeight }}
+          />
+          <figcaption className="baw-cutout__caption baw-cutout__caption--centered">
+            <span className="orr-label">{fig}</span>
+            <span className="orr-label orr-muted">{meaning}</span>
+          </figcaption>
+        </>
       ) : (
         <>
           <img
