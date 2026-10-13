@@ -1,0 +1,284 @@
+.contradiction-repair {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xl);
+  padding: var(--space-lg) 0;
+}
+
+/* State toggle */
+.cr-state-toggle {
+  display: flex;
+  gap: 0;
+  border: 2px solid var(--color-border);
+  border-radius: 999px;
+  overflow: hidden;
+  align-self: center;
+}
+
+.cr-state-btn {
+  padding: var(--space-sm) var(--space-lg);
+  border: none;
+  background: var(--color-bg);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-muted);
+  cursor: pointer;
+  transition:
+    background var(--duration-normal) var(--ease-out),
+    color var(--duration-normal) var(--ease-out);
+}
+
+.cr-state-btn + .cr-state-btn {
+  border-left: 1px solid var(--color-border);
+}
+
+.cr-state-btn[aria-pressed="true"] {
+  background: var(--color-fg);
+  color: var(--color-bg);
+}
+
+.cr-state-btn:hover:not([aria-pressed="true"]) {
+  background: var(--color-surface);
+  color: var(--color-fg);
+}
+
+/* Diagram area */
+.cr-diagram {
+  position: relative;
+  width: 18rem;
+  height: 18rem;
+}
+
+.cr-diagram svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Rings */
+.cr-ring {
+  fill: none;
+  stroke-width: var(--ring-stroke);
+  transition:
+    fill-opacity var(--duration-normal) var(--ease-out),
+    opacity var(--duration-normal) var(--ease-out);
+}
+
+.cr-ring--product {
+  stroke: var(--ring-product);
+}
+
+.cr-ring--experience {
+  stroke: var(--ring-experience);
+}
+
+.cr-ring--world {
+  stroke: var(--ring-world);
+}
+
+.cr-ring--filled {
+  fill-opacity: 0.08;
+  opacity: 1;
+}
+
+.cr-ring--filled.cr-ring--product {
+  fill: var(--ring-product);
+}
+
+.cr-ring--filled.cr-ring--experience {
+  fill: var(--ring-experience);
+}
+
+.cr-ring--filled.cr-ring--world {
+  fill: var(--ring-world);
+}
+
+/* Axis line segments */
+.cr-axis {
+  stroke: var(--ring-axis);
+  stroke-width: var(--axis-stroke);
+  stroke-linecap: round;
+  transition:
+    transform var(--duration-slow) var(--ease-out),
+    opacity var(--duration-normal) var(--ease-out);
+}
+
+/* Broken state — offset halves */
+.cr-axis--top-broken {
+  transform: translate(-3px, -4px);
+}
+
+.cr-axis--bottom-broken {
+  transform: translate(3px, 4px);
+}
+
+/* Break indicator */
+.cr-break-mark {
+  opacity: 0;
+  transition: opacity var(--duration-normal) var(--ease-out);
+}
+
+.cr-break-mark--visible {
+  opacity: 1;
+}
+
+/* Flash on break */
+@keyframes cr-snap {
+  0% { opacity: 0; transform: scale(0.5); }
+  30% { opacity: 1; transform: scale(1.3); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.cr-break-mark--snap {
+  animation: cr-snap var(--duration-slow) var(--ease-out) 1;
+}
+
+/* Repair animation */
+@keyframes cr-heal {
+  from { transform: translate(0, 0); }
+}
+
+.cr-axis--healing-top {
+  animation: cr-heal var(--duration-slow) var(--ease-out);
+  transform: translate(0, 0);
+}
+
+.cr-axis--healing-bottom {
+  animation: cr-heal var(--duration-slow) var(--ease-out);
+  transform: translate(0, 0);
+}
+
+/* Ring pick buttons (in broken state) */
+.cr-ring-btn {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 10;
+  cursor: pointer;
+}
+
+.cr-ring-btn:hover {
+  stroke: var(--color-border);
+  stroke-width: 6;
+}
+
+/* Belief text */
+.cr-belief {
+  text-align: center;
+  max-width: var(--content-width);
+}
+
+.cr-belief-label {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-muted);
+  margin-bottom: var(--space-xs);
+}
+
+.cr-belief-text {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  line-height: var(--leading-tight);
+  transition: opacity var(--duration-normal) var(--ease-out);
+}
+
+.cr-belief-text--contradiction {
+  color: var(--color-muted);
+}
+
+/* Annotations along the axis */
+.cr-annotations {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  position: absolute;
+  right: -1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.cr-annotation {
+  font-family: var(--font-mono);
+  font-size: 3.5px;
+  fill: var(--color-muted);
+  text-anchor: start;
+  transition: opacity var(--duration-normal) var(--ease-out);
+}
+
+/* Prompt and repair display */
+.cr-response {
+  text-align: center;
+  max-width: var(--content-width);
+  min-height: 4rem;
+}
+
+.cr-response-prompt {
+  font-size: var(--text-base);
+  color: var(--color-fg);
+  margin-bottom: var(--space-sm);
+}
+
+.cr-response-repair {
+  font-size: var(--text-sm);
+  color: var(--color-muted);
+  font-style: italic;
+}
+
+/* Fade entrance */
+.cr-response--enter {
+  animation: cr-response-in var(--duration-normal) var(--ease-out);
+}
+
+@keyframes cr-response-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Ring select buttons row */
+.cr-ring-select {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.cr-ring-select-btn {
+  padding: var(--space-sm) var(--space-lg);
+  border: 2px solid var(--color-border);
+  border-radius: 999px;
+  background: var(--color-bg);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--color-muted);
+  cursor: pointer;
+  transition:
+    background var(--duration-normal) var(--ease-out),
+    color var(--duration-normal) var(--ease-out),
+    border-color var(--duration-normal) var(--ease-out);
+}
+
+.cr-ring-select-btn:hover {
+  border-color: var(--color-fg);
+  color: var(--color-fg);
+}
+
+.cr-ring-select-btn[aria-pressed="true"] {
+  background: var(--color-fg);
+  color: var(--color-bg);
+  border-color: var(--color-fg);
+}
+
+@media (max-width: 40rem) {
+  .cr-diagram {
+    width: 14rem;
+    height: 14rem;
+  }
+}

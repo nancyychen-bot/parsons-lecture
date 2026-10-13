@@ -1,0 +1,96 @@
+.app-shell {
+  min-height: 100dvh;
+}
+
+.mode-switcher {
+  position: fixed;
+  top: var(--space-md);
+  right: var(--space-md);
+  z-index: 200;
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--color-bg);
+}
+
+.mode-btn {
+  padding: var(--space-xs) var(--space-md);
+  border: none;
+  background: none;
+  font-size: var(--text-sm);
+  font-family: var(--font-mono);
+  color: var(--color-muted);
+  transition: background var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+
+.mode-btn:hover {
+  background: var(--color-surface);
+}
+
+.mode-btn--active {
+  background: var(--color-fg);
+  color: var(--color-bg);
+}
+
+/* In live mode, mode switcher is minimal */
+[data-mode="live"] .mode-switcher {
+  opacity: 0.6;
+  transition: opacity var(--duration-normal) var(--ease-out);
+}
+
+[data-mode="live"] .mode-switcher:hover {
+  opacity: 1;
+}
+
+/* ── Inline presenter notes (N-key fallback) ── */
+.inline-notes {
+  position: fixed;
+  bottom: 5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(90vw, 36rem);
+  z-index: 300;
+  background: var(--color-fg);
+  color: var(--color-bg);
+  border-radius: 8px;
+  padding: var(--space-md) var(--space-lg);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+}
+
+.inline-notes-warning {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #ff6b6b;
+  margin-bottom: var(--space-sm);
+}
+
+.inline-notes-sync-status {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: #ffaa44;
+  margin-bottom: var(--space-sm);
+}
+
+.inline-notes-text {
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+}
+
+.inline-notes-empty {
+  font-size: var(--text-sm);
+  opacity: 0.5;
+  font-style: italic;
+}
+
+.inline-notes-hint {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  opacity: 0.4;
+  margin-top: var(--space-sm);
+  text-align: right;
+}

@@ -1,0 +1,133 @@
+@media print {
+  /* ---- Global print resets ---- */
+  body {
+    background: white;
+    color: black;
+    font-size: 11pt;
+    line-height: 1.45;
+  }
+
+  /* Hide all navigation, mode switchers, and interactive chrome */
+  .mode-switcher,
+  .section-nav,
+  .app-shell > *:not(.workshop-canvas-print-root),
+  [data-mode="live"] .mode-switcher,
+  .workshop-actions,
+  .workshop-privacy,
+  .workshop-save-status,
+  .workshop-fallback-box,
+  .workshop-starter-toggle {
+    display: none !important;
+  }
+
+  /* The canvas itself should be visible */
+  .workshop-canvas-print-root {
+    display: block !important;
+  }
+
+  /* ---- Page setup ---- */
+  @page {
+    margin: 1.5cm;
+    size: letter;
+  }
+
+  /* Prevent clipping — answers can flow across pages */
+  .workshop-field,
+  .workshop-card {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* ---- Diagram on page 1 ---- */
+  .workshop-diagram {
+    width: 200pt;
+    height: 200pt;
+    margin: 0 auto 18pt;
+  }
+
+  .workshop-diagram .ring {
+    stroke-width: 1.5px;
+  }
+
+  .workshop-diagram .axis-line {
+    stroke-width: 1.5px;
+  }
+
+  /* ---- Print title ---- */
+  .workshop-print-title {
+    display: block !important;
+    text-align: center;
+    font-family: Georgia, serif;
+    font-size: 16pt;
+    font-weight: 700;
+    margin-bottom: 8pt;
+  }
+
+  .workshop-print-starter {
+    display: block !important;
+    text-align: center;
+    font-size: 10pt;
+    color: #666;
+    margin-bottom: 18pt;
+  }
+
+  /* ---- Field layout for print ---- */
+  .workshop-fields-print {
+    display: block !important;
+  }
+
+  .workshop-print-field {
+    margin-bottom: 14pt;
+    break-inside: avoid;
+  }
+
+  .workshop-print-field-label {
+    font-weight: 700;
+    font-size: 10pt;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #333;
+    margin-bottom: 2pt;
+  }
+
+  .workshop-print-field-value {
+    font-size: 11pt;
+    line-height: 1.45;
+    white-space: pre-wrap;
+  }
+
+  .workshop-print-field-value--empty {
+    color: #999;
+    font-style: italic;
+  }
+
+  /* ---- Blank canvas mode ---- */
+  /* When data-print-blank is set, show blank lines instead of answers */
+  [data-print-blank] .workshop-print-field-value {
+    visibility: hidden;
+  }
+
+  [data-print-blank] .workshop-print-field {
+    min-height: 48pt;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 6pt;
+  }
+
+  /* ---- Hide non-print elements ---- */
+  .workshop-desktop-layout,
+  .workshop-mobile-layout {
+    display: none !important;
+  }
+
+  /* Make sure the print-only regions appear */
+  .print-only {
+    display: block !important;
+  }
+}
+
+/* In screen mode, hide print-only elements */
+@media screen {
+  .print-only {
+    display: none !important;
+  }
+}

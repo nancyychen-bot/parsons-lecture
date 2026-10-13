@@ -1,0 +1,189 @@
+.circle-explorer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xl);
+  padding: var(--space-lg) 0;
+}
+
+/* Button group */
+.circle-explorer-buttons {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.circle-explorer-btn {
+  padding: var(--space-sm) var(--space-lg);
+  border: 2px solid var(--color-border);
+  border-radius: 999px;
+  background: var(--color-bg);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--color-muted);
+  cursor: pointer;
+  transition:
+    background var(--duration-normal) var(--ease-out),
+    color var(--duration-normal) var(--ease-out),
+    border-color var(--duration-normal) var(--ease-out);
+}
+
+.circle-explorer-btn:hover {
+  border-color: var(--color-fg);
+  color: var(--color-fg);
+}
+
+.circle-explorer-btn[aria-pressed="true"] {
+  background: var(--color-fg);
+  color: var(--color-bg);
+  border-color: var(--color-fg);
+}
+
+/* SVG diagram */
+.circle-explorer-diagram {
+  width: 18rem;
+  height: 18rem;
+  position: relative;
+}
+
+.circle-explorer-diagram svg {
+  width: 100%;
+  height: 100%;
+}
+
+.ce-ring {
+  fill: none;
+  stroke-width: var(--ring-stroke);
+  cursor: pointer;
+  transition:
+    opacity var(--duration-normal) var(--ease-out),
+    stroke-width var(--duration-normal) var(--ease-out),
+    fill-opacity var(--duration-normal) var(--ease-out);
+}
+
+.ce-ring--product {
+  stroke: var(--ring-product);
+}
+
+.ce-ring--experience {
+  stroke: var(--ring-experience);
+}
+
+.ce-ring--world {
+  stroke: var(--ring-world);
+}
+
+/* Dimmed state */
+.ce-ring--dimmed {
+  opacity: 0.2;
+}
+
+/* Active / highlighted */
+.ce-ring--active {
+  opacity: 1;
+  stroke-width: calc(var(--ring-stroke) * 2);
+  fill-opacity: 0.06;
+}
+
+.ce-ring--active.ce-ring--product {
+  fill: var(--ring-product);
+}
+
+.ce-ring--active.ce-ring--experience {
+  fill: var(--ring-experience);
+}
+
+.ce-ring--active.ce-ring--world {
+  fill: var(--ring-world);
+}
+
+/* Pulse animation on select */
+@keyframes ce-pulse {
+  0% {
+    stroke-width: calc(var(--ring-stroke) * 2);
+  }
+  50% {
+    stroke-width: calc(var(--ring-stroke) * 3.5);
+  }
+  100% {
+    stroke-width: calc(var(--ring-stroke) * 2);
+  }
+}
+
+.ce-ring--pulse {
+  animation: ce-pulse var(--duration-slow) var(--ease-out) 1;
+}
+
+/* Hit area — invisible wider stroke for click targets */
+.ce-ring-hit {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 12;
+  cursor: pointer;
+}
+
+/* Ring label inside SVG */
+.ce-ring-text {
+  font-family: var(--font-mono);
+  font-size: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  fill: var(--color-muted);
+  text-anchor: middle;
+  pointer-events: none;
+  transition: fill var(--duration-normal) var(--ease-out);
+}
+
+.ce-ring-text--active {
+  fill: var(--color-fg);
+}
+
+/* Info panel */
+.circle-explorer-info {
+  text-align: center;
+  max-width: var(--content-width);
+  min-height: 5rem;
+}
+
+.circle-explorer-info-title {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  margin-bottom: var(--space-sm);
+  transition: opacity var(--duration-normal) var(--ease-out);
+}
+
+.circle-explorer-info-def {
+  font-size: var(--text-base);
+  color: var(--color-muted);
+  margin-bottom: var(--space-sm);
+  transition: opacity var(--duration-normal) var(--ease-out);
+}
+
+.circle-explorer-info-example {
+  font-size: var(--text-sm);
+  font-style: italic;
+  color: var(--color-muted);
+  transition: opacity var(--duration-normal) var(--ease-out);
+}
+
+/* Entrance fade */
+.circle-explorer-info--enter {
+  animation: ce-fade-in var(--duration-normal) var(--ease-out);
+}
+
+@keyframes ce-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 40rem) {
+  .circle-explorer-diagram {
+    width: 14rem;
+    height: 14rem;
+  }
+}

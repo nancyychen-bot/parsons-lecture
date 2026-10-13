@@ -1,0 +1,228 @@
+.touchpoint-select {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xl);
+  padding: var(--space-lg) 0;
+}
+
+/* Radial layout container */
+.touchpoint-orbit {
+  position: relative;
+  width: 22rem;
+  height: 22rem;
+}
+
+/* Center coffee icon */
+.touchpoint-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+  pointer-events: none;
+}
+
+.touchpoint-center-icon {
+  font-size: var(--text-2xl);
+  line-height: 1;
+}
+
+.touchpoint-center-label {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* Individual touchpoint button — radial position */
+.touchpoint-btn {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 5.5rem;
+  height: 2.2rem;
+  border-radius: 999px;
+  border: 2px solid var(--color-border);
+  background: var(--color-bg);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--color-muted);
+  white-space: nowrap;
+  transition:
+    background var(--duration-normal) var(--ease-out),
+    color var(--duration-normal) var(--ease-out),
+    border-color var(--duration-normal) var(--ease-out),
+    transform var(--duration-normal) var(--ease-out),
+    box-shadow var(--duration-normal) var(--ease-out);
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+}
+
+.touchpoint-btn:hover {
+  border-color: var(--color-fg);
+  color: var(--color-fg);
+}
+
+.touchpoint-btn[aria-pressed="true"] {
+  background: var(--color-fg);
+  color: var(--color-bg);
+  border-color: var(--color-fg);
+}
+
+.touchpoint-btn[aria-pressed="true"]:hover {
+  background: var(--color-muted);
+  border-color: var(--color-muted);
+}
+
+/* Mapped state — touchpoints move to ring positions */
+.touchpoint-btn--mapped {
+  transition:
+    top var(--duration-slow) var(--ease-out),
+    left var(--duration-slow) var(--ease-out),
+    background var(--duration-normal) var(--ease-out),
+    color var(--duration-normal) var(--ease-out),
+    border-color var(--duration-normal) var(--ease-out),
+    box-shadow var(--duration-normal) var(--ease-out);
+}
+
+/* Ring color coding when mapped */
+.touchpoint-btn--ring-product[aria-pressed="true"] {
+  background: var(--ring-product);
+  border-color: var(--ring-product);
+}
+
+.touchpoint-btn--ring-experience[aria-pressed="true"] {
+  background: var(--ring-experience);
+  border-color: var(--ring-experience);
+  color: var(--color-bg);
+}
+
+.touchpoint-btn--ring-world[aria-pressed="true"] {
+  background: var(--ring-world);
+  border-color: var(--ring-world);
+  color: var(--color-bg);
+}
+
+/* Ring labels in mapped view */
+.touchpoint-ring-labels {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--duration-normal) var(--ease-out);
+}
+
+.touchpoint-ring-labels--visible {
+  opacity: 1;
+}
+
+.touchpoint-ring-label {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-muted);
+}
+
+.touchpoint-ring-label--product {
+  top: 42%;
+}
+
+.touchpoint-ring-label--experience {
+  top: 26%;
+}
+
+.touchpoint-ring-label--world {
+  top: 10%;
+}
+
+/* Action button */
+.touchpoint-action {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-lg);
+  border: 2px solid var(--color-fg);
+  border-radius: 999px;
+  background: var(--color-bg);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--color-fg);
+  cursor: pointer;
+  transition:
+    background var(--duration-normal) var(--ease-out),
+    color var(--duration-normal) var(--ease-out);
+}
+
+.touchpoint-action:hover {
+  background: var(--color-fg);
+  color: var(--color-bg);
+}
+
+.touchpoint-action:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.touchpoint-action:disabled:hover {
+  background: var(--color-bg);
+  color: var(--color-fg);
+}
+
+/* Status text */
+.touchpoint-status {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-muted);
+  text-align: center;
+  min-height: 1.2em;
+}
+
+/* Mobile: vertical toggle list */
+@media (max-width: 40rem) {
+  .touchpoint-orbit {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    padding: var(--space-md);
+  }
+
+  .touchpoint-center {
+    position: static;
+    transform: none;
+    margin-bottom: var(--space-sm);
+  }
+
+  .touchpoint-btn {
+    position: static;
+    width: 100%;
+    transform: none;
+    justify-content: flex-start;
+    padding: var(--space-sm) var(--space-md);
+  }
+
+  .touchpoint-ring-labels {
+    display: none;
+  }
+
+  .touchpoint-btn--mapped {
+    transition:
+      background var(--duration-normal) var(--ease-out),
+      color var(--duration-normal) var(--ease-out),
+      border-color var(--duration-normal) var(--ease-out);
+  }
+}
