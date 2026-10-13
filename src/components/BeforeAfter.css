@@ -1,137 +1,157 @@
+/* ── BeforeAfter (Two shops) — Orrery theme ── */
 .before-after {
   display: flex;
   flex-direction: column;
-  gap: var(--space-lg);
-  padding: var(--space-lg) 0;
+  gap: var(--space-4);
+  padding: var(--space-3) 0;
 }
 
-/* Toggle row */
+/* Toggle row — joined, square */
 .ba-toggle {
   display: flex;
   justify-content: center;
   gap: 0;
-  border: 2px solid var(--color-border);
-  border-radius: 999px;
+  border: var(--w-rule) solid var(--ink);
   overflow: hidden;
   align-self: center;
 }
 
 .ba-toggle-btn {
-  padding: var(--space-sm) var(--space-xl);
+  padding: 12px 24px;
   border: none;
-  background: var(--color-bg);
+  background: transparent;
   font-family: var(--font-mono);
-  font-size: var(--text-sm);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--color-muted);
+  color: var(--muted);
   cursor: pointer;
+  min-height: 44px;
   transition:
     background var(--duration-normal) var(--ease-out),
     color var(--duration-normal) var(--ease-out);
 }
 
-.ba-toggle-btn:first-child {
-  border-right: 1px solid var(--color-border);
+[data-theme="live"] .ba-toggle-btn {
+  font-size: 18px;
+  padding: 14px 22px;
+  min-height: 56px;
 }
 
-.ba-toggle-btn:last-child {
-  border-left: 1px solid var(--color-border);
+.ba-toggle-btn:first-child {
+  border-right: var(--w-rule) solid var(--ink);
 }
 
 .ba-toggle-btn[aria-pressed="true"] {
-  background: var(--color-fg);
-  color: var(--color-bg);
+  background: var(--ink);
+  color: var(--ground);
 }
 
 .ba-toggle-btn:hover:not([aria-pressed="true"]) {
-  background: var(--color-surface);
-  color: var(--color-fg);
+  color: var(--ink);
 }
 
-/* Cards container — side by side on desktop */
+/* Panels — ruled, not cards */
 .ba-cards {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--space-lg);
+  gap: var(--space-4);
 }
 
-/* Single card */
 .ba-card {
-  border: 2px solid var(--color-border);
-  border-radius: 8px;
-  padding: var(--space-lg);
-  transition:
-    opacity var(--duration-normal) var(--ease-out),
-    border-color var(--duration-normal) var(--ease-out),
-    background var(--duration-normal) var(--ease-out);
+  border-top: var(--w-rule) solid var(--ink);
+  padding: var(--space-3) 0;
+  transition: opacity var(--duration-normal) var(--ease-out);
 }
 
+/* No fills, shadows, or rounded corners */
 .ba-card--dimmed {
-  opacity: 0.4;
+  opacity: 0.45;
 }
 
 .ba-card--active {
-  border-color: var(--color-fg);
-  background: var(--color-surface);
+  opacity: 1;
 }
 
 .ba-card-label {
   font-family: var(--font-mono);
-  font-size: var(--text-xs);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--color-muted);
-  margin-bottom: var(--space-md);
+  color: var(--muted);
+  margin-bottom: var(--space-3);
+}
+
+[data-theme="live"] .ba-card-label {
+  font-size: 18px;
 }
 
 .ba-card-dialogue {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
+  gap: var(--space-2);
 }
 
+/* Shop A: dense mono */
 .ba-line {
-  font-size: var(--text-sm);
-  line-height: var(--leading-relaxed);
-  color: var(--color-fg);
-  padding: var(--space-sm) var(--space-md);
-  background: var(--color-bg);
-  border-radius: 6px;
-  border: 1px solid var(--color-border);
+  font-family: var(--font-serif);
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--ink);
+  padding: var(--space-2) 0;
+  border-bottom: var(--w-rule) solid var(--faint);
+}
+
+[data-theme="live"] .ba-line {
+  font-size: 24px;
 }
 
 .ba-line--staff {
   font-style: italic;
+  color: var(--muted);
 }
 
 .ba-line--menu {
   font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  color: var(--color-muted);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+  line-height: 1.2;
 }
 
-/* Annotations */
+[data-theme="live"] .ba-line--menu {
+  font-size: 16px;
+}
+
+/* Annotations — ring callouts */
 .ba-annotations {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-sm);
-  margin-top: var(--space-lg);
-  justify-content: center;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  justify-content: flex-start;
 }
 
 .ba-annotation {
   display: inline-block;
-  padding: var(--space-xs) var(--space-md);
-  border: 1px solid var(--color-border);
-  border-radius: 999px;
+  padding: var(--space-1) var(--space-3);
+  border: var(--w-rule) solid var(--faint);
   font-family: var(--font-mono);
-  font-size: var(--text-xs);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--color-muted);
+  color: var(--muted);
   opacity: 0;
   animation: ba-fade-in var(--duration-normal) var(--ease-out) forwards;
+}
+
+[data-theme="live"] .ba-annotation {
+  font-size: 14px;
 }
 
 .ba-annotation:nth-child(1) { animation-delay: 0ms; }
@@ -140,14 +160,8 @@
 .ba-annotation:nth-child(4) { animation-delay: 240ms; }
 
 @keyframes ba-fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* Mobile: stacked */
@@ -155,7 +169,6 @@
   .ba-cards {
     grid-template-columns: 1fr;
   }
-
   .ba-card--dimmed {
     display: none;
   }

@@ -1,22 +1,24 @@
+/* ── CircleMark — Orrery progress mark ── */
 .circle-mark {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+/* Sizes match the design system */
 .circle-mark--sm {
-  width: 2rem;
-  height: 2rem;
+  width: var(--mark-size, 40px);
+  height: var(--mark-size, 40px);
 }
 
 .circle-mark--md {
-  width: 8rem;
-  height: 8rem;
+  width: 120px;
+  height: 120px;
 }
 
 .circle-mark--lg {
-  width: 16rem;
-  height: 16rem;
+  width: 280px;
+  height: 280px;
 }
 
 .circle-mark svg {
@@ -24,51 +26,4 @@
   height: 100%;
 }
 
-/* Rings */
-.ring {
-  fill: none;
-  stroke-width: var(--ring-stroke);
-  transition: opacity var(--duration-normal) var(--ease-out),
-    fill-opacity var(--duration-normal) var(--ease-out);
-  opacity: 0.3;
-}
-
-.ring--active {
-  opacity: 1;
-}
-
-.ring--product {
-  stroke: var(--ring-product);
-}
-
-.ring--experience {
-  stroke: var(--ring-experience);
-}
-
-.ring--world {
-  stroke: var(--ring-world);
-}
-
-.ring--filled {
-  fill-opacity: 0.08;
-  opacity: 1;
-}
-
-.ring--filled.ring--product {
-  fill: var(--ring-product);
-}
-
-.ring--filled.ring--experience {
-  fill: var(--ring-experience);
-}
-
-.ring--filled.ring--world {
-  fill: var(--ring-world);
-}
-
-/* Axis */
-.axis-line {
-  stroke: var(--ring-axis);
-  stroke-width: var(--axis-stroke);
-  stroke-linecap: round;
-}
+/* All ring/core/axis styling comes from bundle.css .orr-* classes */

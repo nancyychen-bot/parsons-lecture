@@ -7,21 +7,31 @@ type Props = {
 };
 
 export function SectionNav({ currentSectionId, onNavigate }: Props) {
+  const currentIdx = sections.findIndex((s) => s.id === currentSectionId);
+
   return (
     <nav className="section-nav" aria-label="Lecture sections">
       <ol className="section-nav-list">
-        {sections.map((section) => (
-          <li key={section.id}>
-            <button
-              className={`section-dot ${section.id === currentSectionId ? "section-dot--active" : ""}`}
-              onClick={() => onNavigate(section.id)}
-              aria-label={`${section.number} ${section.navLabel}`}
-              aria-current={section.id === currentSectionId ? "step" : undefined}
-            >
-              <span className="section-dot-number">{section.number}</span>
-            </button>
-          </li>
-        ))}
+        {sections.map((section, idx) => {
+          const isPast = idx < currentIdx;
+          const isActive = section.id === currentSectionId;
+          let cls = "section-dot";
+          if (isActive) cls += " section-dot--active";
+          else if (isPast) cls += " section-dot--past";
+
+          return (
+            <li key={section.id}>
+              <button
+                className={cls}
+                onClick={() => onNavigate(section.id)}
+                aria-label={`${section.number} ${section.navLabel}`}
+                aria-current={isActive ? "step" : undefined}
+              >
+                <span className="section-dot-number">{section.number}</span>
+              </button>
+            </li>
+          );
+        })}
       </ol>
     </nav>
   );

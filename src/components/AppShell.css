@@ -1,48 +1,59 @@
 .app-shell {
   min-height: 100dvh;
+  background: var(--ground);
+  color: var(--ink);
+  transition: background var(--duration-normal) var(--ease-out), color var(--duration-normal) var(--ease-out);
 }
 
+/* Mode switcher — joined toggle, square corners */
 .mode-switcher {
   position: fixed;
-  top: var(--space-md);
-  right: var(--space-md);
+  top: var(--space-3);
+  right: var(--space-3);
   z-index: 200;
   display: flex;
   gap: 0;
-  border: 1px solid var(--color-border);
-  border-radius: 6px;
+  border: var(--w-rule) solid var(--ink);
   overflow: hidden;
-  background: var(--color-bg);
+  background: var(--ground);
 }
 
 .mode-btn {
-  padding: var(--space-xs) var(--space-md);
+  padding: var(--space-2) var(--space-3);
   border: none;
   background: none;
-  font-size: var(--text-sm);
   font-family: var(--font-mono);
-  color: var(--color-muted);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
   transition: background var(--duration-fast) var(--ease-out),
     color var(--duration-fast) var(--ease-out);
 }
 
 .mode-btn:hover {
-  background: var(--color-surface);
+  color: var(--ink);
 }
 
 .mode-btn--active {
-  background: var(--color-fg);
-  color: var(--color-bg);
+  background: var(--ink);
+  color: var(--ground);
 }
 
-/* In live mode, mode switcher is minimal */
-[data-mode="live"] .mode-switcher {
-  opacity: 0.6;
+/* In live mode, mode switcher is recessive */
+[data-theme="live"] .mode-switcher {
+  border-color: var(--faint);
+  opacity: 0.5;
   transition: opacity var(--duration-normal) var(--ease-out);
 }
 
-[data-mode="live"] .mode-switcher:hover {
+[data-theme="live"] .mode-switcher:hover {
   opacity: 1;
+}
+
+[data-theme="live"] .mode-btn {
+  font-size: 14px;
 }
 
 /* ── Inline presenter notes (N-key fallback) ── */
@@ -53,44 +64,45 @@
   transform: translateX(-50%);
   width: min(90vw, 36rem);
   z-index: 300;
-  background: var(--color-fg);
-  color: var(--color-bg);
-  border-radius: 8px;
-  padding: var(--space-md) var(--space-lg);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+  background: var(--black);
+  color: var(--paper);
+  padding: var(--space-3) var(--space-4);
+  border: var(--w-rule) solid var(--faint);
 }
 
 .inline-notes-warning {
   font-family: var(--font-mono);
-  font-size: var(--text-xs);
+  font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: #ff6b6b;
-  margin-bottom: var(--space-sm);
+  margin-bottom: var(--space-2);
 }
 
 .inline-notes-sync-status {
   font-family: var(--font-mono);
-  font-size: var(--text-xs);
+  font-size: 12px;
   color: #ffaa44;
-  margin-bottom: var(--space-sm);
+  margin-bottom: var(--space-2);
 }
 
 .inline-notes-text {
-  font-size: var(--text-base);
-  line-height: var(--leading-relaxed);
+  font-family: var(--font-serif);
+  font-size: 18px;
+  line-height: 1.6;
 }
 
 .inline-notes-empty {
-  font-size: var(--text-sm);
+  font-family: var(--font-serif);
+  font-size: 15px;
   opacity: 0.5;
   font-style: italic;
 }
 
 .inline-notes-hint {
   font-family: var(--font-mono);
-  font-size: var(--text-xs);
+  font-size: 12px;
   opacity: 0.4;
-  margin-top: var(--space-sm);
+  margin-top: var(--space-2);
   text-align: right;
 }

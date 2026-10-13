@@ -3,6 +3,7 @@
   body {
     background: white;
     color: black;
+    font-family: "Newsreader", Georgia, serif;
     font-size: 11pt;
     line-height: 1.45;
   }
@@ -10,8 +11,10 @@
   /* Hide all navigation, mode switchers, and interactive chrome */
   .mode-switcher,
   .section-nav,
+  .live-corner,
   .app-shell > *:not(.workshop-canvas-print-root),
   [data-mode="live"] .mode-switcher,
+  [data-theme="live"] .mode-switcher,
   .workshop-actions,
   .workshop-privacy,
   .workshop-save-status,
@@ -27,7 +30,7 @@
 
   /* ---- Page setup ---- */
   @page {
-    margin: 1.5cm;
+    margin: 0.6in;
     size: letter;
   }
 
@@ -45,19 +48,24 @@
     margin: 0 auto 18pt;
   }
 
-  .workshop-diagram .ring {
-    stroke-width: 1.5px;
+  .workshop-diagram .orr-ring {
+    stroke-width: var(--stroke-ring-print, 1pt);
   }
 
-  .workshop-diagram .axis-line {
-    stroke-width: 1.5px;
+  .workshop-diagram .orr-ring--world {
+    stroke-dasharray: 0 6;
+    stroke-linecap: round;
+  }
+
+  .workshop-diagram .orr-axis {
+    stroke-width: var(--stroke-ring-print, 1pt);
   }
 
   /* ---- Print title ---- */
   .workshop-print-title {
     display: block !important;
     text-align: center;
-    font-family: Georgia, serif;
+    font-family: "Newsreader", Georgia, serif;
     font-size: 16pt;
     font-weight: 700;
     margin-bottom: 8pt;
@@ -66,6 +74,7 @@
   .workshop-print-starter {
     display: block !important;
     text-align: center;
+    font-family: "IBM Plex Mono", monospace;
     font-size: 10pt;
     color: #666;
     margin-bottom: 18pt;
@@ -82,15 +91,17 @@
   }
 
   .workshop-print-field-label {
-    font-weight: 700;
+    font-family: "IBM Plex Mono", monospace;
+    font-weight: 500;
     font-size: 10pt;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.1em;
     color: #333;
     margin-bottom: 2pt;
   }
 
   .workshop-print-field-value {
+    font-family: "Newsreader", Georgia, serif;
     font-size: 11pt;
     line-height: 1.45;
     white-space: pre-wrap;
@@ -102,7 +113,6 @@
   }
 
   /* ---- Blank canvas mode ---- */
-  /* When data-print-blank is set, show blank lines instead of answers */
   [data-print-blank] .workshop-print-field-value {
     visibility: hidden;
   }

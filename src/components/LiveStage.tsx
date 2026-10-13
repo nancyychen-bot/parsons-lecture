@@ -15,6 +15,44 @@ import { QrCode } from "./QrCode";
 import { useKeyboardNav } from "../hooks/useKeyboardNav";
 import "./LiveStage.css";
 
+/* Cutout data per section */
+const SECTION_CUTOUTS: Record<string, { src: string; alt: string; label: string; meaning: string } | undefined> = {
+  start: { src: "/cutouts/jupiter.png", alt: "Engraved Jupiter with its moons", label: "FIG. 01 · JUPITER", meaning: "A WORLD WITH ITS OWN MOONS" },
+  "what-is-a-product": { src: "/cutouts/telescope.png", alt: "Engraved refracting telescope", label: "FIG. 02 · TELESCOPE", meaning: "YOUR PRODUCT, SEEN FROM OUTSIDE" },
+  "three-circles": { src: "/cutouts/nautilus.png", alt: "Engraved nautilus shell cross-section", label: "FIG. 03 · NAUTILUS", meaning: "GROWTH IN PROPORTION" },
+  world: { src: "/cutouts/raven.png", alt: "Engraved raven in flight, wings spread", label: "FIG. 06 · RAVEN", meaning: "THE REGULAR WHO KEEPS COMING BACK" },
+  closing: { src: "/cutouts/ouroboros.png", alt: "Engraved ouroboros serpent forming a ring", label: "FIG. 09 · OUROBOROS", meaning: "A RING THAT FEEDS ITSELF" },
+};
+
+/* Key-line cutouts (per section) */
+const KEYLINE_CUTOUTS: Record<string, { src: string; alt: string; label: string; meaning: string } | undefined> = {
+  "what-is-a-product": { src: "/cutouts/telescope.png", alt: "Engraved refracting telescope", label: "FIG. 02 · TELESCOPE", meaning: "YOUR PRODUCT, SEEN FROM OUTSIDE" },
+  experience: { src: "/cutouts/hawk-moth.png", alt: "Engraved hawk moth in flight", label: "FIG. 05 · HAWK MOTH", meaning: "DRAWN TO THE LIGHT, NOT TOLD TO COME" },
+  world: { src: "/cutouts/winged-key.png", alt: "Engraved key with wings", label: "FIG. 06 · WINGED KEY", meaning: "THE INVITATION" },
+  connect: { src: "/cutouts/anchor.png", alt: "Engraved anchor", label: "FIG. 07 · ANCHOR", meaning: "THE CORE THAT HOLDS" },
+};
+
+/* Plate labels per section */
+const PLATE_LABELS: Record<string, string> = {
+  start: "PARSONS · DIGITAL PRODUCT DESIGN",
+  "what-is-a-product": "PLATE 02 · R = 1 · TOUCHPOINTS",
+  "three-circles": "PLATE 03 · R = 1:2:3 · THE MODEL",
+  product: "PLATE 04 · R = 1 · THE CORE",
+  experience: "PLATE 05 · R = 2 · FOUR LEVERS",
+  world: "PLATE 06 · R = 3 · FIELD NOTES",
+  connect: "PLATE 07 · THE AXIS",
+  workshop: "PLATE 08 · YOUR CANVAS",
+  closing: "PLATE 09 · THE ORRERY",
+};
+
+/* Centered layouts: Title (01), Key Lines (all sections), Site Readback (09) */
+function isCenteredView(view: View, sectionId: string): boolean {
+  if (view.keyLine) return true;
+  if (sectionId === "start" && view.id === "start-title") return true;
+  if (view.interaction === "siteReadBack") return true;
+  return false;
+}
+
 function renderInteraction(
   interaction: NonNullable<View["interaction"]>,
   config: LectureConfig
@@ -121,9 +159,22 @@ export function LiveStage({
 
   const isFirst = currentFlatIndex === 0;
   const isLast = currentFlatIndex === flatViews.length - 1;
+  const centered = isCenteredView(currentView, section.id);
+
+  /* Determine cutout for this view */
+  const cutout = currentView.keyLine
+    ? KEYLINE_CUTOUTS[section.id]
+    : (currentView.id === "start-title" || currentView.interaction === "siteReadBack")
+      ? SECTION_CUTOUTS[section.id]
+      : (!currentView.interaction ? SECTION_CUTOUTS[section.id] : undefined);
+
+  /* Corner metadata */
+  const sectionMeta = `${section.number} / 09 · ${section.navLabel.toUpperCase()}`;
+  const plateLabel = PLATE_LABELS[section.id] || "";
+  const isTitleView = section.id === "start" && currentView.id === "start-title";
 
   return (
-    <div className="live-stage" data-mode="live">
+    <div className="live-stage" data-mode="live" data-theme="live">
       <div
         ref={announceRef}
         className="live-region"
@@ -132,90 +183,161 @@ export function LiveStage({
         aria-atomic="true"
       />
 
-      <header className="live-header">
+      {/* ── TOP LEFT: Section metadata ── */}
+      <div className="live-corner live-corner--tl">
+        <span className="orr-label orr-muted">{sectionMeta}</span>
+      </div>
+
+      {/* ── TOP RIGHT: Progress mark ── */}
+      <div className="live-corner live-corner--tr">
         <CircleMark
           focus={currentView.focus}
           filled={filledCircles}
           size="sm"
         />
-        <span className="live-section-label">
-          {section.number} {section.navLabel}
-        </span>
-        <span className="live-reading">{section.reading}</span>
-      </header>
+      </div>
 
-      <main className="live-content">
-        <div className="live-view">
-          {currentView.focus && (
-            <div className="live-diagram">
-              <CircleMark
-                focus={currentView.focus}
-                filled={filledCircles}
-                size="lg"
+      {/* ── MAIN CONTENT ── */}
+      <main className={`live-content ${centered ? "live-content--centered" : "live-content--offcenter"}`}>
+        <div className={`live-view ${centered ? "live-view--centered" : "live-view--offcenter"}`}>
+          {/* Cutout (centered views: above content; off-center: not shown here, shown inline) */}
+          {centered && cutout && (
+            <figure className="live-cutout-figure live-cutout-figure--centered">
+              <img
+                className="orr-cutout"
+                src={cutout.src}
+                alt={cutout.alt}
+                style={{ height: 240 }}
               />
+              <figcaption>
+                <span className="orr-label">{cutout.label}</span>
+                <span className="orr-label orr-muted">{cutout.meaning}</span>
+              </figcaption>
+            </figure>
+          )}
+
+          {/* Key line layout */}
+          {currentView.keyLine && (
+            <div className="live-keyline">
+              <span className="orr-label orr-muted">KEY LINE</span>
+              <hr className="live-keyline-rule" />
+              <h1
+                ref={headingRef}
+                className="live-headline live-headline--keyline"
+                tabIndex={-1}
+              >
+                {currentView.headline}
+              </h1>
             </div>
           )}
 
-          <div className="live-text">
-            <h1
-              ref={headingRef}
-              className={`live-headline ${currentView.keyLine ? "live-headline--keyline" : ""}`}
-              tabIndex={-1}
-            >
-              {currentView.headline}
-            </h1>
-
-            {currentView.body && (
-              <p className="live-body">{currentView.body}</p>
-            )}
-
-            {currentView.placeholder && (
-              <Placeholder
-                label={currentView.placeholder}
-                fallback={currentView.fallback}
-                config={config}
-              />
-            )}
-
-            {currentView.id === "start-link" &&
-              config.studentsOnDevices &&
-              config.publicUrl && (
-                <QrCode url={config.publicUrl} size={200} />
+          {/* Non-keyline content */}
+          {!currentView.keyLine && (
+            <>
+              {/* Off-center: diagram left */}
+              {!centered && currentView.focus && (
+                <div className="live-diagram">
+                  <CircleMark
+                    focus={currentView.focus}
+                    filled={filledCircles}
+                    size="lg"
+                  />
+                </div>
               )}
 
-            {currentView.interaction && (
-              <div className="live-interaction-slot" role="region" aria-label="Interactive element">
-                {renderInteraction(currentView.interaction, config)}
+              {/* Off-center: cutout in right column area */}
+              {!centered && cutout && !currentView.interaction && (
+                <figure className="live-cutout-figure live-cutout-figure--side">
+                  <img
+                    className="orr-cutout"
+                    src={cutout.src}
+                    alt={cutout.alt}
+                    style={{ height: 240 }}
+                  />
+                  <figcaption>
+                    <span className="orr-label">{cutout.label}</span>
+                    <span className="orr-label orr-muted">{cutout.meaning}</span>
+                  </figcaption>
+                </figure>
+              )}
+
+              <div className="live-text">
+                <h1
+                  ref={headingRef}
+                  className="live-headline"
+                  tabIndex={-1}
+                >
+                  {currentView.headline}
+                </h1>
+
+                {currentView.body && (
+                  <p className="live-body">{currentView.body}</p>
+                )}
+
+                {currentView.placeholder && (
+                  <Placeholder
+                    label={currentView.placeholder}
+                    fallback={currentView.fallback}
+                    config={config}
+                  />
+                )}
+
+                {currentView.id === "start-link" &&
+                  config.studentsOnDevices &&
+                  config.publicUrl && (
+                    <QrCode url={config.publicUrl} size={200} />
+                  )}
+
+                {currentView.interaction && (
+                  <div className="live-interaction-slot" role="region" aria-label="Interactive element">
+                    {renderInteraction(currentView.interaction, config)}
+                  </div>
+                )}
               </div>
-            )}
-          </div>
+            </>
+          )}
         </div>
       </main>
 
-      <footer className="live-footer">
-        <button
-          className="live-nav-btn"
-          onClick={goPrev}
-          disabled={isFirst}
-          aria-label="Previous view"
-        >
-          ←
-        </button>
+      {/* ── BOTTOM LEFT: Plate label ── */}
+      <div className="live-corner live-corner--bl">
+        <span className="orr-label orr-muted">
+          {isTitleView ? "PARSONS · DIGITAL PRODUCT DESIGN" : plateLabel}
+        </span>
+      </div>
 
-        <SectionNav
-          currentSectionId={section.id}
-          onNavigate={onSectionNav}
-        />
-
-        <button
-          className="live-nav-btn"
-          onClick={goNext}
-          disabled={isLast}
-          aria-label="Next view"
-        >
-          →
-        </button>
-      </footer>
+      {/* ── BOTTOM RIGHT: Nav dots + Previous/Next ── */}
+      <div className="live-corner live-corner--br">
+        {!isTitleView && (
+          <div className="live-nav">
+            <SectionNav
+              currentSectionId={section.id}
+              onNavigate={onSectionNav}
+            />
+            <div className="live-nav-btns">
+              <button
+                className="orr-btn orr-btn--text orr-muted"
+                onClick={goPrev}
+                disabled={isFirst}
+                aria-label="Previous view"
+              >
+                Previous
+              </button>
+              <button
+                className="orr-btn orr-btn--text orr-muted"
+                onClick={goNext}
+                disabled={isLast}
+                aria-label="Next view"
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        )}
+        {isTitleView && (
+          <span className="orr-label orr-muted">A LECTURE BY NANCY CHEN</span>
+        )}
+      </div>
     </div>
   );
 }

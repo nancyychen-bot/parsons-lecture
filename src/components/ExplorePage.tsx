@@ -27,7 +27,7 @@ export function ExplorePage({ sectionId, config, onSectionNav }: Props) {
   const sectionIndex = sections.findIndex((s) => s.id === currentSection.id);
 
   return (
-    <div className="explore-page">
+    <div className="explore-page" data-theme="explore">
       {/* Desktop sidebar nav */}
       <nav className="explore-sidebar" aria-label="Section navigation">
         <ol className="explore-sidebar-list">

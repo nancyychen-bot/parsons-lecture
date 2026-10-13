@@ -1,42 +1,46 @@
-/* ---- Workshop Canvas ---- */
+/* ── Workshop Canvas — Explore theme, Orrery styling ── */
 .workshop-canvas {
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: var(--space-lg) var(--space-md);
+  padding: var(--space-4) var(--space-3);
 }
 
-/* ---- Starter toggle ---- */
+/* ── Starter toggle ── */
 .workshop-starter-toggle {
   display: flex;
   gap: 0;
-  border: 1px solid var(--color-border);
-  border-radius: 6px;
+  border: var(--w-rule) solid var(--ink);
   overflow: hidden;
   width: fit-content;
-  margin-bottom: var(--space-xl);
+  margin-bottom: var(--space-4);
 }
 
 .workshop-starter-btn {
-  padding: var(--space-xs) var(--space-lg);
+  padding: 12px 24px;
   border: none;
   background: none;
-  font-size: var(--text-sm);
-  font-family: var(--font-body);
-  color: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  min-height: 44px;
+  cursor: pointer;
   transition: background var(--duration-fast) var(--ease-out),
     color var(--duration-fast) var(--ease-out);
 }
 
 .workshop-starter-btn:hover {
-  background: var(--color-surface);
+  color: var(--ink);
 }
 
 .workshop-starter-btn--active {
-  background: var(--color-fg);
-  color: var(--color-bg);
+  background: var(--ink);
+  color: var(--ground);
 }
 
-/* ---- Desktop: diagram + fields side by side ---- */
+/* ── Desktop: diagram + fields side by side ── */
 .workshop-desktop-layout {
   display: none;
 }
@@ -44,7 +48,7 @@
 @media (min-width: 52rem) {
   .workshop-desktop-layout {
     display: grid;
-    grid-template-columns: 260px 1fr;
+    grid-template-columns: 280px 1fr;
     gap: var(--space-2xl);
     align-items: start;
   }
@@ -54,123 +58,137 @@
   }
 }
 
-/* ---- Diagram column (desktop) ---- */
+/* ── Diagram column ── */
 .workshop-diagram-col {
   position: sticky;
-  top: var(--space-xl);
+  top: var(--space-4);
 }
 
 .workshop-diagram {
-  margin-bottom: var(--space-lg);
+  margin-bottom: var(--space-4);
 }
 
 .workshop-diagram-previews {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
+  gap: var(--space-2);
 }
 
 .workshop-preview-chip {
-  font-size: var(--text-xs);
   font-family: var(--font-mono);
-  color: var(--color-muted);
-  line-height: var(--leading-normal);
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.4;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .workshop-preview-chip-label {
-  font-weight: 600;
-  color: var(--color-fg);
-  margin-right: var(--space-xs);
+  font-weight: 500;
+  color: var(--ink);
+  margin-right: var(--space-1);
 }
 
-/* ---- Fields column ---- */
+/* ── Fields column ── */
 .workshop-fields {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xl);
+  gap: var(--space-4);
 }
 
-/* ---- Section groups ---- */
+/* ── Section groups ── */
 .workshop-ring-section {
-  border-top: 1px solid var(--color-border);
-  padding-top: var(--space-lg);
+  border-top: var(--w-rule) solid var(--ink);
+  padding-top: var(--space-4);
 }
 
 .workshop-ring-label {
-  font-family: var(--font-display);
-  font-size: var(--text-lg);
-  font-weight: 600;
-  margin-bottom: var(--space-md);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: var(--space-3);
+  color: var(--ink);
 }
 
-/* ---- Individual field ---- */
+/* ── Individual field — .orr-field style ── */
 .workshop-field {
-  margin-bottom: var(--space-lg);
+  margin-bottom: var(--space-4);
+  display: grid;
+  gap: var(--space-2);
+  max-width: var(--measure);
 }
 
 .workshop-field-label {
   display: block;
-  font-size: var(--text-sm);
-  font-weight: 600;
-  margin-bottom: var(--space-xs);
-  color: var(--color-fg);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
 }
 
 .workshop-field-helper {
   display: block;
-  font-size: var(--text-xs);
-  color: var(--color-muted);
-  margin-bottom: var(--space-sm);
+  font-family: var(--font-serif);
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--muted);
   font-style: italic;
 }
 
 .workshop-field-char-guide {
   display: block;
-  font-size: var(--text-xs);
-  color: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
   text-align: right;
-  margin-top: var(--space-xs);
   transition: color var(--duration-fast) var(--ease-out);
 }
 
 .workshop-field-char-guide--over {
-  color: var(--color-fg);
-  font-weight: 600;
+  color: var(--ink);
+  font-weight: 500;
 }
 
 .workshop-field input[type="text"],
 .workshop-field textarea {
   width: 100%;
-  padding: var(--space-sm) var(--space-md);
-  border: 1px solid var(--color-border);
-  border-radius: 4px;
-  font-family: var(--font-body);
-  font-size: var(--text-base);
-  line-height: var(--leading-normal);
-  color: var(--color-fg);
-  background: var(--color-bg);
-  transition: border-color var(--duration-fast) var(--ease-out);
+  padding: 8px 0;
+  border: 0;
+  border-bottom: var(--w-rule) solid var(--ink);
+  font-family: var(--font-mono);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ink);
+  background: transparent;
   resize: vertical;
+  border-radius: 0;
+}
+
+.workshop-field input[type="text"]::placeholder,
+.workshop-field textarea::placeholder {
+  color: var(--muted);
 }
 
 .workshop-field input[type="text"]:focus,
 .workshop-field textarea:focus {
-  border-color: var(--color-fg);
   outline: none;
+  border-bottom-color: var(--ink);
 }
 
 .workshop-field textarea {
   min-height: 4.5rem;
 }
 
-/* ---- Mobile: stacked cards ---- */
+/* ── Mobile: stacked ── */
 .workshop-mobile-layout {
   display: flex;
   flex-direction: column;
-  gap: var(--space-lg);
+  gap: var(--space-4);
 }
 
 @media (min-width: 52rem) {
@@ -180,149 +198,158 @@
 }
 
 .workshop-card {
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  padding: var(--space-lg);
-  background: var(--color-bg);
+  border-top: var(--w-rule) solid var(--ink);
+  padding: var(--space-4) 0;
 }
 
 .workshop-card-ring-label {
-  font-family: var(--font-display);
-  font-size: var(--text-sm);
-  font-weight: 600;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--color-muted);
-  margin-bottom: var(--space-md);
+  color: var(--muted);
+  margin-bottom: var(--space-3);
 }
 
-/* ---- Privacy note ---- */
+/* ── Privacy note ── */
 .workshop-privacy {
-  font-size: var(--text-xs);
-  color: var(--color-muted);
+  font-family: var(--font-serif);
+  font-size: 15px;
+  color: var(--muted);
   text-align: center;
-  margin-top: var(--space-md);
-  margin-bottom: var(--space-md);
+  margin-top: var(--space-3);
+  margin-bottom: var(--space-3);
 }
 
-/* ---- Save status ---- */
+/* ── Save status ── */
 .workshop-save-status {
-  font-size: var(--text-xs);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   text-align: center;
-  margin-bottom: var(--space-lg);
-  padding: var(--space-xs) var(--space-sm);
+  margin-bottom: var(--space-4);
+  padding: var(--space-1) var(--space-2);
 }
 
 .workshop-save-status--saved {
-  color: var(--color-muted);
+  color: var(--muted);
 }
 
 .workshop-save-status--warning {
-  color: var(--color-fg);
-  background: var(--color-surface);
-  border-radius: 4px;
-  font-weight: 600;
+  color: var(--ink);
+  border: var(--w-rule) dashed var(--faint);
+  padding: var(--space-2);
 }
 
-/* ---- Actions bar ---- */
+/* ── Actions bar ── */
 .workshop-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-sm);
+  gap: var(--space-2);
   justify-content: center;
-  margin-top: var(--space-lg);
-  padding-top: var(--space-lg);
-  border-top: 1px solid var(--color-border);
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: var(--w-rule) solid var(--ink);
 }
 
 .workshop-action-btn {
-  padding: var(--space-sm) var(--space-lg);
-  border: 1px solid var(--color-border);
-  border-radius: 6px;
-  background: var(--color-bg);
-  font-size: var(--text-sm);
-  font-family: var(--font-body);
-  color: var(--color-fg);
+  padding: 12px 16px;
+  border: var(--w-rule) solid var(--ink);
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
+  min-height: 44px;
+  cursor: pointer;
   transition: background var(--duration-fast) var(--ease-out),
-    border-color var(--duration-fast) var(--ease-out);
+    color var(--duration-fast) var(--ease-out);
 }
 
 .workshop-action-btn:hover {
-  background: var(--color-surface);
-  border-color: var(--color-fg);
+  background: var(--ink);
+  color: var(--ground);
 }
 
 .workshop-action-btn--primary {
-  background: var(--color-fg);
-  color: var(--color-bg);
-  border-color: var(--color-fg);
+  background: var(--ink);
+  color: var(--ground);
 }
 
 .workshop-action-btn--primary:hover {
-  background: var(--color-muted);
+  opacity: 0.85;
 }
 
 .workshop-action-btn--danger {
-  color: var(--color-muted);
-  border-color: var(--color-border);
+  color: var(--muted);
+  border-color: var(--faint);
 }
 
 .workshop-action-btn--danger:hover {
-  color: var(--color-fg);
+  border-color: var(--ink);
+  color: var(--ink);
+  background: transparent;
 }
 
-/* ---- Clipboard fallback box ---- */
+/* ── Clipboard fallback ── */
 .workshop-fallback-box {
-  margin-top: var(--space-lg);
-  padding: var(--space-md);
-  border: 1px solid var(--color-border);
-  border-radius: 6px;
-  background: var(--color-surface);
+  margin-top: var(--space-4);
+  padding: var(--space-3);
+  border: var(--w-rule) dashed var(--faint);
 }
 
 .workshop-fallback-box p {
-  font-size: var(--text-sm);
-  color: var(--color-muted);
-  margin-bottom: var(--space-sm);
+  font-family: var(--font-serif);
+  font-size: 15px;
+  color: var(--muted);
+  margin-bottom: var(--space-2);
 }
 
 .workshop-fallback-box textarea {
   width: 100%;
   min-height: 12rem;
-  padding: var(--space-sm);
-  border: 1px solid var(--color-border);
-  border-radius: 4px;
+  padding: var(--space-2);
+  border: var(--w-rule) solid var(--faint);
   font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  line-height: var(--leading-normal);
-  color: var(--color-fg);
-  background: var(--color-bg);
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--ink);
+  background: transparent;
   resize: vertical;
+  border-radius: 0;
 }
 
 .workshop-fallback-close {
-  margin-top: var(--space-sm);
-  padding: var(--space-xs) var(--space-md);
-  border: 1px solid var(--color-border);
-  border-radius: 4px;
+  margin-top: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  border: var(--w-rule) solid var(--faint);
   background: none;
-  font-size: var(--text-sm);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   cursor: pointer;
 }
 
-/* ---- Copy confirmation ---- */
+/* ── Copy confirmation ── */
 .workshop-copy-confirm {
-  font-size: var(--text-xs);
-  color: var(--color-muted);
-  margin-left: var(--space-sm);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-left: var(--space-2);
   animation: wc-fade-in var(--duration-normal) var(--ease-out);
 }
 
 @keyframes wc-fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }

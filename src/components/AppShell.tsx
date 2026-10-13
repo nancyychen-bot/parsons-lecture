@@ -105,7 +105,7 @@ export function AppShell({ config }: Props) {
   }
 
   return (
-    <div className="app-shell" data-mode={route.mode}>
+    <div className="app-shell" data-mode={route.mode} data-theme={route.mode}>
       <div className="mode-switcher">
         <button
           className={`mode-btn ${route.mode === "live" ? "mode-btn--active" : ""}`}

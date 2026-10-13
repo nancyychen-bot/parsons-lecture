@@ -195,7 +195,7 @@ export function ContradictionRepair() {
                 y1={CY - 2}
                 x2={CX + 4}
                 y2={CY + 2}
-                stroke="var(--color-fg)"
+                stroke="var(--ink)"
                 strokeWidth="1.5"
                 strokeLinecap="round"
               />
@@ -204,7 +204,7 @@ export function ContradictionRepair() {
                 y1={CY + 2}
                 x2={CX + 4}
                 y2={CY - 2}
-                stroke="var(--color-fg)"
+                stroke="var(--ink)"
                 strokeWidth="1.5"
                 strokeLinecap="round"
               />
@@ -262,11 +262,11 @@ export function ContradictionRepair() {
             </p>
           </>
         ) : crState === "coherent" ? (
-          <p className="cr-response-prompt" style={{ color: "var(--color-muted)" }}>
+          <p className="cr-response-prompt" style={{ color: "var(--muted)" }}>
             The axis passes cleanly through all three rings.
           </p>
         ) : (
-          <p className="cr-response-prompt" style={{ color: "var(--color-muted)" }}>
+          <p className="cr-response-prompt" style={{ color: "var(--muted)" }}>
             Pick the ring where the contradiction breaks.
           </p>
         )}
