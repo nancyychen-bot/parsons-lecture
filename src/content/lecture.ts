@@ -25,9 +25,9 @@ export const sections: Section[] = [
       {
         id: "start-about",
         headline: "About Nancy",
-        placeholder: `Bio and optional headshot. Lead with the job title that lacks "product," "design" and "engineering," then one line on what she builds anyway.`,
+        body: `Nancy Chen builds tools for how people connect — a personal CRM called the Dossier, community dashboards, event triage systems. None of these have "product design" in their job description. All of them are products.`,
         focus: null,
-        presenterNote: "The missing title is the hook for 07 and Q&A. Say it here and pay it off later.",
+        presenterNote: `The missing title is the hook for 07 and Q&A. Nancy's title at Notion doesn't include "product," "design," or "engineering" — but she builds products anyway. Say it here and pay it off later.`,
       },
       {
         id: "start-link",
@@ -301,12 +301,12 @@ export const sections: Section[] = [
       },
       {
         id: "connect-build",
-        headline: "Nancy's build",
+        headline: "Nancy's build: The Dossier",
+        body: `A tool for remembering the people you meet — who they are, where you crossed paths, what you talked about. The first version was a messy spreadsheet. The judgment call: organizing by relationship, not by company. The change prompted by real behavior: after a few events, the "meeting notes" field mattered more than the job title.`,
         focus: "axis",
-        placeholder: "What it lets someone do; the first imperfect version; one judgment call; one change prompted by real behavior.",
         fallback: "This site itself, using the dry-run change from T−10.",
         cutAt45: true,
-        presenterNote: "If 45 min: skip this and save it for Q&A if asked.",
+        presenterNote: `Nancy's Dossier — a personal CRM she vibe-coded. Product: capture and organize connections. Experience: quick enough to use at an event. World: the network starts generating its own introductions. If 45 min: skip this and save it for Q&A if asked.`,
       },
       {
         id: "connect-keyline",
@@ -395,7 +395,7 @@ export const sections: Section[] = [
       body: "Three questions for everything you build: What can someone do? How does it feel? What are they part of?",
       extras: [
         "From canvas to first prototype: PLACEHOLDER for Nancy's list of beginner pitfalls in vibe coding.",
-        "Resource links: PLACEHOLDER.",
+        "Download the completed coffee-shop example — the same canvas, filled in for a fictional approachable coffee shop.",
       ],
     },
   },

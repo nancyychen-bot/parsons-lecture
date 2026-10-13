@@ -1,4 +1,4 @@
-import { useRef, useEffect, useMemo } from "react";
+import { useRef, useEffect, useMemo, useState } from "react";
 import type { Section, View, LectureConfig } from "../types";
 import { sections, getVisibleViews, getFilledCircles } from "../content/lecture";
 import { CircleMark } from "./CircleMark";
@@ -12,6 +12,8 @@ import { ContradictionRepair } from "./ContradictionRepair";
 import { SiteReadBack } from "./SiteReadBack";
 import { WorkshopCanvas } from "./WorkshopCanvas";
 import { QrCode } from "./QrCode";
+import { copyBrief } from "../lib/exportBrief";
+import { coffeeShopExample } from "../content/coffee-shop-example";
 import { useKeyboardNav } from "../hooks/useKeyboardNav";
 import "./LiveStage.css";
 
@@ -101,6 +103,7 @@ export function LiveStage({
 }: Props) {
   const headingRef = useRef<HTMLHeadingElement>(null);
   const announceRef = useRef<HTMLDivElement>(null);
+  const [exampleCopied, setExampleCopied] = useState(false);
 
   const section = useMemo(
     () => sections.find((s) => s.id === sectionId) || sections[0],
@@ -292,6 +295,22 @@ export function LiveStage({
                   <div className="live-interaction-slot" role="region" aria-label="Interactive element">
                     {renderInteraction(currentView.interaction, config)}
                   </div>
+                )}
+
+                {section.id === "closing" && currentView.id === "closing-readback" && (
+                  <button
+                    className="orr-btn orr-btn--outline"
+                    style={{ marginTop: "1.5rem" }}
+                    onClick={async () => {
+                      const result = await copyBrief(coffeeShopExample);
+                      if (result.ok) {
+                        setExampleCopied(true);
+                        setTimeout(() => setExampleCopied(false), 2000);
+                      }
+                    }}
+                  >
+                    {exampleCopied ? "Copied!" : "Download coffee-shop example"}
+                  </button>
                 )}
               </div>
             </>

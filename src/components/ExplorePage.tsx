@@ -3,6 +3,8 @@ import type { LectureConfig } from "../types";
 import { sections, getFilledCircles } from "../content/lecture";
 import { CircleMark } from "./CircleMark";
 import { Placeholder } from "./Placeholder";
+import { copyBrief } from "../lib/exportBrief";
+import { coffeeShopExample } from "../content/coffee-shop-example";
 import "./ExplorePage.css";
 
 type Props = {
@@ -13,6 +15,7 @@ type Props = {
 
 export function ExplorePage({ sectionId, config, onSectionNav }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [exampleCopied, setExampleCopied] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
 
   const currentSection = useMemo(
@@ -102,9 +105,27 @@ export function ExplorePage({ sectionId, config, onSectionNav }: Props) {
             <div className="explore-body">
               <p>{currentSection.explore.body}</p>
 
-              {currentSection.explore.extras?.map((extra, i) => (
-                <Placeholder key={i} label={extra} config={config} />
-              ))}
+              {currentSection.explore.extras?.map((extra, i) =>
+                extra.startsWith("Download the completed coffee-shop example") ? (
+                  <div key={i} className="explore-extra-action">
+                    <p>{extra}</p>
+                    <button
+                      className="orr-btn orr-btn--outline"
+                      onClick={async () => {
+                        const result = await copyBrief(coffeeShopExample);
+                        if (result.ok) {
+                          setExampleCopied(true);
+                          setTimeout(() => setExampleCopied(false), 2000);
+                        }
+                      }}
+                    >
+                      {exampleCopied ? "Copied to clipboard!" : "Copy coffee-shop example"}
+                    </button>
+                  </div>
+                ) : (
+                  <Placeholder key={i} label={extra} config={config} />
+                )
+              )}
             </div>
           ) : (
             <Placeholder label="Explore content for this section." config={config} />
