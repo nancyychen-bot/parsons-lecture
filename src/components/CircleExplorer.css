@@ -1,174 +1,95 @@
-/* ── CircleExplorer — Orrery theme ── */
-.circle-explorer {
+/* ── CircleExplorer — matches 03-circle-explorer.dc.html ── */
+
+/* Main container: SVG left, text right */
+.ce {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  width: 100%;
+}
+
+/* SVG diagram — 480px wide in its container, positioned by LiveStage */
+.ce-svg {
+  flex: none;
+}
+
+/* Right column */
+.ce-right {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: var(--space-4);
-  padding: var(--space-3) 0;
+  gap: 16px;
+  min-width: 0;
 }
 
 /* Ring buttons */
-.circle-explorer-buttons {
+.ce-buttons {
   display: flex;
-  gap: var(--space-2);
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
-.circle-explorer-btn {
-  padding: 12px 16px;
-  border: var(--w-rule) solid var(--ink);
-  background: transparent;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--muted);
-  cursor: pointer;
-  min-height: 44px;
-  transition:
-    background var(--duration-normal) var(--ease-out),
-    color var(--duration-normal) var(--ease-out),
-    border-color var(--duration-normal) var(--ease-out);
+/* Question + meaning text */
+.ce-text {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-[data-theme="live"] .circle-explorer-btn {
-  font-size: 18px;
-  padding: 14px 22px;
-  min-height: 56px;
+.ce-question {
+  margin: 0;
+  font-size: 64px;
+  line-height: 1.02;
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  font-variation-settings: 'opsz' 72;
 }
 
-.circle-explorer-btn:hover {
-  border-color: var(--ink);
-  color: var(--ink);
-}
-
-.circle-explorer-btn[aria-pressed="true"] {
-  background: var(--ink);
-  color: var(--ground);
-  border-color: var(--ink);
-}
-
-/* SVG diagram */
-.circle-explorer-diagram {
-  width: 18rem;
-  height: 18rem;
-  position: relative;
-}
-
-.circle-explorer-diagram svg {
-  width: 100%;
-  height: 100%;
-}
-
-.ce-ring {
-  fill: none;
-  stroke: var(--ink);
-  stroke-width: var(--w-ring);
-  vector-effect: non-scaling-stroke;
-  cursor: pointer;
-  transition: opacity var(--duration-normal) var(--ease-out);
-}
-
-/* Unfilled / dimmed */
-.ce-ring--dimmed {
-  stroke: var(--faint);
-  stroke-dasharray: var(--dash-unfilled);
-}
-
-/* Active — ink, solid */
-.ce-ring--active {
-  stroke: var(--ink);
-  opacity: 1;
-}
-
-/* World ring gets dashed treatment when active */
-.ce-ring--world.ce-ring--active {
-  stroke-dasharray: var(--d-world);
-}
-
-/* No interior fills per Orrery rules */
-
-/* Hit area */
-.ce-ring-hit {
-  fill: none;
-  stroke: transparent;
-  stroke-width: 12;
-  cursor: pointer;
-}
-
-/* SVG ring labels */
-.ce-ring-text {
-  font-family: var(--font-mono);
-  font-size: 4px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  fill: var(--muted);
-  text-anchor: middle;
-  pointer-events: none;
-  paint-order: stroke;
-  stroke: var(--ground);
-  stroke-width: 5px;
-  stroke-linejoin: round;
-  transition: fill var(--duration-normal) var(--ease-out);
-}
-
-.ce-ring-text--active {
-  fill: var(--ink);
-}
-
-/* Info panel */
-.circle-explorer-info {
-  text-align: center;
-  max-width: var(--content-width);
-  min-height: 5rem;
-}
-
-.circle-explorer-info-title {
-  font-family: var(--font-serif);
-  font-size: 28px;
-  font-variation-settings: 'opsz' 36;
-  margin-bottom: var(--space-2);
-  transition: opacity var(--duration-normal) var(--ease-out);
-}
-
-[data-theme="live"] .circle-explorer-info-title {
-  font-size: 36px;
-}
-
-.circle-explorer-info-def {
-  font-family: var(--font-serif);
-  font-size: 18px;
+.ce-meaning {
+  margin: 0;
+  font-size: 30px;
+  line-height: 1.3;
   font-style: italic;
-  color: var(--muted);
-  margin-bottom: var(--space-2);
-  transition: opacity var(--duration-normal) var(--ease-out);
+  font-variation-settings: 'opsz' 24;
 }
 
-[data-theme="live"] .circle-explorer-info-def {
-  font-size: 24px;
+/* Coffee-shop example block */
+.ce-example {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 16px;
+  border-top: 2px solid var(--ink);
+  max-width: 320px;
 }
 
-.circle-explorer-info-example {
-  font-family: var(--font-serif);
-  font-size: 18px;
-  color: var(--muted);
-  transition: opacity var(--duration-normal) var(--ease-out);
+.ce-example-text {
+  margin: 0;
+  font-size: 28px;
+  line-height: 1.3;
+  font-variation-settings: 'opsz' 24;
 }
 
-/* Entrance */
-.circle-explorer-info--enter {
-  animation: ce-fade-in var(--duration-normal) var(--ease-out);
-}
+/* Mobile: stack vertically */
+@media (max-width: 768px) {
+  .ce {
+    flex-direction: column;
+    gap: 24px;
+  }
 
-@keyframes ce-fade-in {
-  from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+  .ce-svg {
+    width: 100%;
+    height: auto;
+  }
 
-@media (max-width: 40rem) {
-  .circle-explorer-diagram {
-    width: 14rem;
-    height: 14rem;
+  .ce-question {
+    font-size: 36px;
+  }
+
+  .ce-meaning {
+    font-size: 22px;
+  }
+
+  .ce-example-text {
+    font-size: 22px;
   }
 }

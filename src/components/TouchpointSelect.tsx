@@ -1,157 +1,165 @@
 import { useState, useCallback } from "react";
 import "./TouchpointSelect.css";
 
-const TOUCHPOINTS = [
-  { id: "coffee", label: "Coffee", rings: ["product"] },
-  { id: "menu", label: "Menu", rings: ["product", "experience"] },
-  { id: "mobile-app", label: "Mobile order app", rings: ["product"] },
-  { id: "ordering", label: "Ordering", rings: ["experience"] },
-  { id: "staff", label: "Staff", rings: ["experience"] },
-  { id: "seating", label: "Seating", rings: ["experience", "world"] },
-  { id: "getting-help", label: "Getting help", rings: ["experience"] },
-  { id: "regulars", label: "Regulars", rings: ["world"] },
-  { id: "reputation", label: "Reputation", rings: ["world"] },
-] as const;
+/**
+ * TouchpointSelect — matches 02-touchpoints.dc.html exactly.
+ *
+ * Coffee cup at center drawn in ring grammar (rim r=26, coffee core r=17, handle r=9).
+ * Nine touchpoints on a single faint orbit (r=210) or mapped to three rings.
+ * Each is a 14px dot + mono label knocked out against ground.
+ *
+ * The component renders ONLY the left diagram area (740×576) and the bottom-left
+ * reveal button + status. The right column (cutout + headline) and four corners
+ * are handled by LiveStage.
+ */
 
-type TouchpointId = (typeof TOUCHPOINTS)[number]["id"];
-
-/** Angle positions for each touchpoint around the orbit (degrees, 0 = top) */
-const ORBIT_ANGLES: Record<TouchpointId, number> = {
-  coffee: 0,
-  menu: 40,
-  "mobile-app": 80,
-  ordering: 120,
-  staff: 160,
-  seating: 200,
-  "getting-help": 240,
-  regulars: 280,
-  reputation: 320,
+type TouchpointDef = {
+  id: string;
+  label: string;
+  orbit: [number, number, "r" | "l"]; // [radius, angle°, labelSide]
+  map: [number, number, "r" | "l"];
 };
 
-/** Ring target positions for mapped state (percent from center) */
-const RING_RADIUS: Record<string, number> = {
-  product: 20,
-  experience: 35,
-  world: 48,
+const TOUCHPOINTS: TouchpointDef[] = [
+  { id: "coffee",      label: "Coffee",          orbit: [210, -90,  "r"], map: [70,  0,    "r"] },
+  { id: "app",         label: "Mobile order app", orbit: [210, -50,  "r"], map: [70,  180,  "l"] },
+  { id: "menu",        label: "Menu",             orbit: [210, -10,  "r"], map: [105, 130,  "l"] },
+  { id: "ordering",    label: "Ordering",         orbit: [210, 30,   "r"], map: [140, -40,  "r"] },
+  { id: "help",        label: "Getting help",     orbit: [210, 70,   "r"], map: [140, -125, "l"] },
+  { id: "staff",       label: "Staff",            orbit: [210, 110,  "l"], map: [140, 40,   "r"] },
+  { id: "seating",     label: "Seating",          orbit: [210, 150,  "l"], map: [140, 90,   "r"] },
+  { id: "regulars",    label: "Regulars",         orbit: [210, 190,  "l"], map: [210, 200,  "l"] },
+  { id: "reputation",  label: "Reputation",       orbit: [210, 230,  "l"], map: [175, 10,   "r"] },
+];
+
+const W = 740;
+const CX = 360;
+const CY = 288;
+
+const DEFAULT_ON: Record<string, boolean> = {
+  coffee: true,
+  app: true,
+  menu: true,
 };
-
-function getOrbitPosition(angleDeg: number, radiusPct: number) {
-  const rad = ((angleDeg - 90) * Math.PI) / 180;
-  return {
-    left: `${50 + radiusPct * Math.cos(rad)}%`,
-    top: `${50 + radiusPct * Math.sin(rad)}%`,
-  };
-}
-
-/** Map a touchpoint to its primary ring position when mapped */
-function getMappedPosition(tp: (typeof TOUCHPOINTS)[number], index: number) {
-  const primaryRing = tp.rings[0];
-  const radius = RING_RADIUS[primaryRing] ?? 35;
-  // Spread touchpoints within the same ring
-  const ringMembers = TOUCHPOINTS.filter((t) => t.rings[0] === primaryRing);
-  const ringIndex = ringMembers.findIndex((t) => t.id === tp.id);
-  const spreadAngle = 360 / Math.max(ringMembers.length, 1);
-  const angle = ringIndex * spreadAngle + index * 5; // slight offset to avoid overlap
-  return getOrbitPosition(angle, radius);
-}
 
 export function TouchpointSelect() {
-  const [selected, setSelected] = useState<Set<TouchpointId>>(new Set());
+  const [on, setOn] = useState<Record<string, boolean>>(DEFAULT_ON);
   const [mapped, setMapped] = useState(false);
 
   const toggle = useCallback(
-    (id: TouchpointId) => {
-      if (mapped) return; // don't toggle in mapped state
-      setSelected((prev) => {
-        const next = new Set(prev);
-        if (next.has(id)) {
-          next.delete(id);
-        } else {
-          next.add(id);
-        }
-        return next;
-      });
+    (id: string) => {
+      setOn((prev) => ({ ...prev, [id]: !prev[id] }));
     },
-    [mapped]
+    []
   );
 
   const handleReveal = useCallback(() => {
-    if (mapped) {
-      setMapped(false);
-    } else {
-      setMapped(true);
-    }
-  }, [mapped]);
-
-  const activeCount = selected.size;
+    setMapped((prev) => !prev);
+  }, []);
 
   return (
-    <div className="touchpoint-select" role="group" aria-label="Touchpoint selector">
-      <div className="touchpoint-orbit">
-        {/* Center icon */}
-        <div className="touchpoint-center" aria-hidden="true">
-          <span className="touchpoint-center-icon">&#9749;</span>
-          <span className="touchpoint-center-label">Coffee shop</span>
-        </div>
-
-        {/* Ring labels for mapped state */}
-        <div
-          className={`touchpoint-ring-labels ${mapped ? "touchpoint-ring-labels--visible" : ""}`}
+    <div className="tp-select" role="group" aria-label="Touchpoints of a coffee shop">
+      {/* Left diagram area */}
+      <div className="tp-diagram" style={{ width: W, height: 576, position: "relative" }}>
+        {/* SVG rings and coffee cup */}
+        <svg
+          className="orr-svg"
+          viewBox={`0 0 ${W} 576`}
+          width={W}
+          height={576}
           aria-hidden="true"
+          style={{ position: "absolute", left: 0, top: 0 }}
         >
-          <span className="touchpoint-ring-label touchpoint-ring-label--product">
-            Product
-          </span>
-          <span className="touchpoint-ring-label touchpoint-ring-label--experience">
-            Experience
-          </span>
-          <span className="touchpoint-ring-label touchpoint-ring-label--world">
-            World
-          </span>
-        </div>
+          {/* Orbit ring (single faint circle) — shown when NOT mapped */}
+          {!mapped && (
+            <circle className="orr-ring orr-ring--unfilled" cx={CX} cy={CY} r={210} />
+          )}
 
-        {/* Touchpoint buttons */}
-        {TOUCHPOINTS.map((tp, i) => {
-          const isActive = selected.has(tp.id);
-          const orbitPos = getOrbitPosition(ORBIT_ANGLES[tp.id], 42);
-          const mappedPos = getMappedPosition(tp, i);
-          const pos = mapped && isActive ? mappedPos : orbitPos;
-          const primaryRing = tp.rings[0];
+          {/* Three rings + labels — shown when mapped */}
+          {mapped && (
+            <>
+              <circle className="orr-ring" cx={CX} cy={CY} r={70} />
+              <circle className="orr-ring" cx={CX} cy={CY} r={140} />
+              <circle className="orr-ring orr-ring--world" cx={CX} cy={CY} r={210} />
+              <text x={CX} y={CY - 70 + 6} style={{ textAnchor: "middle", fontSize: "18px" }}>
+                PRODUCT
+              </text>
+              <text x={CX} y={CY - 140 + 6} style={{ textAnchor: "middle", fontSize: "18px" }}>
+                EXPERIENCE
+              </text>
+              <text x={CX} y={CY - 210 + 6} style={{ textAnchor: "middle", fontSize: "18px" }}>
+                WORLD
+              </text>
+            </>
+          )}
+
+          {/* Coffee cup: rim r=26, coffee core r=17, handle r=9 */}
+          <circle className="orr-ring" cx={CX} cy={CY} r={26} />
+          <circle className="orr-core" cx={CX} cy={CY} r={17} />
+          <circle className="orr-ring" cx={CX + 34} cy={CY} r={9} />
+        </svg>
+
+        {/* Touchpoint buttons — positioned absolutely */}
+        {TOUCHPOINTS.map((tp) => {
+          const p = mapped ? tp.map : tp.orbit;
+          const rad = (p[1] * Math.PI) / 180;
+          const x = Math.round(CX + p[0] * Math.cos(rad));
+          const y = Math.round(CY + p[0] * Math.sin(rad));
+          const side = p[2];
+
+          const isOn = !!on[tp.id];
+
+          // Position: dot is 14px, centered at (x, y)
+          // Button is 44px tall for hit target
+          const posStyle: React.CSSProperties =
+            side === "r"
+              ? { left: x - 7, top: y - 22 }
+              : { right: W - x - 7, top: y - 22 };
 
           return (
             <button
               key={tp.id}
-              className={`touchpoint-btn ${mapped ? "touchpoint-btn--mapped" : ""} ${mapped && isActive ? `touchpoint-btn--ring-${primaryRing}` : ""}`}
-              style={{
-                top: pos.top,
-                left: pos.left,
-                opacity: mapped && !isActive ? 0.25 : 1,
-              }}
-              aria-pressed={isActive}
-              aria-label={`${tp.label}${mapped && isActive ? `, mapped to ${tp.rings.join(" and ")}` : ""}`}
+              type="button"
+              aria-pressed={isOn}
               onClick={() => toggle(tp.id)}
-              disabled={mapped}
+              className="tp-btn"
+              style={{
+                ...posStyle,
+                flexDirection: side === "r" ? "row" : "row-reverse",
+                transition: "left 500ms ease-out, right 500ms ease-out, top 500ms ease-out",
+              }}
             >
-              {tp.label}
+              <span
+                className="tp-dot"
+                aria-hidden="true"
+                style={{
+                  background: isOn ? "var(--ink)" : "var(--ground)",
+                }}
+              />
+              <span className="tp-label" style={{ background: "var(--ground)", padding: "2px 4px" }}>
+                {tp.label}
+              </span>
             </button>
           );
         })}
       </div>
 
-      <p className="touchpoint-status" aria-live="polite">
-        {mapped
-          ? `${activeCount} touchpoint${activeCount !== 1 ? "s" : ""} mapped to rings`
-          : `${activeCount} of 9 selected`}
-      </p>
-
-      <button
-        className="touchpoint-action"
-        onClick={handleReveal}
-        disabled={!mapped && activeCount === 0}
-        aria-label={mapped ? "Reset touchpoints" : "See the bigger picture"}
-      >
-        {mapped ? "Reset" : "See the bigger picture"}
-      </button>
+      {/* Bottom-left: reveal button + status */}
+      <div className="tp-bottom">
+        <button
+          type="button"
+          className={mapped ? "orr-btn" : "orr-btn orr-btn--primary"}
+          aria-pressed={mapped}
+          onClick={handleReveal}
+        >
+          {mapped ? "Back to the orbit" : "See the bigger picture"}
+        </button>
+        <p className="orr-muted tp-status" role="status" style={{ margin: 0, maxWidth: 380, fontSize: 20, lineHeight: 1.3, fontStyle: "italic" }}>
+          {mapped
+            ? "The app is one dot on the inner ring. Points between rings belong to both."
+            : "Which of these count as the product? Call them out."}
+        </p>
+      </div>
     </div>
   );
 }

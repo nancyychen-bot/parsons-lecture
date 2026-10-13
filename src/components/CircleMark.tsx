@@ -14,113 +14,146 @@ type Props = {
   broken?: boolean;
 };
 
-/* Canonical ring geometry: radii in ratio 1:2:3 */
-const VB = 100; // viewBox
-const CX = VB / 2;
-const CY = VB / 2;
+/**
+ * Progress mark SVG — matches the mockup geometry exactly.
+ *
+ * sm  = 64×64  viewBox, core r=2.4, rings 9.5/19/28.5  (top-right corner of Live frame)
+ * md  = 72×72  viewBox, core r=2.6, rings 10.5/21/31.5  (site-readback mini glyphs)
+ * lg  = 480×480 viewBox, core r=18,  rings 72/144/216   (circle-explorer diagram — NOT a mark)
+ *
+ * Axis at -58deg with ticks at each end.
+ * Broken state: gap at center, outer segments swung +6deg.
+ */
 
-/* Size-dependent ring radii (in viewBox units) */
-const RINGS = {
-  sm: { product: 12, experience: 24, world: 36, core: 3, overshoot: 4 },
-  md: { product: 16, experience: 32, world: 48, core: 4, overshoot: 6 },
-  lg: { product: 16, experience: 32, world: 48, core: 4, overshoot: 6 },
-};
+/* Geometry tables keyed by size */
+const GEO = {
+  sm:  { vb: 64,  cx: 32,  cy: 32,  core: 2.4,  r1: 9.5,  r2: 19,   r3: 28.5 },
+  md:  { vb: 72,  cx: 36,  cy: 36,  core: 2.6,  r1: 10.5, r2: 21,   r3: 31.5 },
+  lg:  { vb: 480, cx: 240, cy: 240, core: 18,    r1: 72,   r2: 144,  r3: 216  },
+} as const;
 
-/* Axis angle: -58 degrees from vertical */
 const AXIS_ANGLE = -58;
-
-function polarToCart(cx: number, cy: number, r: number, angleDeg: number) {
-  const rad = ((angleDeg - 90) * Math.PI) / 180;
-  return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
-}
 
 export function CircleMark({
   focus,
   filled = { product: false, experience: false, world: false, axis: false },
-  size = "md",
+  size = "sm",
   className = "",
   broken = false,
 }: Props) {
-  const r = RINGS[size] || RINGS.md;
-  const isFilled = (id: CircleId) => {
-    if (id === "product") return filled.product;
-    if (id === "experience") return filled.experience;
-    if (id === "world") return filled.world;
-    return false;
-  };
+  const g = GEO[size] || GEO.sm;
+  const isMark = size === "sm" || size === "md"; // uses .orr-mark class (thinner strokes)
 
-  const isUnfilled = (id: CircleId) => !isFilled(id);
+  /* Ring class helpers */
+  function ringCls(ringId: CircleId): string {
+    const isFilled =
+      ringId === "product"    ? filled.product :
+      ringId === "experience" ? filled.experience :
+      ringId === "world"      ? filled.world : false;
 
-  /* Axis endpoints: overshoot 12% past world ring */
-  const axisLen = r.world * (1 + 0.12);
-  const axisStart = polarToCart(CX, CY, axisLen, AXIS_ANGLE);
-  const axisEnd = polarToCart(CX, CY, axisLen, AXIS_ANGLE + 180);
+    if (ringId === "world" && isFilled) return "orr-ring orr-ring--world";
+    if (isFilled) return "orr-ring";
+    return "orr-ring orr-ring--unfilled";
+  }
 
-  /* Tick marks at axis ends (small perpendicular lines) */
-  const tickLen = size === "sm" ? 2 : 3;
-  const tickAngle = AXIS_ANGLE + 90;
-  const tickStart1a = polarToCart(axisStart.x, axisStart.y, tickLen, tickAngle);
-  const tickStart1b = polarToCart(axisStart.x, axisStart.y, tickLen, tickAngle + 180);
-  const tickEnd1a = polarToCart(axisEnd.x, axisEnd.y, tickLen, tickAngle);
-  const tickEnd1b = polarToCart(axisEnd.x, axisEnd.y, tickLen, tickAngle + 180);
+  const coreCls = filled.product ? "orr-core" : "orr-core--unfilled";
+  const showAxis = filled.axis;
 
-  /* Ring label positions: -90 degrees (top of ring) */
-  const showLabels = size === "lg" || size === "md";
-  const labelAngle = -90;
-  const labelFontSize = size === "lg" ? 5 : 4;
+  /* Axis geometry — axis runs 12% past the world ring */
+  const axisExt = g.r3 * 1.12;
+  // For sm (64×64): axis endpoints at ~0.1 and ~63.9
+  // For md (72×72): axis endpoints at ~0.7 and ~71.3
+  const axisStart = size === "sm" ? 0.1 : size === "md" ? 0.7 : g.cx - axisExt;
+  const axisEnd = size === "sm" ? (g.vb - 0.1) : size === "md" ? (g.vb - 0.7) : g.cx + axisExt;
+  const tickHalf = size === "sm" ? 3 : size === "md" ? 3.5 : 9;
 
-  const productLabel = polarToCart(CX, CY, r.product, labelAngle);
-  const experienceLabel = polarToCart(CX, CY, r.experience, labelAngle);
-  const worldLabel = polarToCart(CX, CY, r.world, labelAngle);
+  /* Ring labels (only on lg) */
+  const showLabels = size === "lg";
+  const labelFontSize = 18;
 
   return (
     <div
       className={`circle-mark circle-mark--${size} ${className}`}
       role="img"
-      aria-label={buildAriaLabel(focus, filled)}
+      aria-label={buildAriaLabel(focus, filled, broken)}
     >
-      <svg viewBox={`0 0 ${VB} ${VB}`} xmlns="http://www.w3.org/2000/svg" className="orr-svg orr-mark">
-        {/* World ring */}
-        <circle
-          cx={CX} cy={CY} r={r.world}
-          className={`orr-ring orr-ring--world ${isUnfilled("world") ? "orr-ring--unfilled" : ""}`}
-        />
-        {/* Experience ring */}
-        <circle
-          cx={CX} cy={CY} r={r.experience}
-          className={`orr-ring ${isUnfilled("experience") ? "orr-ring--unfilled" : ""}`}
-        />
-        {/* Product ring */}
-        <circle
-          cx={CX} cy={CY} r={r.product}
-          className={`orr-ring ${isUnfilled("product") ? "orr-ring--unfilled" : ""}`}
-        />
+      <svg
+        viewBox={`0 0 ${g.vb} ${g.vb}`}
+        width={g.vb}
+        height={g.vb}
+        className={`orr-svg${isMark ? " orr-mark" : ""}`}
+      >
         {/* Core dot */}
-        <circle
-          cx={CX} cy={CY} r={r.core}
-          className={isFilled("product") ? "orr-core" : "orr-core--unfilled"}
-        />
+        <circle className={coreCls} cx={g.cx} cy={g.cy} r={g.core} />
 
-        {/* Ring labels (only on md and lg) */}
+        {/* Product ring */}
+        <circle className={ringCls("product")} cx={g.cx} cy={g.cy} r={g.r1} />
+
+        {/* Experience ring */}
+        <circle className={ringCls("experience")} cx={g.cx} cy={g.cy} r={g.r2} />
+
+        {/* World ring */}
+        <circle className={ringCls("world")} cx={g.cx} cy={g.cy} r={g.r3} />
+
+        {/* Ring labels (lg only) */}
         {showLabels && (
           <>
-            <text x={productLabel.x} y={productLabel.y} textAnchor="middle" dominantBaseline="central" fontSize={labelFontSize}
-              className={isFilled("product") ? "" : "orr-muted"}>PRODUCT</text>
-            <text x={experienceLabel.x} y={experienceLabel.y} textAnchor="middle" dominantBaseline="central" fontSize={labelFontSize}
-              className={isFilled("experience") ? "" : "orr-muted"}>EXPERIENCE</text>
-            <text x={worldLabel.x} y={worldLabel.y} textAnchor="middle" dominantBaseline="central" fontSize={labelFontSize}
-              className={isFilled("world") ? "" : "orr-muted"}>WORLD</text>
+            <text x={g.cx} y={g.cy - g.r1 - 6} style={{ textAnchor: "middle", fontSize: `${labelFontSize}px` }}>
+              PRODUCT
+            </text>
+            <text x={g.cx} y={g.cy - g.r2 - 6} style={{ textAnchor: "middle", fontSize: `${labelFontSize}px` }}>
+              EXPERIENCE
+            </text>
+            <text x={g.cx} y={g.cy - g.r3 - 6} style={{ textAnchor: "middle", fontSize: `${labelFontSize}px` }}>
+              WORLD
+            </text>
           </>
         )}
 
-        {/* POV axis */}
-        {filled.axis && !broken && (
-          <g className="orr-axis">
-            <line x1={axisStart.x} y1={axisStart.y} x2={axisEnd.x} y2={axisEnd.y} />
-            {/* Ticks */}
-            <line x1={tickStart1a.x} y1={tickStart1a.y} x2={tickStart1b.x} y2={tickStart1b.y} />
-            <line x1={tickEnd1a.x} y1={tickEnd1a.y} x2={tickEnd1b.x} y2={tickEnd1b.y} />
+        {/* Axis — clean or broken */}
+        {showAxis && !broken && (
+          <g transform={`rotate(${AXIS_ANGLE} ${g.cx} ${g.cy})`}>
+            <line className="orr-axis" x1={axisStart} y1={g.cy} x2={axisEnd} y2={g.cy} />
+            {/* Ticks only on sm and lg — md (site-readback mini glyphs) omits them */}
+            {size !== "md" && (
+              <>
+                <line className="orr-axis" x1={axisStart} y1={g.cy - tickHalf} x2={axisStart} y2={g.cy + tickHalf} />
+                <line className="orr-axis" x1={axisEnd} y1={g.cy - tickHalf} x2={axisEnd} y2={g.cy + tickHalf} />
+              </>
+            )}
           </g>
+        )}
+
+        {/* Broken axis — gap at center, outer segments at -52deg */}
+        {showAxis && broken && (
+          <>
+            {/* Center stub at -58deg */}
+            <g transform={`rotate(${AXIS_ANGLE} ${g.cx} ${g.cy})`}>
+              <line className="orr-axis"
+                x1={g.cx - g.r1 * 0.8} y1={g.cy}
+                x2={g.cx + g.r1 * 0.8} y2={g.cy}
+              />
+            </g>
+            {/* Outer segments at -52deg */}
+            <g transform={`rotate(-52 ${g.cx} ${g.cy})`}>
+              <line className="orr-axis"
+                x1={g.cx + g.r1 * 1.3} y1={g.cy}
+                x2={axisEnd} y2={g.cy}
+              />
+              <line className="orr-axis"
+                x1={axisEnd} y1={g.cy - tickHalf}
+                x2={axisEnd} y2={g.cy + tickHalf}
+              />
+              <line className="orr-axis"
+                x1={axisStart} y1={g.cy}
+                x2={g.cx - g.r1 * 1.3} y2={g.cy}
+              />
+              <line className="orr-axis"
+                x1={axisStart} y1={g.cy - tickHalf}
+                x2={axisStart} y2={g.cy + tickHalf}
+              />
+            </g>
+          </>
         )}
       </svg>
     </div>
@@ -128,16 +161,21 @@ export function CircleMark({
 }
 
 function buildAriaLabel(
-  focus: Props["focus"],
-  filled: NonNullable<Props["filled"]>
+  _focus: Props["focus"],
+  filled: NonNullable<Props["filled"]>,
+  broken: boolean
 ): string {
-  const parts = ["Three concentric circles: Product, Experience, World."];
-  if (filled.product) parts.push("Product ring filled.");
-  if (filled.experience) parts.push("Experience ring filled.");
-  if (filled.world) parts.push("World ring filled.");
-  if (filled.axis) parts.push("Point-of-view axis visible through all rings.");
-  if (focus && focus !== "all" && focus !== "axis") {
-    parts.push(`Currently highlighting: ${focus}.`);
+  const parts: string[] = [];
+  if (!filled.product && !filled.experience && !filled.world) {
+    parts.push("Progress mark: no rings reached yet");
+  } else {
+    const rings: string[] = [];
+    if (filled.product) rings.push("Product");
+    if (filled.experience) rings.push("Experience");
+    if (filled.world) rings.push("World");
+    parts.push(`Progress mark: ${rings.join(" and ")} reached`);
   }
-  return parts.join(" ");
+  if (filled.axis && !broken) parts.push(", axis intact");
+  if (filled.axis && broken) parts.push(", axis broken");
+  return parts.join("");
 }

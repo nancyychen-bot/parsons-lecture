@@ -1,282 +1,128 @@
-/* ── ContradictionRepair — Orrery theme ── */
-.contradiction-repair {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-4);
-  padding: var(--space-3) 0;
-}
+/* ── ContradictionRepair — matches 07-contradiction-repair.dc.html ── */
 
-/* State toggle */
-.cr-state-toggle {
+/* Main container: SVG left, text right */
+.cr {
   display: flex;
+  align-items: flex-start;
   gap: 0;
-  border: var(--w-rule) solid var(--ink);
-  overflow: hidden;
-  align-self: center;
-}
-
-.cr-state-btn {
-  padding: 12px 16px;
-  border: none;
-  background: transparent;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--muted);
-  cursor: pointer;
-  min-height: 44px;
-  transition:
-    background var(--duration-normal) var(--ease-out),
-    color var(--duration-normal) var(--ease-out);
-}
-
-[data-theme="live"] .cr-state-btn {
-  font-size: 18px;
-  padding: 14px 22px;
-  min-height: 56px;
-}
-
-.cr-state-btn + .cr-state-btn {
-  border-left: var(--w-rule) solid var(--ink);
-}
-
-.cr-state-btn[aria-pressed="true"] {
-  background: var(--ink);
-  color: var(--ground);
-}
-
-.cr-state-btn:hover:not([aria-pressed="true"]) {
-  color: var(--ink);
-}
-
-/* Diagram */
-.cr-diagram {
-  position: relative;
-  width: 18rem;
-  height: 18rem;
-}
-
-.cr-diagram svg {
   width: 100%;
-  height: 100%;
 }
 
-/* Rings — use ink, no color differentiation */
-.cr-ring {
-  fill: none;
-  stroke: var(--ink);
-  stroke-width: var(--w-ring);
-  vector-effect: non-scaling-stroke;
-  transition: opacity var(--duration-normal) var(--ease-out);
+.cr-svg {
+  flex: none;
 }
 
-.cr-ring--world {
-  stroke-dasharray: var(--d-world);
-}
-
-/* No fills per Orrery rules */
-
-/* Axis */
-.cr-axis {
-  stroke: var(--ink);
-  stroke-width: var(--w-axis);
-  vector-effect: non-scaling-stroke;
-  transition:
-    transform var(--t-axis) var(--ease-out),
-    opacity var(--duration-normal) var(--ease-out);
-}
-
-/* Broken state */
-.cr-axis--top-broken {
-  transform: rotate(6deg);
-  transform-origin: center;
-}
-
-.cr-axis--bottom-broken {
-  transform: rotate(-6deg);
-  transform-origin: center;
-}
-
-/* Break indicator */
-.cr-break-mark {
-  opacity: 0;
-  transition: opacity var(--duration-normal) var(--ease-out);
-}
-
-.cr-break-mark--visible { opacity: 1; }
-
-@keyframes cr-snap {
-  0% { opacity: 0; transform: scale(0.5); }
-  30% { opacity: 1; transform: scale(1.3); }
-  100% { opacity: 1; transform: scale(1); }
-}
-
-.cr-break-mark--snap {
-  animation: cr-snap var(--duration-slow) var(--ease-out) 1;
-}
-
-/* Healing */
-.cr-axis--healing-top,
-.cr-axis--healing-bottom {
-  transform: rotate(0deg);
-  transition: transform var(--t-axis) var(--ease-out);
-}
-
-/* Ring pick buttons */
-.cr-ring-btn {
-  fill: none;
-  stroke: transparent;
-  stroke-width: 10;
-  cursor: pointer;
-}
-
-.cr-ring-btn:hover {
-  stroke: var(--faint);
-  stroke-width: 6;
-}
-
-/* Belief text */
-.cr-belief {
-  text-align: center;
-  max-width: var(--content-width);
-}
-
-.cr-belief-label {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: var(--space-1);
-}
-
-[data-theme="live"] .cr-belief-label {
-  font-size: 18px;
-}
-
-.cr-belief-text {
-  font-family: var(--font-serif);
-  font-size: 28px;
-  font-style: italic;
-  line-height: 1.2;
-  font-variation-settings: 'opsz' 36;
-  transition: opacity var(--duration-normal) var(--ease-out);
-}
-
-[data-theme="live"] .cr-belief-text {
-  font-size: 34px;
-}
-
-.cr-belief-text--contradiction {
-  color: var(--muted);
-}
-
-/* Annotations */
-.cr-annotations {
+/* Right column */
+.cr-right {
   display: flex;
   flex-direction: column;
-  gap: var(--space-1);
-  position: absolute;
-  right: -1rem;
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: none;
+  gap: 22px;
+  min-width: 0;
+  max-width: 472px;
 }
 
-.cr-annotation {
-  font-family: var(--font-mono);
-  font-size: 3.5px;
-  fill: var(--muted);
-  text-anchor: start;
-  transition: opacity var(--duration-normal) var(--ease-out);
+/* Point of view block */
+.cr-pov {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-/* Response area */
+.cr-belief {
+  margin: 0;
+  font-size: 34px;
+  line-height: 1.2;
+  font-weight: 400;
+  font-style: italic;
+  font-variation-settings: 'opsz' 36;
+}
+
+/* Coherent state: ruled definition list */
+.cr-list {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 170px minmax(0, 1fr);
+  row-gap: 14px;
+  align-items: baseline;
+}
+
+.cr-list dd {
+  margin: 0;
+  font-size: 26px;
+  line-height: 1.3;
+}
+
+/* Contradiction text */
+.cr-contradiction {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cr-contradiction-text {
+  margin: 0;
+  font-size: 26px;
+  line-height: 1.35;
+}
+
+.cr-where-break {
+  margin: 0;
+  font-size: 28px;
+  line-height: 1.2;
+  font-style: italic;
+}
+
+/* Repair response */
 .cr-response {
-  text-align: center;
-  max-width: var(--content-width);
-  min-height: 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  outline: none;
+}
+
+.cr-response-block {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .cr-response-prompt {
-  font-family: var(--font-serif);
-  font-size: 18px;
+  margin: 0;
+  font-size: 26px;
+  line-height: 1.3;
   font-style: italic;
-  color: var(--ink);
-  margin-bottom: var(--space-2);
 }
 
-[data-theme="live"] .cr-response-prompt {
-  font-size: 28px;
+.cr-response-fix {
+  margin: 0;
+  font-size: 26px;
+  line-height: 1.3;
 }
 
-.cr-response-repair {
-  font-family: var(--font-serif);
-  font-size: 18px;
-  color: var(--muted);
-}
+/* Mobile */
+@media (max-width: 768px) {
+  .cr {
+    flex-direction: column;
+    gap: 24px;
+  }
 
-[data-theme="live"] .cr-response-repair {
-  font-size: 24px;
-}
+  .cr-svg {
+    width: 100%;
+    height: auto;
+  }
 
-.cr-response--enter {
-  animation: cr-response-in var(--duration-normal) var(--ease-out);
-}
+  .cr-right {
+    max-width: 100%;
+  }
 
-@keyframes cr-response-in {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+  .cr-belief {
+    font-size: 26px;
+  }
 
-/* Ring select buttons */
-.cr-ring-select {
-  display: flex;
-  gap: var(--space-2);
-}
-
-.cr-ring-select-btn {
-  padding: 12px 16px;
-  border: var(--w-rule) solid var(--ink);
-  background: transparent;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--muted);
-  cursor: pointer;
-  min-height: 44px;
-  transition:
-    background var(--duration-normal) var(--ease-out),
-    color var(--duration-normal) var(--ease-out),
-    border-color var(--duration-normal) var(--ease-out);
-}
-
-[data-theme="live"] .cr-ring-select-btn {
-  font-size: 18px;
-  padding: 14px 22px;
-  min-height: 56px;
-}
-
-.cr-ring-select-btn:hover {
-  border-color: var(--ink);
-  color: var(--ink);
-}
-
-.cr-ring-select-btn[aria-pressed="true"] {
-  background: var(--ink);
-  color: var(--ground);
-  border-color: var(--ink);
-}
-
-@media (max-width: 40rem) {
-  .cr-diagram {
-    width: 14rem;
-    height: 14rem;
+  .cr-list dd,
+  .cr-contradiction-text,
+  .cr-response-prompt,
+  .cr-response-fix {
+    font-size: 20px;
   }
 }

@@ -1,137 +1,58 @@
-import { useState, useCallback, useEffect, useRef } from "react";
 import "./SiteReadBack.css";
+import { CircleMark } from "./CircleMark";
 
-const CX = 50;
-const CY = 50;
+/**
+ * SiteReadBack — matches 09-site-readback.dc.html exactly.
+ *
+ * Centered ouroboros cutout at top.
+ * Centered headline at 44px.
+ * Three-column ruled table with mini orrery glyphs (72px SVG), labels, statements.
+ * Bottom-left vibe-coding note.
+ *
+ * The cutout and four corners are rendered by LiveStage.
+ * This component renders the headline and the three-column table.
+ */
 
-const RINGS = {
-  product: { r: 16 },
-  experience: { r: 30 },
-  world: { r: 44 },
-} as const;
-
-const STATEMENTS = [
+const COLUMNS = [
   {
-    ring: "product" as const,
-    label: "Product",
-    text: "A lecture and a usable canvas",
+    label: "Product · r = 1",
+    statement: "A lecture and a usable canvas",
+    filled: { product: true, experience: false, world: false, axis: false },
   },
   {
-    ring: "experience" as const,
-    label: "Experience",
-    text: "The journey you just took",
+    label: "Experience · r = 2",
+    statement: "The journey you just took",
+    filled: { product: true, experience: true, world: false, axis: false },
   },
   {
-    ring: "world" as const,
-    label: "World",
-    text: "What you do with it next",
+    label: "World · r = 3",
+    statement: "What you do with it next",
+    filled: { product: true, experience: true, world: true, axis: true },
   },
 ] as const;
 
-const VIBE_NOTE =
-  "This site was vibe-coded by someone without \"engineer\" in her title. The judgment was hers; the typing was shared.";
-
-/** Step timing in ms — each statement appears then its ring lights */
-const STEP_DELAY = 600;
-
 export function SiteReadBack() {
-  const [step, setStep] = useState(-1); // -1 = not started, 0/1/2 = statement index, 3 = all + axis
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  const play = useCallback(() => {
-    setStep(-1);
-    // Start the sequence after a brief pause
-    let current = 0;
-    const advance = () => {
-      setStep(current);
-      current++;
-      if (current <= 3) {
-        timerRef.current = setTimeout(advance, STEP_DELAY);
-      }
-    };
-    timerRef.current = setTimeout(advance, 200);
-  }, []);
-
-  // Auto-play on mount
-  useEffect(() => {
-    play();
-    return () => {
-      if (timerRef.current) clearTimeout(timerRef.current);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const isLit = (ring: "product" | "experience" | "world") => {
-    const idx = STATEMENTS.findIndex((s) => s.ring === ring);
-    return step >= idx;
-  };
-
-  const showAxis = step >= 3;
-  const allDone = step >= 3;
-
   return (
-    <div className="site-readback" role="region" aria-label="Site read through its own three circles">
-      {/* Diagram */}
-      <div className="srb-diagram">
-        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Three concentric circles lighting up">
-          {/* World */}
-          <circle
-            cx={CX}
-            cy={CY}
-            r={RINGS.world.r}
-            className={`srb-ring srb-ring--world ${isLit("world") ? "srb-ring--lit" : ""}`}
-          />
-          {/* Experience */}
-          <circle
-            cx={CX}
-            cy={CY}
-            r={RINGS.experience.r}
-            className={`srb-ring srb-ring--experience ${isLit("experience") ? "srb-ring--lit" : ""}`}
-          />
-          {/* Product */}
-          <circle
-            cx={CX}
-            cy={CY}
-            r={RINGS.product.r}
-            className={`srb-ring srb-ring--product ${isLit("product") ? "srb-ring--lit" : ""}`}
-          />
-          {/* Axis */}
-          <line
-            x1={CX}
-            y1={CY - RINGS.world.r - 4}
-            x2={CX}
-            y2={CY + RINGS.world.r + 4}
-            className={`srb-axis ${showAxis ? "srb-axis--visible" : ""}`}
-          />
-        </svg>
-      </div>
+    <div className="srb" role="region" aria-label="This site, read through its own three circles">
+      {/* Headline */}
+      <h1 className="srb-headline">
+        This site, read through its own three circles
+      </h1>
 
-      {/* Statements */}
-      <div className="srb-statements" aria-live="polite">
-        {STATEMENTS.map((s, i) => (
-          <div
-            key={s.ring}
-            className={`srb-statement ${step >= i ? "srb-statement--visible" : ""}`}
-          >
-            <span className="srb-statement-ring">{s.label}</span>
-            <span className="srb-statement-text">{s.text}</span>
+      {/* Three-column ruled table */}
+      <dl className="srb-table">
+        {COLUMNS.map((col) => (
+          <div key={col.label} className="srb-column">
+            {/* Mini orrery glyph */}
+            <CircleMark
+              filled={col.filled}
+              size="md"
+            />
+            <dt className="orr-label" style={{ marginTop: 2 }}>{col.label}</dt>
+            <dd className="srb-statement">{col.statement}</dd>
           </div>
         ))}
-      </div>
-
-      {/* Vibe-coding note */}
-      <p className={`srb-note ${allDone ? "srb-note--visible" : ""}`}>
-        {VIBE_NOTE}
-      </p>
-
-      {/* Replay button */}
-      <button
-        className="srb-play-btn"
-        onClick={play}
-        aria-label="Replay the reveal"
-      >
-        {allDone ? "Replay" : "Playing..."}
-      </button>
+      </dl>
     </div>
   );
 }

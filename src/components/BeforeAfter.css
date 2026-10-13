@@ -1,175 +1,97 @@
-/* ── BeforeAfter (Two shops) — Orrery theme ── */
-.before-after {
+/* ── BeforeAfter — matches 05-two-shops.dc.html ── */
+.ba {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
-  padding: var(--space-3) 0;
-}
-
-/* Toggle row — joined, square */
-.ba-toggle {
-  display: flex;
-  justify-content: center;
   gap: 0;
-  border: var(--w-rule) solid var(--ink);
-  overflow: hidden;
-  align-self: center;
+  width: 100%;
 }
 
-.ba-toggle-btn {
-  padding: 12px 24px;
-  border: none;
-  background: transparent;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--muted);
-  cursor: pointer;
-  min-height: 44px;
-  transition:
-    background var(--duration-normal) var(--ease-out),
-    color var(--duration-normal) var(--ease-out);
+/* Headline row: headline left, toggle right */
+.ba-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 32px;
 }
 
-[data-theme="live"] .ba-toggle-btn {
-  font-size: 18px;
-  padding: 14px 22px;
-  min-height: 56px;
+.ba-headline {
+  margin: 0;
+  font-size: 64px;
+  line-height: 1.05;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  font-variation-settings: 'opsz' 72;
 }
 
-.ba-toggle-btn:first-child {
-  border-right: var(--w-rule) solid var(--ink);
-}
-
-.ba-toggle-btn[aria-pressed="true"] {
-  background: var(--ink);
-  color: var(--ground);
-}
-
-.ba-toggle-btn:hover:not([aria-pressed="true"]) {
-  color: var(--ink);
-}
-
-/* Panels — ruled, not cards */
-.ba-cards {
+/* Two-panel grid */
+.ba-panels {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-4);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 32px;
+  margin-top: 32px;
 }
 
-.ba-card {
-  border-top: var(--w-rule) solid var(--ink);
-  padding: var(--space-3) 0;
-  transition: opacity var(--duration-normal) var(--ease-out);
-}
-
-/* No fills, shadows, or rounded corners */
-.ba-card--dimmed {
-  opacity: 0.45;
-}
-
-.ba-card--active {
-  opacity: 1;
-}
-
-.ba-card-label {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: var(--space-3);
-}
-
-[data-theme="live"] .ba-card-label {
-  font-size: 18px;
-}
-
-.ba-card-dialogue {
+.ba-panel {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: 12px;
+  padding-top: 14px;
+  border-top: 2px solid var(--ink);
+  transition: opacity 200ms ease-out;
 }
 
-/* Shop A: dense mono */
-.ba-line {
-  font-family: var(--font-serif);
-  font-size: 18px;
-  line-height: 1.6;
-  color: var(--ink);
-  padding: var(--space-2) 0;
-  border-bottom: var(--w-rule) solid var(--faint);
-}
-
-[data-theme="live"] .ba-line {
-  font-size: 24px;
-}
-
-.ba-line--staff {
-  font-style: italic;
-  color: var(--muted);
-}
-
-.ba-line--menu {
+/* Shop A: dense mono uppercase, two-column grid (content + 176px callout column) */
+.ba-shop-a {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 176px;
+  column-gap: 20px;
+  row-gap: 6px;
+  align-items: start;
   font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 400;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--muted);
-  line-height: 1.2;
-}
-
-[data-theme="live"] .ba-line--menu {
   font-size: 16px;
-}
-
-/* Annotations — ring callouts */
-.ba-annotations {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-  margin-top: var(--space-3);
-  justify-content: flex-start;
-}
-
-.ba-annotation {
-  display: inline-block;
-  padding: var(--space-1) var(--space-3);
-  border: var(--w-rule) solid var(--faint);
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
-  color: var(--muted);
-  opacity: 0;
-  animation: ba-fade-in var(--duration-normal) var(--ease-out) forwards;
 }
 
-[data-theme="live"] .ba-annotation {
-  font-size: 14px;
+.ba-a-text {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
 }
 
-.ba-annotation:nth-child(1) { animation-delay: 0ms; }
-.ba-annotation:nth-child(2) { animation-delay: 80ms; }
-.ba-annotation:nth-child(3) { animation-delay: 160ms; }
-.ba-annotation:nth-child(4) { animation-delay: 240ms; }
-
-@keyframes ba-fade-in {
-  from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: translateY(0); }
+/* Shop B: spacious Newsreader, two-column grid */
+.ba-shop-b {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 176px;
+  column-gap: 20px;
+  row-gap: 22px;
+  align-items: start;
+  font-size: 24px;
+  line-height: 1.35;
+  font-variation-settings: 'opsz' 24;
 }
 
-/* Mobile: stacked */
-@media (max-width: 40rem) {
-  .ba-cards {
+/* Mobile: stack panels */
+@media (max-width: 768px) {
+  .ba-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .ba-headline {
+    font-size: 36px;
+  }
+
+  .ba-panels {
     grid-template-columns: 1fr;
   }
-  .ba-card--dimmed {
-    display: none;
+
+  .ba-shop-a,
+  .ba-shop-b {
+    grid-template-columns: 1fr;
   }
 }

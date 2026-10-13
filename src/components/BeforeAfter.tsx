@@ -1,103 +1,119 @@
 import { useState, useCallback } from "react";
 import "./BeforeAfter.css";
 
-type Shop = "a" | "b";
+/**
+ * BeforeAfter — matches 05-two-shops.dc.html exactly.
+ *
+ * Headline row with "Same coffee, two shops" + joined toggle buttons.
+ * Two side-by-side panels with 2px top rule.
+ * Shop A: dense mono uppercase at 16px.
+ * Shop B: spacious Newsreader at 24px.
+ * Active panel shows numbered ring callouts (1-4) in callout column.
+ * Inactive panel at 0.45 opacity.
+ */
 
-const SHOP_A = {
-  label: "Shop A",
-  lines: [
-    { text: "Venti blonde flat white, extra shot, oat, 140°", type: "menu" as const },
-    { text: "Next!", type: "staff" as const },
-    { text: "No guidance. No suggestions. You either know or you don't.", type: "normal" as const },
-  ],
-};
+type Shop = "A" | "B";
 
-const SHOP_B = {
-  label: "Shop B",
-  lines: [
-    { text: "Welcome! First time? Here’s what we’d recommend.", type: "staff" as const },
-    { text: "Small · Medium · Large. Milk of your choice. We’ll walk you through it.", type: "menu" as const },
-    { text: "Take your time. We’re here if you have questions.", type: "staff" as const },
-  ],
-};
-
-const ANNOTATIONS = ["Language", "Guidance", "Pace", "Support"];
+function Callout({ n, label }: { n: number; label: string }) {
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+      <span
+        aria-hidden="true"
+        style={{
+          width: 32,
+          height: 32,
+          flex: "none",
+          boxSizing: "border-box",
+          borderRadius: "50%",
+          border: "2.5px solid var(--ink)",
+          display: "inline-flex",
+          alignItems: "center",
+          justifyContent: "center",
+          fontFamily: "var(--font-mono)",
+          fontSize: 18,
+          fontWeight: 500,
+        }}
+      >
+        {n}
+      </span>
+      <span className="orr-label">{label}</span>
+    </div>
+  );
+}
 
 export function BeforeAfter() {
-  const [active, setActive] = useState<Shop>("a");
-  const [annotationKey, setAnnotationKey] = useState(0);
+  const [active, setActive] = useState<Shop>("B");
 
-  const toggle = useCallback((shop: Shop) => {
-    setActive(shop);
-    setAnnotationKey((k) => k + 1);
-  }, []);
+  const showA = useCallback(() => setActive("A"), []);
+  const showB = useCallback(() => setActive("B"), []);
+
+  const isA = active === "A";
 
   return (
-    <div className="before-after" role="group" aria-label="Before and after comparison">
-      {/* Toggle */}
-      <div className="ba-toggle" role="radiogroup" aria-label="Select a shop">
-        <button
-          className="ba-toggle-btn"
-          role="radio"
-          aria-pressed={active === "a"}
-          aria-checked={active === "a"}
-          onClick={() => toggle("a")}
-        >
-          Shop A
-        </button>
-        <button
-          className="ba-toggle-btn"
-          role="radio"
-          aria-pressed={active === "b"}
-          aria-checked={active === "b"}
-          onClick={() => toggle("b")}
-        >
-          Shop B
-        </button>
-      </div>
-
-      {/* Cards */}
-      <div className="ba-cards">
-        <div
-          className={`ba-card ${active === "a" ? "ba-card--active" : "ba-card--dimmed"}`}
-          aria-hidden={active !== "a"}
-        >
-          <div className="ba-card-label">{SHOP_A.label}</div>
-          <div className="ba-card-dialogue">
-            {SHOP_A.lines.map((line, i) => (
-              <div
-                key={i}
-                className={`ba-line ${line.type === "staff" ? "ba-line--staff" : ""} ${line.type === "menu" ? "ba-line--menu" : ""}`}
-              >
-                {line.text}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div
-          className={`ba-card ${active === "b" ? "ba-card--active" : "ba-card--dimmed"}`}
-          aria-hidden={active !== "b"}
-        >
-          <div className="ba-card-label">{SHOP_B.label}</div>
-          <div className="ba-card-dialogue">
-            {SHOP_B.lines.map((line, i) => (
-              <div
-                key={i}
-                className={`ba-line ${line.type === "staff" ? "ba-line--staff" : ""} ${line.type === "menu" ? "ba-line--menu" : ""}`}
-              >
-                {line.text}
-              </div>
-            ))}
-          </div>
+    <div className="ba" role="group" aria-label="Same coffee, two shops">
+      {/* Headline row */}
+      <div className="ba-header">
+        <h1 className="ba-headline">Same coffee, two shops</h1>
+        <div className="ba-toggle" role="group" aria-label="Show shop" style={{ display: "flex", gap: 0 }}>
+          <button type="button" className="orr-btn" aria-pressed={isA} onClick={showA}>
+            Shop A
+          </button>
+          <button type="button" className="orr-btn" aria-pressed={!isA} onClick={showB} style={{ marginLeft: -2 }}>
+            Shop B
+          </button>
         </div>
       </div>
 
-      {/* Annotation labels */}
-      <div className="ba-annotations" aria-label="Experience dimensions" key={annotationKey}>
-        {ANNOTATIONS.map((a) => (
-          <span key={a} className="ba-annotation">{a}</span>
-        ))}
+      {/* Two-panel grid */}
+      <div className="ba-panels">
+        {/* Shop A */}
+        <section className="ba-panel" aria-label="Shop A" style={{ opacity: isA ? 1 : 0.45 }}>
+          <p className="orr-label" style={{ margin: "0 0 6px" }}>Shop A</p>
+          <div className="ba-shop-a">
+            {/* Menu row */}
+            <p className="ba-a-text" style={{ margin: 0 }}>
+              <strong>Menu</strong> Espresso &middot; ristretto &middot; lungo &middot; cortado &middot; gibraltar &middot; flat white &middot; macchiato (trad.) &middot; SO / blend &middot; V60 &middot; kalita &middot; chemex &middot; nitro CB &middot; cold drip &middot; affogato &middot; alt milk +
+            </p>
+            {isA && <Callout n={1} label="Language" />}
+
+            {/* Empty row for guidance spacing */}
+            <p style={{ margin: 0, minHeight: 32 }} />
+            {isA && <Callout n={2} label="Guidance" />}
+
+            {/* "Next!" */}
+            <p className="ba-a-text" style={{ margin: 0, fontSize: 20, fontWeight: 500 }}>&ldquo;Next!&rdquo;</p>
+            {isA && <Callout n={3} label="Pace" />}
+
+            {/* Rules */}
+            <p className="ba-a-text" style={{ margin: 0 }}>Order at register. No substitutions. No modifications to SO.</p>
+            {isA && <Callout n={4} label="Support" />}
+          </div>
+        </section>
+
+        {/* Shop B */}
+        <section className="ba-panel" aria-label="Shop B" style={{ opacity: isA ? 0.45 : 1 }}>
+          <p className="orr-label" style={{ margin: "0 0 6px" }}>Shop B</p>
+          <div className="ba-shop-b">
+            {/* Menu */}
+            <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+              <p style={{ margin: 0 }}>Coffee — smooth, not bitter</p>
+              <p style={{ margin: 0 }}>Coffee with milk — mild, creamy</p>
+            </div>
+            {!isA ? <Callout n={1} label="Language" /> : <span />}
+
+            {/* Guidance */}
+            <p style={{ margin: 0, fontStyle: "italic" }}>First time? Here&rsquo;s what we&rsquo;d recommend.</p>
+            {!isA ? <Callout n={2} label="Guidance" /> : <span />}
+
+            {/* Pace */}
+            <p style={{ margin: 0 }}>Take your time. We&rsquo;ll be ready when you are.</p>
+            {!isA ? <Callout n={3} label="Pace" /> : <span />}
+
+            {/* Support */}
+            <p style={{ margin: 0 }}>Ask us anything.</p>
+            {!isA ? <Callout n={4} label="Support" /> : <span />}
+          </div>
+        </section>
       </div>
     </div>
   );

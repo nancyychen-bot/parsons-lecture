@@ -1,75 +1,31 @@
-/* ── ExampleCards — Orrery: ruled tables, not cards ── */
-.example-cards {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-  padding: var(--space-3) 0;
-}
+/* ── ExampleCards — matches 06-example-cards.dc.html ── */
 
-.example-cards-row {
+/* Three ruled columns */
+.ec-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-4);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px;
 }
 
-/* Each "card" is a ruled column, not a bordered card */
-.example-card {
-  border-top: var(--w-rule) solid var(--ink);
-  padding-top: var(--space-3);
+.ec-card {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
-  opacity: 0;
-  transform: translateY(12px);
-  animation: ec-stagger-in var(--duration-slow) var(--ease-out) forwards;
+  gap: 12px;
+  border-top: 2px solid var(--ink);
+  padding-top: 12px;
 }
 
-.example-card:nth-child(1) { animation-delay: 0ms; }
-.example-card:nth-child(2) { animation-delay: 120ms; }
-.example-card:nth-child(3) { animation-delay: 240ms; }
-
-@keyframes ec-stagger-in {
-  to { opacity: 1; transform: translateY(0); }
+/* Dashed placeholder block */
+.ec-placeholder {
+  border: 2px dashed var(--faint);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.example-card-category {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-[data-theme="live"] .example-card-category {
-  font-size: 18px;
-}
-
-.example-card-main {
-  font-family: var(--font-serif);
-  font-size: 28px;
-  line-height: 1.2;
-  font-variation-settings: 'opsz' 36;
-}
-
-[data-theme="live"] .example-card-main {
-  font-size: 28px;
-}
-
-.example-card-sub {
-  font-family: var(--font-serif);
-  font-size: 18px;
-  color: var(--muted);
-  line-height: 1.5;
-}
-
-.example-card-sub + .example-card-sub {
-  padding-top: var(--space-2);
-  border-top: var(--w-rule) solid var(--faint);
-}
-
-@media (max-width: 48rem) {
-  .example-cards-row {
+@media (max-width: 768px) {
+  .ec-grid {
     grid-template-columns: 1fr;
   }
 }

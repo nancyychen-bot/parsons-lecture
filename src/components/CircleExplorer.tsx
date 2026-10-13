@@ -1,170 +1,136 @@
-import { useState, useCallback, useRef, useEffect } from "react";
+import { useState, useCallback } from "react";
 import type { CircleId } from "../types";
 import "./CircleExplorer.css";
 
-const RINGS = {
+/**
+ * CircleExplorer — matches 03-circle-explorer.dc.html exactly.
+ *
+ * Layout: 480×480 SVG left, right column with buttons + question + meaning + coffee block.
+ * The right-column content and nautilus cutout are rendered by LiveStage.
+ * This component renders the SVG diagram, the three ring buttons, and the text panel.
+ */
+
+const RINGS_DATA = {
   product: {
-    r: 16,
-    label: "Product",
-    definition: "What can I do?",
+    i: 0,
+    r: 1,
+    question: "What can I do?",
+    meaning: "The useful core.",
     example: "Get a good cup, reliably.",
   },
   experience: {
-    r: 30,
-    label: "Experience",
-    definition: "How does it feel?",
+    i: 1,
+    r: 2,
+    question: "How does it feel?",
+    meaning: "Everything around using it.",
     example: "Ordering feels welcoming, not intimidating.",
   },
   world: {
-    r: 44,
-    label: "World",
-    definition: "What am I part of?",
+    i: 2,
+    r: 3,
+    question: "What am I part of?",
+    meaning: "The identity, culture and community people help create.",
     example: 'Regulars, tastings, "our place."',
   },
 } as const;
 
 const RING_ORDER: CircleId[] = ["product", "experience", "world"];
-const CX = 50;
-const CY = 50;
 
 export function CircleExplorer() {
-  const [active, setActive] = useState<CircleId | null>(null);
-  const [pulseKey, setPulseKey] = useState(0);
-  const infoRef = useRef<HTMLDivElement>(null);
+  const [sel, setSel] = useState<CircleId>("experience");
 
-  const select = useCallback(
-    (id: CircleId) => {
-      setActive((prev) => (prev === id ? null : id));
-      setPulseKey((k) => k + 1);
-    },
-    []
-  );
+  const pick = useCallback((id: CircleId) => {
+    setSel(id);
+  }, []);
 
-  // Arrow key navigation among buttons
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent, idx: number) => {
-      let nextIdx = -1;
-      if (e.key === "ArrowRight" || e.key === "ArrowDown") {
-        nextIdx = (idx + 1) % RING_ORDER.length;
-      } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
-        nextIdx = (idx - 1 + RING_ORDER.length) % RING_ORDER.length;
-      }
-      if (nextIdx >= 0) {
-        e.preventDefault();
-        const btns = e.currentTarget
-          .closest(".circle-explorer-buttons")
-          ?.querySelectorAll<HTMLButtonElement>("button");
-        btns?.[nextIdx]?.focus();
-        select(RING_ORDER[nextIdx]);
-      }
-    },
-    [select]
-  );
+  const ring = RINGS_DATA[sel];
+  const k = ring.i; // index 0, 1, 2
 
-  // Focus the info panel on change for screen readers
-  useEffect(() => {
-    if (active && infoRef.current) {
-      infoRef.current.focus();
-    }
-  }, [active]);
+  /* Ring class: filled up to k, unfilled beyond */
+  function ringCls(i: number): string {
+    if (i > k) return "orr-ring orr-ring--unfilled";
+    return i === 2 ? "orr-ring orr-ring--world" : "orr-ring";
+  }
 
-  const info = active ? RINGS[active] : null;
+  /* Label fill: ink for selected ring's level, muted for others */
+  function labelFill(i: number): string {
+    return i === k ? "var(--ink)" : "var(--muted)";
+  }
 
   return (
-    <div className="circle-explorer" role="group" aria-label="Circle explorer">
-      {/* Text buttons */}
-      <div className="circle-explorer-buttons" role="toolbar" aria-label="Select a ring">
-        {RING_ORDER.map((id, idx) => (
-          <button
-            key={id}
-            className="circle-explorer-btn"
-            aria-pressed={active === id}
-            onClick={() => select(id)}
-            onKeyDown={(e) => handleKeyDown(e, idx)}
-            tabIndex={idx === 0 || active === id ? 0 : -1}
-          >
-            {RINGS[id].label}
-          </button>
-        ))}
-      </div>
-
-      {/* Interactive SVG */}
-      <div className="circle-explorer-diagram">
-        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Three concentric circles">
-          {/* Render rings outside-in so inner ring is on top */}
-          {(["world", "experience", "product"] as const).map((id) => {
-            const ring = RINGS[id];
-            const isActive = active === id;
-            const isDimmed = active !== null && !isActive;
-            return (
-              <g key={id}>
-                {/* Invisible hit area */}
-                <circle
-                  cx={CX}
-                  cy={CY}
-                  r={ring.r}
-                  className="ce-ring-hit"
-                  onClick={() => select(id)}
-                  role="button"
-                  tabIndex={-1}
-                  aria-label={`Select ${ring.label} ring`}
-                />
-                {/* Visual ring */}
-                <circle
-                  cx={CX}
-                  cy={CY}
-                  r={ring.r}
-                  className={[
-                    "ce-ring",
-                    `ce-ring--${id}`,
-                    isActive ? "ce-ring--active" : "",
-                    isDimmed ? "ce-ring--dimmed" : "",
-                    isActive ? "ce-ring--pulse" : "",
-                  ]
-                    .filter(Boolean)
-                    .join(" ")}
-                  key={isActive ? `${id}-${pulseKey}` : id}
-                  style={{ pointerEvents: "none" }}
-                />
-                {/* Label */}
-                <text
-                  x={CX}
-                  y={CY - ring.r - 2}
-                  className={`ce-ring-text ${isActive ? "ce-ring-text--active" : ""}`}
-                >
-                  {ring.label}
-                </text>
-              </g>
-            );
-          })}
-        </svg>
-      </div>
-
-      {/* Info panel */}
-      <div
-        ref={infoRef}
-        className={`circle-explorer-info ${info ? "circle-explorer-info--enter" : ""}`}
-        role="region"
-        aria-live="polite"
-        aria-label="Ring details"
-        tabIndex={-1}
-        key={active ?? "empty"}
+    <div className="ce" role="group" aria-label="Circle explorer">
+      {/* Left: 480×480 SVG diagram */}
+      <svg
+        className="orr-svg ce-svg"
+        viewBox="0 0 480 480"
+        width="480"
+        height="480"
+        aria-hidden="true"
       >
-        {info ? (
-          <>
-            <h3 className="circle-explorer-info-title">
-              {info.label}: {info.definition}
-            </h3>
-            <p className="circle-explorer-info-def">{info.definition}</p>
-            <p className="circle-explorer-info-example">
-              Coffee shop: {info.example}
-            </p>
-          </>
-        ) : (
-          <p className="circle-explorer-info-def">
-            Select a ring to see its definition.
+        <circle className="orr-core" cx={240} cy={240} r={18} />
+        <circle className={ringCls(0)} cx={240} cy={240} r={72} />
+        <circle className={ringCls(1)} cx={240} cy={240} r={144} />
+        <circle className={ringCls(2)} cx={240} cy={240} r={216} />
+
+        {/* Ring labels at top of each ring */}
+        <text x={240} y={240 - 72 + 6} style={{ textAnchor: "middle", fontSize: "18px", fill: labelFill(0) }}>
+          PRODUCT
+        </text>
+        <text x={240} y={240 - 144 + 6} style={{ textAnchor: "middle", fontSize: "18px", fill: labelFill(1) }}>
+          EXPERIENCE
+        </text>
+        <text x={240} y={240 - 216 + 6} style={{ textAnchor: "middle", fontSize: "18px", fill: labelFill(2) }}>
+          WORLD
+        </text>
+
+        {/* Invisible hit areas for clicking rings */}
+        <circle
+          cx={240} cy={240} r={216}
+          onClick={() => pick("world")}
+          style={{ fill: "none", stroke: "transparent", strokeWidth: 40, pointerEvents: "stroke", cursor: "pointer" }}
+        />
+        <circle
+          cx={240} cy={240} r={144}
+          onClick={() => pick("experience")}
+          style={{ fill: "none", stroke: "transparent", strokeWidth: 40, pointerEvents: "stroke", cursor: "pointer" }}
+        />
+        <circle
+          cx={240} cy={240} r={72}
+          onClick={() => pick("product")}
+          style={{ fill: "transparent", stroke: "transparent", strokeWidth: 40, pointerEvents: "all", cursor: "pointer" }}
+        />
+      </svg>
+
+      {/* Right column */}
+      <div className="ce-right">
+        {/* Ring buttons */}
+        <div className="ce-buttons" role="group" aria-label="Choose a ring">
+          {RING_ORDER.map((id) => (
+            <button
+              key={id}
+              type="button"
+              className="orr-btn"
+              aria-pressed={sel === id}
+              onClick={() => pick(id)}
+            >
+              {id.charAt(0).toUpperCase() + id.slice(1)}
+            </button>
+          ))}
+        </div>
+
+        {/* Question + meaning */}
+        <div className="ce-text" aria-live="polite">
+          <h1 className="ce-question">{ring.question}</h1>
+          <p className="ce-meaning">{ring.meaning}</p>
+        </div>
+
+        {/* Coffee-shop example block */}
+        <div className="ce-example">
+          <p className="orr-label orr-muted" style={{ margin: 0 }}>
+            At the coffee shop &middot; r = {ring.r}
           </p>
-        )}
+          <p className="ce-example-text">{ring.example}</p>
+        </div>
       </div>
     </div>
   );

@@ -1,174 +1,58 @@
-/* ── SiteReadBack — Orrery theme, centered layout ── */
-.site-readback {
+/* ── SiteReadBack — matches 09-site-readback.dc.html ── */
+.srb {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-4);
-  padding: var(--space-3) 0;
-}
-
-/* Diagram */
-.srb-diagram {
-  width: 120px;
-  height: 120px;
-}
-
-[data-theme="live"] .srb-diagram {
-  width: 180px;
-  height: 180px;
-}
-
-.srb-diagram svg {
+  gap: 24px;
   width: 100%;
-  height: 100%;
 }
 
-/* Rings — Orrery classes */
-.srb-ring {
-  fill: none;
-  stroke: var(--ink);
-  stroke-width: var(--w-ring);
-  vector-effect: non-scaling-stroke;
-  transition: opacity var(--duration-slow) var(--ease-out);
-}
-
-.srb-ring--unfilled {
-  stroke: var(--faint);
-  stroke-dasharray: var(--dash-unfilled);
-}
-
-.srb-ring--world {
-  stroke-dasharray: var(--d-world);
-}
-
-/* Axis */
-.srb-axis {
-  stroke: var(--ink);
-  stroke-width: var(--w-axis);
-  vector-effect: non-scaling-stroke;
-  opacity: 0;
-  transition: opacity var(--duration-slow) var(--ease-out);
-}
-
-.srb-axis--visible {
-  opacity: 1;
+.srb-headline {
+  margin: 0;
+  text-align: center;
+  font-size: 44px;
+  line-height: 1.1;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  font-variation-settings: 'opsz' 48;
 }
 
 /* Three-column ruled table */
-.srb-statements {
+.srb-table {
+  margin: 0;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0;
-  max-width: var(--breakout);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px;
   width: 100%;
-  border-top: var(--w-rule) solid var(--ink);
 }
 
-.srb-statement {
+.srb-column {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-2);
-  padding: var(--space-3);
+  gap: 8px;
+  padding-top: 16px;
+  border-top: 2px solid var(--ink);
   text-align: center;
-  opacity: 0;
-  transform: translateY(8px);
-  transition:
-    opacity var(--duration-slow) var(--ease-out),
-    transform var(--duration-slow) var(--ease-out);
 }
 
-.srb-statement + .srb-statement {
-  border-left: var(--w-rule) solid var(--faint);
-}
-
-.srb-statement--visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.srb-statement-ring {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--muted);
-  white-space: nowrap;
-}
-
-[data-theme="live"] .srb-statement-ring {
-  font-size: 18px;
-}
-
-.srb-statement-text {
-  font-family: var(--font-serif);
-  font-size: 24px;
-  line-height: 1.2;
-  font-variation-settings: 'opsz' 36;
-}
-
-[data-theme="live"] .srb-statement-text {
+.srb-statement {
+  margin: 0;
   font-size: 28px;
+  line-height: 1.2;
 }
 
-/* Vibe-coding note */
-.srb-note {
-  font-family: var(--font-serif);
-  font-size: 18px;
-  font-style: italic;
-  color: var(--muted);
-  text-align: center;
-  max-width: var(--content-width);
-  opacity: 0;
-  transition: opacity var(--duration-slow) var(--ease-out);
-  transition-delay: 200ms;
-}
+/* Mobile */
+@media (max-width: 768px) {
+  .srb-headline {
+    font-size: 28px;
+  }
 
-[data-theme="live"] .srb-note {
-  font-size: 20px;
-}
-
-.srb-note--visible {
-  opacity: 1;
-}
-
-/* Play / replay button */
-.srb-play-btn {
-  padding: 12px 16px;
-  border: var(--w-rule) solid var(--ink);
-  background: transparent;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ink);
-  cursor: pointer;
-  min-height: 44px;
-  transition:
-    background var(--duration-normal) var(--ease-out),
-    color var(--duration-normal) var(--ease-out);
-}
-
-[data-theme="live"] .srb-play-btn {
-  font-size: 18px;
-  padding: 14px 22px;
-  min-height: 56px;
-}
-
-.srb-play-btn:hover {
-  background: var(--ink);
-  color: var(--ground);
-}
-
-@media (max-width: 40rem) {
-  .srb-statements {
+  .srb-table {
     grid-template-columns: 1fr;
   }
 
-  .srb-statement + .srb-statement {
-    border-left: none;
-    border-top: var(--w-rule) solid var(--faint);
+  .srb-statement {
+    font-size: 22px;
   }
 }
