@@ -9,16 +9,16 @@
 }
 .bvt-view__h1 {
   margin: 0;
-  font-size: 60px;
-  line-height: 1.04;
+  font-size: 50px;
+  line-height: 1.05;
   font-weight: 400;
   letter-spacing: -0.015em;
-  font-variation-settings: "opsz" 72;
+  font-variation-settings: "opsz" 60;
 }
 .bvt-view__sub {
   margin: 0;
   color: var(--muted);
-  font-size: 26px;
+  font-size: 22px;
   line-height: 1.35;
   font-style: italic;
 }
@@ -70,7 +70,7 @@
 }
 .bvt-view__t-title {
   margin: 0;
-  font-size: 26px;
+  font-size: 22px;
   line-height: 1;
 }
 .bvt-view__t-rows {
@@ -101,6 +101,6 @@
 .bvt-view__quote {
   margin: 0;
   color: var(--muted);
-  font-size: 24px;
+  font-size: 20px;
   font-style: italic;
 }

@@ -23,25 +23,25 @@
 
 .cr-belief {
   margin: 0;
-  font-size: 34px;
-  line-height: 1.2;
+  font-size: 28px;
+  line-height: 1.22;
   font-weight: 400;
   font-style: italic;
-  font-variation-settings: 'opsz' 36;
+  font-variation-settings: 'opsz' 30;
 }
 
 .cr-list {
   margin: 0;
   display: grid;
-  grid-template-columns: 170px minmax(0, 1fr);
+  grid-template-columns: 160px minmax(0, 1fr);
   row-gap: 14px;
   align-items: baseline;
 }
 
 .cr-list dd {
   margin: 0;
-  font-size: 26px;
-  line-height: 1.3;
+  font-size: 22px;
+  line-height: 1.32;
 }
 
 .cr-contradiction {
@@ -52,14 +52,14 @@
 
 .cr-contradiction p.cr-con-body {
   margin: 0;
-  font-size: 26px;
-  line-height: 1.35;
+  font-size: 22px;
+  line-height: 1.38;
 }
 
 .cr-prompt-ask {
   margin: 0;
-  font-size: 28px;
-  line-height: 1.2;
+  font-size: 24px;
+  line-height: 1.22;
   font-style: italic;
 }
 
@@ -84,14 +84,14 @@
 
 .cr-repair p.cr-repair-body {
   margin: 0;
-  font-size: 26px;
-  line-height: 1.3;
+  font-size: 22px;
+  line-height: 1.32;
 }
 
 .cr-repair .cr-repair-prompt {
   margin: 0;
-  font-size: 26px;
-  line-height: 1.3;
+  font-size: 22px;
+  line-height: 1.32;
   font-style: italic;
 }
 

@@ -20,7 +20,7 @@
   color: var(--ground);
   padding: 12px 24px;
   font-family: var(--font-mono);
-  font-size: 14px;
+  font-size: 12px;
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
@@ -44,13 +44,13 @@
 
 .presenter-timer {
   font-family: var(--font-mono);
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 500;
   letter-spacing: 0.05em;
 }
 
 .presenter-budget {
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .presenter-dot {
@@ -92,15 +92,15 @@
 
 .presenter-headline {
   font-family: var(--font-serif);
-  font-size: clamp(2rem, 4vw, 3.5rem);
-  line-height: 1.05;
+  font-size: clamp(1.7rem, 3.4vw, 3rem);
+  line-height: 1.06;
   font-weight: 400;
   margin: 0;
-  font-variation-settings: 'opsz' 72;
+  font-variation-settings: 'opsz' 60;
 }
 
 .presenter-body {
-  font-size: 20px;
+  font-size: 17px;
   line-height: 1.5;
   margin: 0;
   max-width: 720px;
@@ -118,7 +118,7 @@
 
 .presenter-notes-text {
   margin: 0;
-  font-size: 17px;
+  font-size: 15px;
   line-height: 1.5;
   font-style: italic;
 }
@@ -144,16 +144,16 @@
 
 .presenter-next-headline {
   margin: 0;
-  font-size: 22px;
-  line-height: 1.2;
+  font-size: 18px;
+  line-height: 1.22;
   color: var(--ink);
   opacity: 0.75;
 }
 
 .presenter-next-body {
   margin: 0;
-  font-size: 15px;
-  line-height: 1.45;
+  font-size: 13px;
+  line-height: 1.48;
 }
 
 .presenter-footer {

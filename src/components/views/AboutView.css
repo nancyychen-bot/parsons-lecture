@@ -19,16 +19,16 @@
 }
 .about-view__h1 {
   margin: 0;
-  font-size: 60px;
-  line-height: 1.05;
+  font-size: 50px;
+  line-height: 1.06;
   font-weight: 400;
   letter-spacing: -0.015em;
-  font-variation-settings: "opsz" 72;
+  font-variation-settings: "opsz" 60;
 }
 .about-view__body {
   margin: 0;
-  font-size: 28px;
-  line-height: 1.4;
+  font-size: 24px;
+  line-height: 1.42;
   font-variation-settings: "opsz" 24;
 }
 .about-view__also {

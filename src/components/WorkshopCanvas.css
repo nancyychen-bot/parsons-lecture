@@ -18,7 +18,7 @@
 }
 
 .workshop-canvas-sitename {
-  font-size: 18px;
+  font-size: 16px;
   text-decoration: none;
   color: inherit;
   font-family: var(--font-serif);
@@ -68,8 +68,8 @@
 
 .workshop-canvas-h1 {
   margin: 0;
-  font-size: clamp(2.5rem, 7vw, 6.5rem);
-  line-height: 0.98;
+  font-size: clamp(2.1rem, 6vw, 5.5rem);
+  line-height: 1;
 }
 
 .workshop-canvas-figure {
@@ -119,22 +119,22 @@
 
 .workshop-canvas-title {
   margin: 0;
-  font-size: 32px;
-  line-height: 1.15;
+  font-size: 26px;
+  line-height: 1.18;
   font-weight: 400;
-  font-variation-settings: 'opsz' 36;
+  font-variation-settings: 'opsz' 30;
 }
 
 .workshop-canvas-audience {
   margin: 0;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 1.5;
 }
 
 .workshop-canvas-belief {
   margin: 0;
-  font-size: 22px;
-  line-height: 1.35;
+  font-size: 18px;
+  line-height: 1.4;
   font-style: italic;
 }
 

@@ -9,7 +9,7 @@
 }
 .sketch-view__reading {
   margin: 0;
-  font-size: 30px;
+  font-size: 26px;
   line-height: 1.3;
   font-style: italic;
   font-variation-settings: "opsz" 24;
@@ -24,11 +24,11 @@
 }
 .sketch-view__h1 {
   margin: 0;
-  font-size: 54px;
-  line-height: 1.08;
+  font-size: 44px;
+  line-height: 1.1;
   font-weight: 400;
   letter-spacing: -0.01em;
-  font-variation-settings: "opsz" 72;
+  font-variation-settings: "opsz" 48;
 }
 .sketch-view__keyline {
   position: absolute;
@@ -44,8 +44,8 @@
 }
 .sketch-view__key-text {
   margin-top: 4px !important;
-  font-size: 30px;
-  line-height: 1.25;
+  font-size: 26px;
+  line-height: 1.3;
 }
 .sketch-view__rings {
   position: absolute;

@@ -65,11 +65,11 @@
 --font-serif:"Newsreader", Georgia, "Times New Roman", serif;
 --font-mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
 }
-.display{font-family:var(--font-serif);font-size:72px;line-height:1.05;font-weight:300;letter-spacing:-0.01em;font-variation-settings:'opsz' 72}
-.reading{font-family:var(--font-serif);font-size:36px;line-height:1.2;font-weight:400;font-style:italic;font-variation-settings:'opsz' 36}
-.body{font-family:var(--font-serif);font-size:18px;line-height:1.6;font-weight:400;font-variation-settings:'opsz' 16}
-.label{font-family:var(--font-mono);font-size:12px;line-height:1.4;font-weight:500;letter-spacing:0.1em}
-.field{font-family:var(--font-mono);font-size:16px;line-height:1.5;font-weight:400}
-.live-display{font-family:var(--font-serif);font-size:88px;line-height:1.05;font-weight:400;letter-spacing:-0.01em;font-variation-settings:'opsz' 72}
-.live-body{font-family:var(--font-serif);font-size:28px;line-height:1.45;font-weight:400;font-variation-settings:'opsz' 24}
-.live-label{font-family:var(--font-mono);font-size:18px;line-height:1.3;font-weight:500;letter-spacing:0.1em}
+.display{font-family:var(--font-serif);font-size:60px;line-height:1.05;font-weight:300;letter-spacing:-0.01em;font-variation-settings:'opsz' 60}
+.reading{font-family:var(--font-serif);font-size:30px;line-height:1.25;font-weight:400;font-style:italic;font-variation-settings:'opsz' 30}
+.body{font-family:var(--font-serif);font-size:16px;line-height:1.6;font-weight:400;font-variation-settings:'opsz' 16}
+.label{font-family:var(--font-mono);font-size:11px;line-height:1.4;font-weight:500;letter-spacing:0.1em}
+.field{font-family:var(--font-mono);font-size:15px;line-height:1.5;font-weight:400}
+.live-display{font-family:var(--font-serif);font-size:74px;line-height:1.05;font-weight:400;letter-spacing:-0.01em;font-variation-settings:'opsz' 72}
+.live-body{font-family:var(--font-serif);font-size:24px;line-height:1.45;font-weight:400;font-variation-settings:'opsz' 24}
+.live-label{font-family:var(--font-mono);font-size:16px;line-height:1.3;font-weight:500;letter-spacing:0.1em}

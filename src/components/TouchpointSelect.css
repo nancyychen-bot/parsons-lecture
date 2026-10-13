@@ -52,7 +52,7 @@
   color: var(--ink);
   cursor: pointer;
   font-family: var(--font-mono);
-  font-size: 18px;
+  font-size: 15px;
   font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -93,8 +93,8 @@
 .tp-status {
   margin: 0;
   max-width: 380px;
-  font-size: 20px;
-  line-height: 1.3;
+  font-size: 17px;
+  line-height: 1.35;
   font-style: italic;
 }
 
@@ -139,11 +139,11 @@
 
 .tp-headline {
   margin: 0;
-  font-size: 46px;
-  line-height: 1.05;
+  font-size: 38px;
+  line-height: 1.08;
   font-weight: 400;
   letter-spacing: -0.01em;
-  font-variation-settings: 'opsz' 72;
+  font-variation-settings: 'opsz' 48;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -17,25 +17,25 @@
 .ce-text {
   position: absolute;
   left: 600px;
-  top: 192px;
-  width: 616px;
+  top: 184px;
+  width: 500px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
 }
 
 .ce-headline {
   margin: 0;
-  font-size: 64px;
-  line-height: 1.02;
+  font-size: 52px;
+  line-height: 1.03;
   font-weight: 400;
   letter-spacing: -0.015em;
-  font-variation-settings: 'opsz' 72;
+  font-variation-settings: 'opsz' 60;
 }
 
 .ce-meaning {
   margin: 0;
-  font-size: 30px;
+  font-size: 26px;
   line-height: 1.3;
   font-style: italic;
   font-variation-settings: 'opsz' 24;
@@ -44,38 +44,39 @@
 .ce-example-block {
   position: absolute;
   left: 600px;
-  top: 384px;
-  width: 320px;
+  top: 376px;
+  width: 460px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding-top: 16px;
+  padding-top: 14px;
   border-top: 2px solid var(--ink);
 }
 
 .ce-example-label {
   margin: 0;
+  white-space: nowrap;
 }
 
 .ce-example {
   margin: 0;
-  font-size: 28px;
-  line-height: 1.3;
+  font-size: 24px;
+  line-height: 1.32;
   font-variation-settings: 'opsz' 24;
 }
 
 .ce-figure {
   position: absolute;
   right: 64px;
-  top: 360px;
+  bottom: 48px;
   margin: 0;
   display: flex;
   align-items: flex-end;
-  gap: 20px;
+  gap: 16px;
 }
 
 .ce-figure img {
-  height: 240px;
+  height: 180px;
   width: auto;
   flex: none;
 }
@@ -85,7 +86,7 @@
   flex-direction: column;
   gap: 6px;
   text-align: right;
-  width: 150px;
+  width: 130px;
 }
 
 /* Fade for text panel when selection changes */

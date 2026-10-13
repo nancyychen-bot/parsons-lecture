@@ -30,8 +30,8 @@ body { font-family: var(--font-serif); -webkit-font-smoothing: antialiased; }
 a { color: inherit; text-decoration: underline; text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
 
 /* Label: mono, uppercase */
-.orr-label { font-family: var(--font-mono); font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; line-height: 1.4; }
-[data-theme="live"] .orr-label { font-size: 18px; }
+.orr-label { font-family: var(--font-mono); font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; line-height: 1.4; }
+[data-theme="live"] .orr-label { font-size: 16px; }
 .orr-muted { color: var(--muted); }
 
 /* Rings (SVG). Use these classes, never inline stroke values. */
@@ -48,28 +48,29 @@ a { color: inherit; text-decoration: underline; text-underline-offset: 0.18em; t
 .orr-tp { fill: var(--ground); stroke: var(--ink); stroke-width: var(--w-ring); vector-effect: non-scaling-stroke; }
 .orr-tp[aria-pressed="true"], .orr-tp--on { fill: var(--ink); }
 /* SVG labels */
-.orr-svg text { font-family: var(--font-mono); font-weight: 500; letter-spacing: 0.1em; fill: var(--ink); paint-order: stroke; stroke: var(--ground); stroke-width: 5px; stroke-linejoin: round; }
+.orr-svg text { font-family: var(--font-mono); font-weight: 500; letter-spacing: 0.1em; fill: var(--ink); paint-order: stroke; stroke: var(--ground); stroke-width: 6px; stroke-linejoin: round; }
+[data-theme="live"] .orr-svg text { stroke-width: 8px; }
 .orr-svg text.orr-belief { font-family: var(--font-serif); font-style: italic; letter-spacing: 0; }
 
 /* Buttons: square, mono, uppercase. */
-.orr-btn { font: inherit; font-family: var(--font-mono); font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
-  background: transparent; color: var(--ink); border: var(--w-rule) solid var(--ink); padding: 12px 16px; min-height: 44px; cursor: pointer; border-radius: 0; }
+.orr-btn { font: inherit; font-family: var(--font-mono); font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+  background: transparent; color: var(--ink); border: var(--w-rule) solid var(--ink); padding: 10px 14px; min-height: 40px; cursor: pointer; border-radius: 0; }
 .orr-btn--primary { background: var(--ink); color: var(--ground); }
 .orr-btn--text { border-color: transparent; padding-left: 0; padding-right: 0; text-decoration: underline; text-underline-offset: 0.25em; }
 .orr-btn[aria-pressed="true"] { background: var(--ink); color: var(--ground); }
 .orr-btn:disabled { color: var(--faint); border-color: var(--faint); cursor: not-allowed; }
-[data-theme="live"] .orr-btn { font-size: 18px; padding: 14px 22px; min-height: 56px; }
+[data-theme="live"] .orr-btn { font-size: 16px; padding: 12px 20px; min-height: 48px; }
 
 /* Field */
 .orr-field { display: grid; gap: var(--space-2); max-width: var(--measure); }
-.orr-field input, .orr-field textarea { font-family: var(--font-mono); font-size: 16px; line-height: 1.5; color: var(--ink); background: transparent;
+.orr-field input, .orr-field textarea { font-family: var(--font-mono); font-size: 15px; line-height: 1.5; color: var(--ink); background: transparent;
   border: 0; border-bottom: var(--w-rule) solid var(--ink); padding: 8px 0; width: 100%; resize: vertical; border-radius: 0; }
 .orr-field input::placeholder, .orr-field textarea::placeholder { color: var(--muted); }
-.orr-field small { font-family: var(--font-serif); font-size: 15px; line-height: 1.45; color: var(--muted); }
+.orr-field small { font-family: var(--font-serif); font-size: 13px; line-height: 1.45; color: var(--muted); }
 
 /* Placeholder: honest, visible, same language */
 .orr-placeholder { border: var(--w-rule) dashed var(--faint); padding: var(--space-3); display: grid; gap: var(--space-2); border-radius: 0; }
-.orr-placeholder p { margin: 0; color: var(--muted); font-size: 16px; line-height: 1.5; }
+.orr-placeholder p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.5; }
 
 /* Rule */
 .orr-rule { border: 0; border-top: var(--w-rule) solid var(--ink); margin: 0; }

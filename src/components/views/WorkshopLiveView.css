@@ -17,11 +17,11 @@
 }
 .workshop-live-view__h1 {
   margin: 0;
-  font-size: 44px;
-  line-height: 1.25;
+  font-size: 36px;
+  line-height: 1.28;
   font-weight: 400;
   font-style: italic;
-  font-variation-settings: "opsz" 48;
+  font-variation-settings: "opsz" 40;
 }
 .workshop-live-view__blank {
   display: inline-block;
@@ -33,8 +33,8 @@
 .workshop-live-view__sub {
   margin: 0;
   color: var(--muted);
-  font-size: 22px;
-  line-height: 1.35;
+  font-size: 18px;
+  line-height: 1.4;
 }
 .workshop-live-view__dl {
   position: absolute;
@@ -58,8 +58,8 @@
 }
 .workshop-live-view__dd {
   margin: 0;
-  font-size: 24px;
-  line-height: 1.3;
+  font-size: 20px;
+  line-height: 1.35;
 }
 .workshop-live-view__rings {
   position: absolute;

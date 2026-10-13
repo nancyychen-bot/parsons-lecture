@@ -19,11 +19,11 @@
 }
 .follow-view__h1 {
   margin: 0;
-  font-size: 64px;
-  line-height: 1.04;
+  font-size: 52px;
+  line-height: 1.05;
   font-weight: 400;
   letter-spacing: -0.015em;
-  font-variation-settings: "opsz" 72;
+  font-variation-settings: "opsz" 60;
 }
 .follow-view__url {
   margin: 0;
@@ -32,12 +32,12 @@
   align-self: flex-start;
   color: var(--muted);
   font-family: var(--font-mono);
-  font-size: 34px;
+  font-size: 28px;
   letter-spacing: 0.02em;
 }
 .follow-view__sub {
   margin: 0;
-  font-size: 28px;
-  line-height: 1.4;
+  font-size: 24px;
+  line-height: 1.42;
   font-style: italic;
 }
